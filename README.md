@@ -26,7 +26,7 @@ node -v
 If a version number shows up, then great! Otherwise, [install Node](https://nodejs.org/en/download). Once you install it, run `node -v` again to make sure it's working. If you're having issues, you may need to add `node` as an environment variable. See [this SO thread](https://stackoverflow.com/questions/23412938/node-is-not-recognized-as-an-internal-or-an-external-command-operable-program) for help.
 
 ## Project Setup
-Now you've installed node. Run this command to install the necessary dependencies:
+Now you've installed node. Run this command to install the necessary dependencies (make sure you are in the repository directory):
 ```sh
 npm install
 ```
