@@ -1,6 +1,6 @@
-# pd-frontend
+# Productivity Dashboard (pd-frontend)
 
-This template should help get you started developing with Vue 3 in Vite.
+This is for Amy Csizmar-Dalal's comps group. This is the frontend, built in Vue.js. (Vue.js)[https://vuejs.org/] is a frontend framework which allows for a lot of great modern development features
 
 ## Recommended IDE Setup
 
