@@ -1,29 +1,32 @@
 <script setup>
-import { Calendar } from 'calendar-base'
-import { ref } from 'vue'
+import { Calendar } from 'calendar-base';
+import { ref } from 'vue';
 
-const month = ref('')
-const year = ref('')
-const days = ref([])
+import ModePicker from 'src/components/calendar/ModePicker.vue';
 
-const calendar = new Calendar()
-const array = calendar.getCalendar(year.value, month.value)
-console.log(array)
+const month = ref('');
+const year = ref('');
+const days = ref([]);
+const mode = ref('month');
+
+const calendar = new Calendar();
+const array = calendar.getCalendar(year.value, month.value);
+console.log(array);
 
 function monthChange(event) {
-  month.value = event.target.value
-  const calendar = new Calendar()
-  days.value = calendar.getCalendar(year.value, month.value)
-  console.log(days)
+  month.value = event.target.value;
+  const calendar = new Calendar();
+  days.value = calendar.getCalendar(year.value, month.value);
+  console.log(days);
 }
 
 function yearChange(event) {
-  year.value = event.target.value
-  const calendar = new Calendar()
-  console.log(year.value)
-  console.log(month.value)
-  days.value = calendar.getCalendar(Number(year.value), Number(month.value))
-  console.log(days)
+  year.value = event.target.value;
+  const calendar = new Calendar();
+  console.log(year.value);
+  console.log(month.value);
+  days.value = calendar.getCalendar(Number(year.value), Number(month.value));
+  console.log(days);
 }
 </script>
 
@@ -47,7 +50,10 @@ function yearChange(event) {
       <option value="10">November</option>
       <option value="11">December</option>
     </select>
-    <input type="text" @change="yearChange" />
+    <input
+      type="text"
+      @change="yearChange"
+    />
   </div>
   <h3>{{ month + ' ' + year }}</h3>
 </template>
