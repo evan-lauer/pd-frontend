@@ -1,7 +1,15 @@
+<script setup>
+defineProps({
+  day: Number,
+  month: Number,
+  year: Number
+});
+</script>
+
 <template>
   <div class="month">
-    <h1>This is the month view</h1>
+    <h2>This is the month view</h2>
   </div>
 </template>
 
-<style></style>
+<style scoped></style>

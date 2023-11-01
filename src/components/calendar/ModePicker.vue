@@ -6,7 +6,7 @@ defineProps({
 </script>
 
 <template>
-  <div>
+  <div class="modePicker">
     <div
       :class="{ modeOption: true, selected: mode === 'day' }"
       @click="setMode('day')"
@@ -27,3 +27,22 @@ defineProps({
     </div>
   </div>
 </template>
+
+<style scoped>
+.modePicker {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+}
+
+.modeOption {
+  cursor: default;
+  padding: 10px;
+}
+.modeOption:hover {
+  cursor: pointer;
+}
+.selected {
+  background-color: grey;
+}
+</style>
