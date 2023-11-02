@@ -1,18 +1,10 @@
 <script setup>
-defineProps({
-  mode: String,
-  day: Number,
-  setDay: Function,
-  month: Number,
-  setMonth: Function,
-  year: Number,
-  setYear: Function
-});
+import { formStore } from 'src/stores/formStore';
 </script>
 
 <template>
   <div>
-    <select @change="(e) => setMonth(parseInt(e.target.value))">
+    <select @change="(e) => formStore.setMonth(parseInt(e.target.value))">
       <option value="1">January</option>
       <option value="2">February</option>
       <option value="3">March</option>
@@ -28,13 +20,13 @@ defineProps({
     </select>
     <input
       type="text"
-      :value="day"
-      @change="(e) => setDay(parseInt(e.target.value))"
+      :value="formStore.day"
+      @change="(e) => formStore.setDay(parseInt(e.target.value))"
     />
     <input
       type="text"
-      :value="year"
-      @change="(e) => setYear(parseInt(e.target.value))"
+      :value="formStore.year"
+      @change="(e) => formStore.setYear(parseInt(e.target.value))"
     />
   </div>
 </template>

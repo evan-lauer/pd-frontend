@@ -1,11 +1,7 @@
 <script setup>
-defineProps({
-  day: Number,
-  month: Number,
-  year: Number
-});
+import { formStore } from 'src/stores/formStore';
 </script>
 
 <template>
-  <h2>This is the day view</h2>
+  <h4>This is the day view</h4>
 </template>

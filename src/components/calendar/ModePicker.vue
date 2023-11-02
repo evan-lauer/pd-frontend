@@ -1,27 +1,27 @@
 <script setup>
-defineProps({
-  mode: String,
-  setMode: Function
-});
+import { formStore } from 'src/stores/formStore';
 </script>
 
 <template>
   <div class="modePicker">
     <div
-      :class="{ modeOption: true, selected: mode === 'day' }"
-      @click="setMode('day')"
+      class="modeOption"
+      :class="{ selected: formStore.viewMode === 'day' }"
+      @click="formStore.setMode('day')"
     >
       Day
     </div>
     <div
-      :class="{ modeOption: true, selected: mode === 'week' }"
-      @click="setMode('week')"
+      class="modeOption"
+      :class="{ selected: formStore.viewMode === 'week' }"
+      @click="formStore.setMode('week')"
     >
       Week
     </div>
     <div
-      :class="{ modeOption: true, selected: mode === 'month' }"
-      @click="setMode('month')"
+      class="modeOption"
+      :class="{ selected: formStore.viewMode === 'month' }"
+      @click="formStore.setMode('month')"
     >
       Month
     </div>
