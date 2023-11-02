@@ -1,10 +1,10 @@
 <script setup>
-import { formStore } from 'src/stores/formStore';
+import { dateSelectionForm } from 'src/stores/formStores';
 </script>
 
 <template>
   <div>
-    <select @change="(e) => formStore.setMonth(parseInt(e.target.value))">
+    <select @change="(e) => dateSelectionForm.date.setMonth(parseInt(e.target.value))">
       <option value="1">January</option>
       <option value="2">February</option>
       <option value="3">March</option>
@@ -20,13 +20,13 @@ import { formStore } from 'src/stores/formStore';
     </select>
     <input
       type="text"
-      :value="formStore.day"
-      @change="(e) => formStore.setDay(parseInt(e.target.value))"
+      :value="dateSelectionForm.date.day"
+      @change="(e) => dateSelectionForm.date.setDay(parseInt(e.target.value))"
     />
     <input
       type="text"
-      :value="formStore.year"
-      @change="(e) => formStore.setYear(parseInt(e.target.value))"
+      :value="dateSelectionForm.date.year"
+      @change="(e) => dateSelectionForm.date.setYear(parseInt(e.target.value))"
     />
   </div>
 </template>

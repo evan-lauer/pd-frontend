@@ -1,27 +1,27 @@
 <script setup>
-import { formStore } from 'src/stores/formStore';
+import { dateSelectionForm } from 'src/stores/formStores';
 </script>
 
 <template>
   <div class="modePicker">
     <div
       class="modeOption"
-      :class="{ selected: formStore.viewMode === 'day' }"
-      @click="formStore.setMode('day')"
+      :class="{ selected: dateSelectionForm.viewMode === 'day' }"
+      @click="dateSelectionForm.viewMode = 'day'"
     >
       Day
     </div>
     <div
       class="modeOption"
-      :class="{ selected: formStore.viewMode === 'week' }"
-      @click="formStore.setMode('week')"
+      :class="{ selected: dateSelectionForm.viewMode === 'week' }"
+      @click="dateSelectionForm.viewMode = 'week'"
     >
       Week
     </div>
     <div
       class="modeOption"
-      :class="{ selected: formStore.viewMode === 'month' }"
-      @click="formStore.setMode('month')"
+      :class="{ selected: dateSelectionForm.viewMode === 'month' }"
+      @click="dateSelectionForm.viewMode = 'month'"
     >
       Month
     </div>

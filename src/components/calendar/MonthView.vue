@@ -1,13 +1,13 @@
 <script setup>
 import { computed } from 'vue';
 import { Calendar } from 'calendar-base';
-import { formStore } from 'src/stores/formStore';
+import { dateSelectionForm } from 'src/stores/formStores';
 import DaySquare from 'src/components/calendar/DaySquare.vue';
 
 const calendar = new Calendar({ siblingMonths: true, weekNumbers: true });
 
 const displayDays = computed(() => {
-  return calendar.getCalendar(formStore.year, formStore.month - 1);
+  return calendar.getCalendar(dateSelectionForm.date.year, dateSelectionForm.date.month - 1);
 });
 
 // 1 indexed
