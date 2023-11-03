@@ -1,15 +1,24 @@
 <script setup>
 import { newEventForm } from 'src/stores/formStores';
+import { ref } from 'vue';
+
+import CreateXButton from 'src/components/calendar/CreateXButton.vue';
+
 defineProps({
-  active: Boolean
+  active: Boolean,
 });
+
+const isXButtonClicked = ref(false);
 </script>
 
 <template>
   <div
     class="createEventOverlay"
-    v-if="active === true"
+    v-if="active === true && isXButtonClicked === false"
   >
+    <div>
+      <CreateXButton @click="() => isXButtonClicked = true"/>
+    </div>
     <input
       type="text"
       :value="newEventForm.title"
