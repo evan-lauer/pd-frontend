@@ -21,6 +21,7 @@ class CalendarDate {
 }
 
 export const dateSelectionForm = reactive({
+  active: false,
   viewMode: 'month',
   date: new CalendarDate()
 });

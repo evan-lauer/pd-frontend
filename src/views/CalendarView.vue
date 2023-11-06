@@ -1,5 +1,4 @@
 <script setup>
-import { ref } from 'vue';
 import { dateSelectionForm } from 'src/stores/formStores';
 
 import ModePicker from 'src/components/calendar/ModePicker.vue';
@@ -9,13 +8,11 @@ import DayView from 'src/components/calendar/DayView.vue';
 import DatePicker from 'src/components/calendar/DatePicker.vue';
 import CreateEventButton from 'src/components/calendar/CreateEventButton.vue';
 import CreateEventOverlay from 'src/components/calendar/CreateEventOverlay.vue';
-
-const isCreateMenuOpen = ref(false);
 </script>
 
 <template>
   <div class="inputBar">
-    <CreateEventButton @click="() => (isCreateMenuOpen = !isCreateMenuOpen)" />
+    <CreateEventButton @click="() => (dateSelectionForm.active = !dateSelectionForm.active)" />
     <ModePicker />
     <DatePicker />
   </div>
@@ -25,7 +22,7 @@ const isCreateMenuOpen = ref(false);
     <DayView v-else-if="dateSelectionForm.viewMode === 'day'" />
   </div>
 
-  <CreateEventOverlay :active="isCreateMenuOpen" />
+  <CreateEventOverlay />
 </template>
 
 <style scoped>
