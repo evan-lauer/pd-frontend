@@ -49,6 +49,16 @@ import CreateXButton from 'src/components/calendar/CreateXButton.vue';
         "
       />
     </div>
+    <button
+      @click="
+        () => {
+          newEventForm.putEvent();
+          newEventForm.reset();
+        }
+      "
+    >
+      Submit
+    </button>
   </div>
 </template>
 
