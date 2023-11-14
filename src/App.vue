@@ -1,33 +1,17 @@
 <script setup>
-import { RouterLink, RouterView } from 'vue-router';
+import DashboardView from 'src/views/DashboardView.vue';
 </script>
 
 <template>
-  <header>
-    <div class="header">
-      <h2>Productivity Dashboard</h2>
-
-      <nav>
-        <RouterLink to="/">Home</RouterLink>
-        <RouterLink to="/about">About</RouterLink>
-        <RouterLink to="/calendar">Calendar</RouterLink>
-      </nav>
-    </div>
-  </header>
-
-  <RouterView />
+  <div class="appBody">
+    <DashboardView />
+  </div>
 </template>
 
 <style scoped>
-.header {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-nav {
-  display: flex;
-  flex-direction: row;
-  gap: 10px;
+@import 'src/globals.css';
+.appBody {
+  min-height: 100svh;
+  min-width: 100svw;
 }
 </style>

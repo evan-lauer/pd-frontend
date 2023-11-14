@@ -2,6 +2,7 @@
 import { computed } from 'vue';
 import { Calendar } from 'calendar-base';
 import { dateSelectionForm } from 'src/stores/formStores';
+import userStore from 'src/stores/userStore';
 import DaySquare from 'src/components/calendar/DaySquare.vue';
 
 const calendar = new Calendar({ siblingMonths: true, weekNumbers: true });
@@ -19,6 +20,7 @@ function getDayByIndex(week, day) {
     return false;
   }
 }
+userStore.getEvents();
 </script>
 
 <template>

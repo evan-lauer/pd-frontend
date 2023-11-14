@@ -1,0 +1,18 @@
+Note from Evan - 
+We have a problem in this directory!! I've been doing stores incorrectly.
+
+What we want is this: 
+  - App renders, and stores are created.
+  - As user navigates around, stores persist and change as necessary
+
+
+What we have is this:
+  - App renders
+  - When user navigates to a component which uses stores,
+    the stores are created. Once that component goes out of
+    scope, the stores are deleted.
+
+This is bad. The whole benefit of stores is that they render once and then
+we get to use the data the whole time.
+
+So: https://vuex.vuejs.org/guide/ I think we need to use Vuex. Maybe. Not sure.
