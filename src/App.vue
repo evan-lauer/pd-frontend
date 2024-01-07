@@ -1,3 +1,12 @@
+<!-- 
+
+App.vue
+
+This file is the root of the project. This defines a component called App, which
+is the parent of every other component in the project.
+
+
+ -->
 <script setup>
 import DashboardView from 'src/views/DashboardView.vue';
 </script>

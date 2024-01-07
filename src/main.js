@@ -1,3 +1,11 @@
+/*
+main.js
+
+This file is the configuration of the project. It creates the vue app and configures
+the router.
+
+This is boilerplate code.
+*/
 import 'src/globals.css';
 
 import App from 'src/App.vue';

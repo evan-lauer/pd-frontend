@@ -24,18 +24,13 @@ userStore.getEvents();
 </script>
 
 <template>
-  <h4>This is the month view</h4>
   <div class="monthContainer">
     <div
       v-for="week in 6"
       :key="week"
-      class="weekContainer"
+      :class="week === 1 ? `weekContainer first` : `weekContainer`"
     >
-      <DaySquare
-        v-for="day in 7"
-        :key="day"
-        :day="getDayByIndex(week, day).day"
-      />
+      week
     </div>
   </div>
 </template>
@@ -44,12 +39,17 @@ userStore.getEvents();
 .monthContainer {
   display: flex;
   flex-direction: column;
-  gap: 5px;
-  width: fit-content;
+  width: 100%;
 }
 .weekContainer {
   display: flex;
+  width: 100%;
   flex-direction: row;
   gap: 5px;
+  border-bottom: var(--calendar-border-grey) 1px solid;
+}
+
+.weekContainer.first {
+  border-top: var(--calendar-border-grey) 1px solid;
 }
 </style>

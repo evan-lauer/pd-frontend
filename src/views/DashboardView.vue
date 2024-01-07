@@ -1,7 +1,12 @@
-<script setup></script>
+<script setup>
+import CalendarRoot from 'src/components/calendar/CalendarRoot.vue';
+</script>
+
 <template>
   <div class="gridContainer">
-    <div class="calendarContainer"></div>
+    <div class="calendarContainer">
+      <CalendarRoot />
+    </div>
     <div class="listsContainer"></div>
     <div class="dynamicContainer"></div>
   </div>
