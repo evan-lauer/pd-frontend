@@ -28,8 +28,16 @@ userStore.getEvents();
     <div
       v-for="week in 6"
       :key="week"
-      :class="week === 1 ? `weekContainer first` : `weekContainer`"
+      :class="week === 1 ? 'weekContainer first' : 'weekContainer'"
     >
+    
+      <div
+        v-for="day in 7"
+        :key="day"
+        :class="'day'"
+      >
+      {{getDayByIndex(week,day).day}}
+      </div>  
       week
     </div>
   </div>
@@ -40,6 +48,7 @@ userStore.getEvents();
   display: flex;
   flex-direction: column;
   width: 100%;
+  align-items: stretch;
 }
 .weekContainer {
   display: flex;
@@ -47,9 +56,17 @@ userStore.getEvents();
   flex-direction: row;
   gap: 5px;
   border-bottom: var(--calendar-border-grey) 1px solid;
+  /* padding: 10px; */
+  align-items: stretch;
+
 }
 
 .weekContainer.first {
   border-top: var(--calendar-border-grey) 1px solid;
+}
+
+.day {
+  border: 1px solid;
+  padding: ;
 }
 </style>
