@@ -76,6 +76,7 @@ border-bottom: var(--calendar-border-grey) 1px solid;
 }
 .contentDiv{
   overflow-y:scroll;
+  height: 95.5%;
 }
 
 .hourContainer.first {
