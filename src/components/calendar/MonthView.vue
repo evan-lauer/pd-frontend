@@ -30,15 +30,22 @@ userStore.getEvents();
       :key="week"
       :class="week === 1 ? 'weekContainer first' : 'weekContainer'"
     >
-    
       <div
         v-for="day in 7"
         :key="day"
         :class="'day'"
       >
-      {{getDayByIndex(week,day).day}}
-      </div>  
-      week
+        <div class="dateNumber">
+          {{ getDayByIndex(week, day).day }}
+        </div>
+      </div>
+      <div
+        v-for="pseudoDay in 7"
+        :key="pseudoDay"
+        :class="`pseudoDay`"
+      >
+        <!-- Psuedo element for CSS styling only -->
+      </div>
     </div>
   </div>
 </template>
@@ -48,17 +55,19 @@ userStore.getEvents();
   display: flex;
   flex-direction: column;
   width: 100%;
+  height: 100%;
   align-items: stretch;
+  justify-content: space-between;
 }
 .weekContainer {
   display: flex;
   width: 100%;
   flex-direction: row;
-  gap: 5px;
   border-bottom: var(--calendar-border-grey) 1px solid;
   /* padding: 10px; */
-  align-items: stretch;
-
+  align-items: center;
+  justify-content: space-between;
+  height: 100%;
 }
 
 .weekContainer.first {
@@ -66,7 +75,7 @@ userStore.getEvents();
 }
 
 .day {
-  border: 1px solid;
-  padding: ;
+  height: 100%;
+  width: 100%;
 }
 </style>

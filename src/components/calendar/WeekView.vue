@@ -32,23 +32,24 @@ userStore.getEvents();
     >
       Day {{ day }}
     </div>
-
   </div>
   <div class="contentDiv">
-  <div class="dayContainer"
-  v-for="day in 7"
+    <div
+      class="dayContainer"
+      v-for="day in 7"
       :key="day"
       :class="day === 1 ? `dayContainer first` : `dayContainer`"
     >
-    <div class ="hourContainer"
-      v-for="hour in 24"
+      <div
+        class="hourContainer"
+        v-for="hour in 24"
         :key="hour"
-        :class = "hour === 1 ? `hourContainer first` : `hourContainer`"
-    >
-    {{hour}}:00
+        :class="hour === 1 ? `hourContainer first` : `hourContainer`"
+      >
+        {{ hour }}:00
+      </div>
     </div>
   </div>
-</div>
 </template>
 
 <style scoped>
@@ -58,24 +59,21 @@ userStore.getEvents();
   flex-direction: row;
   gap: 5px;
   border-bottom: var(--calendar-border-grey) 1px solid;
-
-
 }
 .dayContainer {
-  flex-direction:row;
-  float:left;
+  flex-direction: row;
+  float: left;
   width: 13.755350471%;
   padding-right: 0.53%;
   height: 95.5%;
-  
 }
 .hourContainer {
-height: 10%;
-  
-border-bottom: var(--calendar-border-grey) 1px solid;
+  height: 10%;
+
+  border-bottom: var(--calendar-border-grey) 1px solid;
 }
-.contentDiv{
-  overflow-y:scroll;
+.contentDiv {
+  overflow-y: scroll;
   height: 95.5%;
 }
 

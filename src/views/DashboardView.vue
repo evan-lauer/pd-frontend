@@ -39,6 +39,7 @@ import CalendarRoot from 'src/components/calendar/CalendarRoot.vue';
 
 .calendarContainer {
   grid-area: calendarContainer;
+  padding: 10px;
 }
 .listsContainer {
   grid-area: listsContainer;
