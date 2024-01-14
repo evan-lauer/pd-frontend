@@ -1,3 +1,11 @@
+<!-- 
+  DashboardView.vue
+
+  This defines divs for each panel of the app. In this file
+  we use a CSS property called display: grid, which allows you to 
+  have boxes that are proportional to each other.
+ -->
+
 <script setup>
 import CalendarRoot from 'src/components/calendar/CalendarRoot.vue';
 </script>

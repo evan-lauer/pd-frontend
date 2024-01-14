@@ -1,3 +1,13 @@
+<!-- 
+  DatePicker.vue
+
+  This component creates a multi-select dropdown for the month, and
+  text inputs for the day and year.
+
+  As the user selects day, month, and year, this component updates the
+  dateSelectionForm to reflect the change.
+ -->
+
 <script setup>
 import { dateSelectionForm } from 'src/stores/formStores';
 </script>

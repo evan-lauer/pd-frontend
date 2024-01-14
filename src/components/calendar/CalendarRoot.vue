@@ -1,3 +1,13 @@
+<!-- 
+  CalendarRoot.vue
+
+  This file defines the calendar container. WE have two divs,
+  one for the input bar and one for the calendar rendering area.
+
+  This component reads from the dateSelectionForm to decide which 
+  view of the calendar needs to be rendered.
+ -->
+
 <script setup>
 import { dateSelectionForm } from 'src/stores/formStores';
 
