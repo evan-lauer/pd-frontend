@@ -1,6 +1,14 @@
 :root {
   --google-docs-grey: #f9fbfd;
   --calendar-border-grey: #bfbfbf;
+
+  color: #000;
+
+  font-family: Inter;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
 }
 
 body {
