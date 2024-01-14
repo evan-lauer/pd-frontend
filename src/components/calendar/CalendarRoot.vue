@@ -46,5 +46,6 @@ import CreateEventOverlay from 'src/components/calendar/CreateEventOverlay.vue';
 
 .content {
   height: 85%;
+
 }
 </style>
