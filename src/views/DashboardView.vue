@@ -8,6 +8,7 @@
 
 <script setup>
 import CalendarRoot from 'src/components/calendar/CalendarRoot.vue';
+import ListRoot from 'src/components/list/ListRoot.vue';
 </script>
 
 <template>
@@ -15,7 +16,9 @@ import CalendarRoot from 'src/components/calendar/CalendarRoot.vue';
     <div class="calendarContainer">
       <CalendarRoot />
     </div>
-    <div class="listsContainer"></div>
+    <div class="listsContainer">
+      <ListRoot />
+    </div>  
     <div class="dynamicContainer"></div>
   </div>
 </template>
