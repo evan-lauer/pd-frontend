@@ -10,11 +10,17 @@
 
 <script setup>
 import { dateSelectionForm } from 'src/stores/formStores';
+import DayDatePicker from 'src/components/calendar/datePickers/DayDatePicker.vue';
+import WeekDatePicker from 'src/components/calendar/datePickers/WeekDatePicker.vue';
+import MonthDatePicker from 'src/components/calendar/datePickers/MonthDatePicker.vue';
 </script>
 
 <template>
   <div>
-    <select @change="(e) => dateSelectionForm.date.setMonth(parseInt(e.target.value))">
+    <DayDatePicker v-if="dateSelectionForm.viewMode === `day`" />
+    <WeekDatePicker v-if="dateSelectionForm.viewMode === `week`" />
+    <MonthDatePicker v-if="dateSelectionForm.viewMode === `month`" />
+    <!-- <select @change="(e) => dateSelectionForm.date.setMonth(parseInt(e.target.value))">
       <option value="1">January</option>
       <option value="2">February</option>
       <option value="3">March</option>
@@ -37,6 +43,6 @@ import { dateSelectionForm } from 'src/stores/formStores';
       type="text"
       :value="dateSelectionForm.date.year"
       @change="(e) => dateSelectionForm.date.setYear(parseInt(e.target.value))"
-    />
+    /> -->
   </div>
 </template>

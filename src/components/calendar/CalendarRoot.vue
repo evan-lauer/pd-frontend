@@ -15,7 +15,7 @@ import ModePicker from 'src/components/calendar/ModePicker.vue';
 import MonthView from 'src/components/calendar/MonthView.vue';
 import WeekView from 'src/components/calendar/WeekView.vue';
 import DayView from 'src/components/calendar/DayView.vue';
-import DatePicker from 'src/components/calendar/DatePicker.vue';
+import DatePicker from 'src/components/calendar/datePickers/DatePicker.vue';
 import CreateEventButton from 'src/components/calendar/CreateEventButton.vue';
 import CreateEventOverlay from 'src/components/calendar/CreateEventOverlay.vue';
 </script>
@@ -46,6 +46,5 @@ import CreateEventOverlay from 'src/components/calendar/CreateEventOverlay.vue';
 
 .content {
   height: 85%;
-
 }
 </style>
