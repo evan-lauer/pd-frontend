@@ -1,9 +1,11 @@
 <script setup>
 import { dateSelectionForm } from 'src/stores/formStores';
+import SimpleButton from '../icons/SimpleButton.vue';
 </script>
 
 <template>
   <div class="modePicker">
+    <SimpleButton inner-text="Day" />
     <div
       class="modeOption"
       :class="{ selected: dateSelectionForm.viewMode === 'day' }"

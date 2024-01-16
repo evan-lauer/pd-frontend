@@ -3,7 +3,6 @@ import { computed } from 'vue';
 import { Calendar } from 'calendar-base';
 import { dateSelectionForm } from 'src/stores/formStores';
 import userStore from 'src/stores/userStore';
-import DaySquare from 'src/components/calendar/DaySquare.vue';
 
 const calendar = new Calendar({ siblingMonths: true, weekNumbers: true });
 
@@ -21,6 +20,29 @@ function getDayByIndex(week, day) {
   }
 }
 userStore.getEvents();
+
+function renderWeekHeader(week, day) {
+  if (week === 1) {
+    switch (day) {
+      case 1:
+        return `Sunday`;
+      case 2:
+        return `Monday`;
+      case 3:
+        return `Tuesday`;
+      case 4:
+        return `Wednesday`;
+      case 5:
+        return `Thursday`;
+      case 6:
+        return `Friday`;
+      case 7:
+        return `Saturday`;
+      default:
+        return ``;
+    }
+  }
+}
 </script>
 
 <template>
@@ -35,6 +57,12 @@ userStore.getEvents();
         :key="day"
         :class="'day'"
       >
+        <div
+          class="dayHeader"
+          v-if="renderWeekHeader(week, day) !== ''"
+        >
+          {{ renderWeekHeader(week, day) }}
+        </div>
         <div class="dateNumber">
           {{ getDayByIndex(week, day).day }}
         </div>
@@ -90,5 +118,10 @@ userStore.getEvents();
 
 .dateNumber {
   padding-left: 3px;
+}
+
+.dayHeader {
+  position: absolute;
+  top: -20px;
 }
 </style>

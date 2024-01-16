@@ -1,16 +1,24 @@
 <script setup>
-import { dateSelectionForm } from 'src/stores/formStores';
+import { selectedDate } from 'src/stores/calendarStores';
+import LeftChevron from '../../icons/LeftChevron.vue';
+import RightChevron from '../../icons/RightChevron.vue';
 </script>
 
 <template>
   <div class="monthDropdown">
-    <div>&lt;</div>
-    <div>January</div>
-    <div>></div>
+    <LeftChevron />
+    <h1 class="monthHeader">{{ selectedDate.getMonthName() }}</h1>
+    <RightChevron />
   </div>
 </template>
 
 <style scoped>
+.monthHeader {
+  font-size: 36px;
+  font-weight: 700;
+  margin: 0;
+}
+
 .monthDropdown {
   display: flex;
   flex-direction: row;

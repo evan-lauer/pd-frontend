@@ -10,6 +10,7 @@
 
 <script setup>
 import { dateSelectionForm } from 'src/stores/formStores';
+import { viewMode } from 'src/stores/calendarStores';
 
 import ModePicker from 'src/components/calendar/ModePicker.vue';
 import MonthView from 'src/components/calendar/MonthView.vue';
@@ -27,9 +28,9 @@ import CreateEventOverlay from 'src/components/calendar/CreateEventOverlay.vue';
     <CreateEventButton @click="() => (dateSelectionForm.active = !dateSelectionForm.active)" />
   </div>
   <div class="content">
-    <MonthView v-if="dateSelectionForm.viewMode === 'month'" />
-    <WeekView v-else-if="dateSelectionForm.viewMode === 'week'" />
-    <DayView v-else-if="dateSelectionForm.viewMode === 'day'" />
+    <MonthView v-if="viewMode.mode === 'month'" />
+    <WeekView v-else-if="viewMode.mode === 'week'" />
+    <DayView v-else-if="viewMode.mode === 'day'" />
   </div>
 
   <CreateEventOverlay />
@@ -40,8 +41,8 @@ import CreateEventOverlay from 'src/components/calendar/CreateEventOverlay.vue';
   height: 15%;
   display: flex;
   gap: 20px;
-  justify-content: center;
-  align-items: center;
+  justify-content: flex-start;
+  align-items: flex-start;
 }
 
 .content {

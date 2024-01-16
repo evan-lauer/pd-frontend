@@ -29,6 +29,8 @@ import CreateXButton from 'src/components/calendar/CreateXButton.vue';
         type="date"
         @change="
           (e) => {
+            // These pieces are subject to change depending on the type of input.
+            // Currently
             newEventForm.startDate.year = parseInt(e.target.value.slice(0, 4));
             newEventForm.startDate.month = parseInt(e.target.value.slice(5, 7));
             newEventForm.startDate.day = parseInt(e.target.value.slice(8));
