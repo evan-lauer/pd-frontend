@@ -18,7 +18,7 @@ import ListRoot from 'src/components/list/ListRoot.vue';
     </div>
     <div class="listsContainer">
       <ListRoot />
-    </div>  
+    </div>
     <div class="dynamicContainer"></div>
   </div>
 </template>
@@ -46,6 +46,7 @@ import ListRoot from 'src/components/list/ListRoot.vue';
 }
 .listsContainer {
   grid-area: listsContainer;
+  overflow: hidden;
 }
 .dynamicContainer {
   grid-area: dynamicContainer;
