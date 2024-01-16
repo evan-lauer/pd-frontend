@@ -1,6 +1,7 @@
 <script setup>
-    import ListItem from 'src/components/list/ListItem.vue'
+    import ListSpace from 'src/components/list/ListSpace.vue'
     import TabBar from 'src/components/list/TabBar.vue'
+//TODO: Needs to manage which ListSpace is displayed based on which tab is selected
 </script>
 
 <template>
@@ -8,7 +9,7 @@
         <TabBar />
     </div>
     <div class="lists">
-        <ListItem />
+        <ListSpace />
     </div>
 
 </template>

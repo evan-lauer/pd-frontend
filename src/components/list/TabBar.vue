@@ -5,8 +5,8 @@
 
     const currentTab = ref('Home')
     const tabs = {
-        "AddButton"
-        "CreateEventButton"
+        "AddButton":
+        "CreateEventButton",
     }
 </script>
 

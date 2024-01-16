@@ -1,11 +1,28 @@
 <script setup>
-defineProps({
-    done: Boolean,
-    task: String
+import CheckBox from 'src/components/list/CheckBox.vue'
+import {ref} from 'vue'
+//TODO: ?
+const props = defineProps ({
+    value:{
+        type: String,
+        default: "",
+    },
+    checked:{
+        type: Boolean,
+        default: false,
+    },
 })
+
+
+// defineProps({
+//     done: Boolean,
+//     task: String
+// })
+const isSelected= ref(false);
 </script>
 <template>
     <div class="item">
+        <CheckBox :label="`I am checked: ${isSelected}`" v-model="isSelected" />
 <!-- <div id="checkbox"></div> -->
 <!-- <div> id="itemName"-->
     </div>
