@@ -6,11 +6,11 @@ defineProps({
 </script>
 <template>
     <div class="item">
-    this is a list item! jfdksla;jfdksla;jfdksl;ajfdksl;afjdksla;fjdkslajfdksla;jfdksla;jfdksl;ajfdksl;afjdksla;fjdkslajfdksla;jfdksla;jfdksl;ajfdksl;afjdksla;fjdkslajfdksla;jfdksla;jfdksl;ajfdksl;afjdksla;fjdkslajfdksla;jfdksla;jfdksl;ajfdksl;afjdksla;fjdkslajfdksla;jfdksla;jfdksl;ajfdksl;afjdksla;fjdksla
 <!-- <div id="checkbox"></div> -->
 <!-- <div> id="itemName"-->
-</div>
+    </div>
 </template>
+
 <style>
 /* for css */
 .item {
@@ -18,5 +18,6 @@ defineProps({
     /* padding: 10px; */
     max-width: 100%;
     word-wrap: break-word;
+    overflow: hidden;
 }
 </style>
