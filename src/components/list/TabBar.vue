@@ -1,4 +1,53 @@
-<script setup>
+<script>
+
+import { ref } from 'vue';
+import TabButton from 'src/components/list/TabButton.vue';
+
+export default {
+  components: {
+    TabButton,
+  },
+  setup() {
+    const tabs = ref([
+        {id: 1, title: "Tasks", desc: "Things to do"}
+    ]);
+
+    const addNewTab = () => {
+      const newTab = {
+        id: tabs.value.length + 1,
+        title: `Tab ${tabs.value.length + 1}`,
+        content: `Content for Tab ${tabs.value.length + 1}`,
+      };
+      tabs.value.push(newTab);
+    };
+
+    return { tabs, addNewTab };
+  },
+};
+
+
+</script>
+
+
+<template>
+
+    <div class="tabs" v-for="tab in tabs" :key="tab.id">
+        <!-- Your tab content goes here -->
+        {{ tab.title }}
+  </div>
+
+  <div v-if="tabs.length < 10">
+    <button @click="addNewTab">+</button>
+  </div>
+
+</template>
+
+
+<style>
+
+</style>
+
+<!-- <script setup>
     import AddButton from 'src/components/list/AddButton.vue'
     import CreateEventButton from 'src/components/calendar/CreateEventButton.vue'
     import { ref } from 'vue'
@@ -12,7 +61,7 @@
 
 <template>
     <div class="tabBar">
-        <!-- <div class="tabButton">
+         <div class="tabButton">
             <p>tab1</p>
         </div>
         <div class="tabButton">
@@ -22,7 +71,7 @@
             <p>tab3</p>
         </div> -->
 
-        <button
+        <!-- <button
             v-for="(_, tab) in tabs"
             :key="tab"
             :class="['tab-button', { active: currentTab === tab}]"
@@ -58,4 +107,4 @@
     margin: 2px;
     height: 50%;
 }
-</style>
+</style> -->

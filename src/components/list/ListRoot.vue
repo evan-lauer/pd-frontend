@@ -16,9 +16,13 @@
 
 <style scoped>
 .header {
+    display: flex;
+    flex-direction: row;
     height: 10%;
     vertical-align: left;
     padding: 10px;
+    overflow: hidden;
+    gap: 4px
 }
 
 .lists {
