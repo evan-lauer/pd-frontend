@@ -1,5 +1,6 @@
 <script setup>
 import ListItem from 'src/components/list/ListItem.vue'
+import ToDoList from 'src/components/list/ToDoList.vue'
 // TODO: Needs to faciliate adding ListItems that are displayed
 //TODO: Need type-able space to add new ListItems --> These need
 // to be saved into a store
@@ -12,6 +13,7 @@ import ListItem from 'src/components/list/ListItem.vue'
     <p>Here is where the list items will be</p>
     <ListItem />
     <ListItem />
+    <ToDoList />
 </div>
 </template>
 
