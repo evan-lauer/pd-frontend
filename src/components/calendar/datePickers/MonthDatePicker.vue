@@ -19,6 +19,8 @@ import RightChevron from '../../icons/RightChevron.vue';
   font-size: 36px;
   font-weight: 700;
   margin: 0;
+  width: 200px;
+  text-align: center;
 }
 
 .monthDropdown {

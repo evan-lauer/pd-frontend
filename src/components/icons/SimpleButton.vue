@@ -1,6 +1,9 @@
 <script setup>
 defineProps({
-  innerText: String
+  innerText: String,
+  textColor: String,
+  borderColor: String,
+  backgroundColor: String
 });
 </script>
 
