@@ -1,14 +1,16 @@
 <script setup>
 import { computed } from 'vue';
 import { Calendar } from 'calendar-base';
-import { dateSelectionForm } from 'src/stores/formStores';
 import userStore from 'src/stores/userStore';
-import DaySquare from 'src/components/calendar/DaySquare.vue';
+import { selectedDate } from 'src/stores/calendarStores';
 
 const calendar = new Calendar({ siblingMonths: true, weekNumbers: true });
 
 const displayDays = computed(() => {
-  return calendar.getCalendar(dateSelectionForm.date.year, dateSelectionForm.date.month - 1);
+  return calendar.getCalendar(
+    selectedDate.dateTime.getYear(),
+    selectedDate.dateTime.getMonth() - 1
+  );
 });
 
 // 1 indexed

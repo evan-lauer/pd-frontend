@@ -4,8 +4,15 @@ export const selectedDate = reactive({
   dateTime: new Date(),
   timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
 
-  getMonthName: () => {
-    return selectedDate.dateTime.toLocaleString('default', { month: 'long' });
+  incrementMonth: () => {
+    selectedDate.dateTime = new Date(
+      selectedDate.dateTime.setMonth(selectedDate.dateTime.getMonth() + 1)
+    );
+  },
+  decrementMonth: () => {
+    selectedDate.dateTime = new Date(
+      selectedDate.dateTime.setMonth(selectedDate.dateTime.getMonth() - 1)
+    );
   }
 });
 

@@ -6,9 +6,11 @@ import RightChevron from '../../icons/RightChevron.vue';
 
 <template>
   <div class="monthDropdown">
-    <LeftChevron />
-    <h1 class="monthHeader">{{ selectedDate.getMonthName() }}</h1>
-    <RightChevron />
+    <LeftChevron @click="() => selectedDate.decrementMonth()" />
+    <h1 class="monthHeader">
+      {{ selectedDate.dateTime.toLocaleString('default', { month: 'long' }) }}
+    </h1>
+    <RightChevron @click="() => selectedDate.incrementMonth()" />
   </div>
 </template>
 
