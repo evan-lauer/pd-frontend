@@ -1,5 +1,5 @@
 <script setup>
-import { dateSelectionForm } from 'src/stores/formStores';
+import { viewMode } from 'src/stores/calendarStores';
 import SimpleButton from '../icons/SimpleButton.vue';
 </script>
 
@@ -8,22 +8,22 @@ import SimpleButton from '../icons/SimpleButton.vue';
     <SimpleButton inner-text="Day" />
     <div
       class="modeOption"
-      :class="{ selected: dateSelectionForm.viewMode === 'day' }"
-      @click="dateSelectionForm.viewMode = 'day'"
+      :class="{ selected: viewMode.mode === 'day' }"
+      @click="viewMode.mode = 'day'"
     >
       Day
     </div>
     <div
       class="modeOption"
-      :class="{ selected: dateSelectionForm.viewMode === 'week' }"
-      @click="dateSelectionForm.viewMode = 'week'"
+      :class="{ selected: viewMode.mode === 'week' }"
+      @click="viewMode.mode = 'week'"
     >
       Week
     </div>
     <div
       class="modeOption"
-      :class="{ selected: dateSelectionForm.viewMode === 'month' }"
-      @click="dateSelectionForm.viewMode = 'month'"
+      :class="{ selected: viewMode.mode === 'month' }"
+      @click="viewMode.mode = 'month'"
     >
       Month
     </div>
