@@ -8,8 +8,8 @@ const calendar = new Calendar({ siblingMonths: true, weekNumbers: true });
 
 const displayDays = computed(() => {
   return calendar.getCalendar(
-    selectedDate.dateTime.getYear(),
-    selectedDate.dateTime.getMonth() - 1
+    selectedDate.dateTime.getFullYear(),
+    selectedDate.dateTime.getMonth()
   );
 });
 

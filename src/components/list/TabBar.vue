@@ -1,20 +1,12 @@
 <script>
 import { ref } from 'vue';
+import { listsData } from 'src/stores/listStores';
 
 export default {
   setup() {
     const tabs = ref([{ id: 1, title: 'Tasks', desc: 'Things to do' }]);
 
-    const addNewTab = () => {
-      const newTab = {
-        id: tabs.value.length + 1,
-        title: `Tab ${tabs.value.length + 1}`,
-        content: `Content for Tab ${tabs.value.length + 1}`
-      };
-      tabs.value.push(newTab);
-    };
-
-    return { tabs, addNewTab };
+    return { tabs, listsData };
   }
 };
 </script>
@@ -27,15 +19,22 @@ export default {
       }
     "
     class="tabs"
-    v-for="tab in tabs"
-    :key="tab.id"
+    v-for="tabId in listsData.tabIds"
+    :key="tabId"
   >
-    <!-- Your tab content goes here -->
-    {{ tab.title }}
+    {{ listsData.tabDict[tabId].label }}
   </div>
 
-  <div v-if="tabs.length < 10">
-    <button @click="addNewTab">+</button>
+  <div v-if="listsData.tabIds.length < 10">
+    <button
+      @click="
+        () => {
+          listsData.addTab('New Tab');
+        }
+      "
+    >
+      +
+    </button>
   </div>
 </template>
 
