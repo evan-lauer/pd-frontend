@@ -1,7 +1,5 @@
 <script setup>
-import ListItem from 'src/components/list/ListItem.vue';
-import ToDoList from 'src/components/list/ToDoList.vue';
-import { selectedTab } from 'src/stores/listStores';
+import { selectedTab, listsData } from 'src/stores/listStores';
 // TODO: Needs to faciliate adding ListItems that are displayed
 //TODO: Need type-able space to add new ListItems --> These need
 // to be saved into a store
@@ -11,10 +9,27 @@ import { selectedTab } from 'src/stores/listStores';
   <div>
     <!-- v-for to display all list items that have been
     added to an array of lists -->
-    <p>Here is where the list items will be. Selected id: {{ selectedTab.id }}</p>
-    <ListItem />
-    <ListItem />
-    <ToDoList />
+    <p>Selected id: {{ selectedTab.id }}</p>
+    <div
+      v-for="item in listsData.tabDict[selectedTab.id].items"
+      :key="item.id"
+    >
+      {{ item.label }}
+    </div>
+    <input
+      v-model="itemName"
+      ref="itemNameInput"
+    />
+    <button
+      @click="
+        () => {
+          listsData.addItem(selectedTab.id, itemName);
+          itemName = '';
+        }
+      "
+    >
+      +
+    </button>
   </div>
 </template>
 

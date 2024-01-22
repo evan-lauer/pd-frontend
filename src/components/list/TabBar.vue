@@ -5,7 +5,7 @@ import { selectedTab } from 'src/stores/listStores';
 
 <template>
   <div
-    class="tabs"
+    :class="selectedTab.id === tabId ? `tabButton selected` : `tabButton`"
     v-for="tabId in listsData.tabIds"
     :key="tabId"
     @click="
@@ -19,10 +19,16 @@ import { selectedTab } from 'src/stores/listStores';
   </div>
 
   <div v-if="listsData.tabIds.length < 10">
+    <input
+      class="tabNameInput"
+      v-model="tabName"
+      ref="tabNameInput"
+    />
     <button
       @click="
         () => {
-          listsData.addTab('New Tab');
+          listsData.addTab(tabName);
+          tabName = '';
         }
       "
     >
@@ -31,7 +37,24 @@ import { selectedTab } from 'src/stores/listStores';
   </div>
 </template>
 
-<style></style>
+<style>
+.tabNameInput {
+  width: 60px;
+}
+.tabButton {
+  border: 1px black solid;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  padding: 0px 10px;
+}
+.tabButton:hover {
+  cursor: pointer;
+}
+.tabButton.selected {
+  font-weight: bold;
+}
+</style>
 
 <!-- <script setup>
     import AddButton from 'src/components/list/AddButton.vue'

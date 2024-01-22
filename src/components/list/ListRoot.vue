@@ -17,7 +17,7 @@ import TabBar from 'src/components/list/TabBar.vue';
 .header {
   display: flex;
   flex-direction: row;
-  height: 10%;
+  height: 5%;
   vertical-align: left;
   padding: 10px;
   overflow: hidden;
@@ -25,7 +25,7 @@ import TabBar from 'src/components/list/TabBar.vue';
 }
 
 .lists {
-  height: 90%;
+  height: 95%;
   padding: 10px;
 }
 </style>
