@@ -1,26 +1,19 @@
-<script>
-import { ref } from 'vue';
+<script setup>
 import { listsData } from 'src/stores/listStores';
-
-export default {
-  setup() {
-    const tabs = ref([{ id: 1, title: 'Tasks', desc: 'Things to do' }]);
-
-    return { tabs, listsData };
-  }
-};
+import { selectedTab } from 'src/stores/listStores';
 </script>
 
 <template>
   <div
-    @click="
-      () => {
-        console.log('tab clicked!');
-      }
-    "
     class="tabs"
     v-for="tabId in listsData.tabIds"
     :key="tabId"
+    @click="
+      () => {
+        console.log(`tab ` + tabId + ` clicked!`);
+        selectedTab.id = tabId;
+      }
+    "
   >
     {{ listsData.tabDict[tabId].label }}
   </div>
