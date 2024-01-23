@@ -1,5 +1,5 @@
 <script setup>
-const props = defineProps({
+defineProps({
   innerText: {
     type: String,
     default: ''
@@ -25,13 +25,13 @@ const props = defineProps({
 <template>
   <div
     :class="
-      `button ` + selected
+      selected
         ? disabled
-          ? `selected disabled`
-          : `selected`
+          ? `button selected disabled`
+          : `button selected`
         : disabled
-        ? `disabled`
-        : ``
+        ? `button disabled`
+        : `button`
     "
   >
     <p class="buttonText">
@@ -48,6 +48,8 @@ const props = defineProps({
   align-items: center;
   justify-content: center;
   border: 2px solid black;
+  transition-property: background, color, border-color;
+  transition-duration: 0.4s;
 }
 .button:hover {
   cursor: pointer;
@@ -57,8 +59,27 @@ const props = defineProps({
   border-color: var(--primary-default);
 }
 
+.button.selected {
+  background: var(--primary-default);
+  color: white;
+}
+
+.button.selected.disabled {
+  background: var(--primary-disabled);
+}
+
+.button:not(selected) {
+  color: var(--primary-default);
+}
+
+.button:not(selected).disabled {
+  color: var(--primary-disabled);
+}
+
 .button:not(.disabled):hover {
   border-color: var(--primary-hover);
+  background: var(--primary-hover);
+  color: white;
 }
 
 .button.disabled {

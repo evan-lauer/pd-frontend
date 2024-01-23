@@ -20,27 +20,6 @@ import SimpleButton from '../icons/SimpleButton.vue';
       :selected="viewMode.mode === 'month'"
       @click="viewMode.mode = 'month'"
     />
-    <div
-      class="modeOption"
-      :class="{ selected: viewMode.mode === 'day' }"
-      @click="viewMode.mode = 'day'"
-    >
-      Day
-    </div>
-    <div
-      class="modeOption"
-      :class="{ selected: viewMode.mode === 'week' }"
-      @click="viewMode.mode = 'week'"
-    >
-      Week
-    </div>
-    <div
-      class="modeOption"
-      :class="{ selected: viewMode.mode === 'month' }"
-      @click="viewMode.mode = 'month'"
-    >
-      Month
-    </div>
   </div>
 </template>
 
