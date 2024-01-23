@@ -5,7 +5,21 @@ import SimpleButton from '../icons/SimpleButton.vue';
 
 <template>
   <div class="modePicker">
-    <SimpleButton inner-text="Day" />
+    <SimpleButton
+      inner-text="Day"
+      :selected="viewMode.mode === 'day'"
+      @click="viewMode.mode = 'day'"
+    />
+    <SimpleButton
+      inner-text="Week"
+      :selected="viewMode.mode === 'week'"
+      @click="viewMode.mode = 'week'"
+    />
+    <SimpleButton
+      inner-text="Month"
+      :selected="viewMode.mode === 'month'"
+      @click="viewMode.mode = 'month'"
+    />
     <div
       class="modeOption"
       :class="{ selected: viewMode.mode === 'day' }"
@@ -35,16 +49,6 @@ import SimpleButton from '../icons/SimpleButton.vue';
   display: flex;
   flex-direction: row;
   gap: 10px;
-}
-
-.modeOption {
-  cursor: default;
-  padding: 10px;
-}
-.modeOption:hover {
-  cursor: pointer;
-}
-.selected {
-  background-color: grey;
+  align-items: center;
 }
 </style>
