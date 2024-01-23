@@ -1,6 +1,6 @@
 <script setup>
 import { newEventForm, dateSelectionForm } from 'src/stores/formStores';
-
+import { eventData } from 'src/stores/eventStores';
 import CreateXButton from 'src/components/calendar/CreateXButton.vue';
 </script>
 
@@ -56,6 +56,8 @@ import CreateXButton from 'src/components/calendar/CreateXButton.vue';
         () => {
           newEventForm.putEvent();
           newEventForm.reset();
+          eventData.addEvent(0, 1);
+          console.log(eventData.eventDict);
         }
       "
     >
