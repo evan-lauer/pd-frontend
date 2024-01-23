@@ -3,6 +3,7 @@ import { computed } from 'vue';
 import { Calendar } from 'calendar-base';
 import { selectedDate } from 'src/stores/calendarStores';
 import userStore from 'src/stores/userStore';
+import { eventExists } from 'src/stores/eventStores';
 
 const calendar = new Calendar({ siblingMonths: true, weekNumbers: true });
 
@@ -68,6 +69,14 @@ function renderWeekHeader(week, day) {
         </div>
         <div class="dateNumber">
           {{ getDayByIndex(week, day).day }}
+          <div
+            class="eventSymbol"
+            v-if="eventExists.isEventByTruth(getDayByIndex(week, day).day)"
+          >
+            <!-- Using the eventStores, display a "o" if there is/are events -->
+            <!-- This is just to test out getting events to display -->
+            o
+          </div>
         </div>
         <div :class="day === 1 ? `pseudoDay first` : `pseudoDay`">
           <!-- Pseudo element for CSS styling only -->
