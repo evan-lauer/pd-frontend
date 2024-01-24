@@ -10,6 +10,7 @@
 
 <script setup>
 import { dateSelectionForm } from 'src/stores/formStores';
+import { addEventForm } from 'src/stores/addEventFormStores';
 import { viewMode } from 'src/stores/calendarStores';
 
 import ModePicker from 'src/components/calendar/ModePicker.vue';
@@ -26,7 +27,7 @@ import CreateEventOverlay from 'src/components/calendar/CreateEventOverlay.vue';
     <DatePicker />
     <div class="rightJustifiedInputs">
       <ModePicker />
-      <CreateEventButton @click="() => (dateSelectionForm.active = !dateSelectionForm.active)" />
+      <CreateEventButton @click="() => (addEventForm.isFormActive = !addEventForm.isFormActive)" />
     </div>
   </div>
   <div class="content">

@@ -9,6 +9,7 @@
 <script setup>
 import CalendarRoot from 'src/components/calendar/CalendarRoot.vue';
 import ListRoot from 'src/components/list/ListRoot.vue';
+import WidgetsRoot from '../components/widgets/WidgetsRoot.vue';
 </script>
 
 <template>
@@ -19,7 +20,9 @@ import ListRoot from 'src/components/list/ListRoot.vue';
     <div class="listsContainer">
       <ListRoot />
     </div>
-    <div class="dynamicContainer"></div>
+    <div class="dynamicContainer">
+      <WidgetsRoot />
+    </div>
   </div>
 </template>
 
@@ -53,6 +56,7 @@ import ListRoot from 'src/components/list/ListRoot.vue';
 }
 .dynamicContainer {
   grid-area: dynamicContainer;
+  display: flex;
 }
 
 .calendarContainer,
