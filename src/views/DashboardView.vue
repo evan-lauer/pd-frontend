@@ -43,6 +43,9 @@ import ListRoot from 'src/components/list/ListRoot.vue';
 .calendarContainer {
   grid-area: calendarContainer;
   padding: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
 }
 .listsContainer {
   grid-area: listsContainer;

@@ -33,4 +33,4 @@ import { selectedTab, listsData } from 'src/stores/listStores';
   </div>
 </template>
 
-<style></style>
+<style scoped></style>

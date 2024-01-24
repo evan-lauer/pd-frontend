@@ -1,6 +1,6 @@
 <script setup>
 import { viewMode } from 'src/stores/calendarStores';
-import SimpleButton from '../icons/SimpleButton.vue';
+import SimpleButton from 'src/components/icons/SimpleButton.vue';
 </script>
 
 <template>

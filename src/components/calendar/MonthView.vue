@@ -23,6 +23,16 @@ function getDayByIndex(week, day) {
     return false;
   }
 }
+
+function isToday(date) {
+  const today = new Date();
+  return (
+    date.year === today.getFullYear() &&
+    date.month === today.getMonth() &&
+    date.day === today.getDate()
+  );
+}
+
 userStore.getEvents();
 
 function renderWeekHeader(week, day) {
@@ -67,7 +77,14 @@ function renderWeekHeader(week, day) {
         >
           {{ renderWeekHeader(week, day) }}
         </div>
-        <div class="dateNumber">
+        <div
+          :class="
+            getDayByIndex(week, day).month !== selectedDate.dateTime.getMonth()
+              ? `dateNumber lastMonth`
+              : `dateNumber`
+          "
+          :style="isToday(getDayByIndex(week, day)) ? `color: #DD825F; font-weight: bold;` : ``"
+        >
           {{ getDayByIndex(week, day).day }}
           <div
             class="eventSymbol"
@@ -130,6 +147,10 @@ function renderWeekHeader(week, day) {
 
 .dateNumber {
   padding-left: 3px;
+}
+
+.dateNumber.lastMonth {
+  color: #9098a1;
 }
 
 .dayHeader {

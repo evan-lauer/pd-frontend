@@ -24,8 +24,10 @@ import CreateEventOverlay from 'src/components/calendar/CreateEventOverlay.vue';
 <template>
   <div class="inputBar">
     <DatePicker />
-    <ModePicker />
-    <CreateEventButton @click="() => (dateSelectionForm.active = !dateSelectionForm.active)" />
+    <div class="rightJustifiedInputs">
+      <ModePicker />
+      <CreateEventButton @click="() => (dateSelectionForm.active = !dateSelectionForm.active)" />
+    </div>
   </div>
   <div class="content">
     <MonthView v-if="viewMode.mode === 'month'" />
@@ -41,8 +43,13 @@ import CreateEventOverlay from 'src/components/calendar/CreateEventOverlay.vue';
   height: 15%;
   display: flex;
   gap: 20px;
-  justify-content: flex-start;
-  align-items: flex-start;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.rightJustifiedInputs {
+  display: flex;
+  gap: 10px;
 }
 
 .content {

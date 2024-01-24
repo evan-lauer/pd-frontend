@@ -11,6 +11,7 @@ import RightChevron from '../../icons/RightChevron.vue';
       {{ selectedDate.dateTime.toLocaleString('default', { month: 'long' }) }}
     </h1>
     <RightChevron @click="() => selectedDate.incrementMonth()" />
+    <h1 class="yearHeader">{{ selectedDate.dateTime.getFullYear() }}</h1>
   </div>
 </template>
 
@@ -21,6 +22,11 @@ import RightChevron from '../../icons/RightChevron.vue';
   margin: 0;
   width: 200px;
   text-align: center;
+}
+
+.yearHeader {
+  font-size: 24px;
+  font-weight: normal;
 }
 
 .monthDropdown {

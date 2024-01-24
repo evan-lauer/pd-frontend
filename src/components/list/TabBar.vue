@@ -37,7 +37,7 @@ import { selectedTab } from 'src/stores/listStores';
   </div>
 </template>
 
-<style>
+<style scoped>
 .tabNameInput {
   width: 60px;
 }
