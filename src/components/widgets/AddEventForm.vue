@@ -17,7 +17,7 @@ const oneHourAhead = new Date(
 );
 // Fill this object with a timestamp one hour ahead of selected time (truncated to nearest hour)
 const endTime = ref({
-  hours: oneHourAhead.getHours() + 1 > 12 ? oneHourAhead.getHours() - 12 : oneHourAhead.getHours(),
+  hours: oneHourAhead.getHours() > 12 ? oneHourAhead.getHours() - 12 : oneHourAhead.getHours(),
   minutes: 0,
   amOrPm: oneHourAhead.getHours() >= 12 ? 'pm' : 'am'
 });
