@@ -1,9 +1,11 @@
 // import ShortUniqueId from "short-unique-id";
 import { reactive } from 'vue';
+import  userStore  from 'src/stores/userStore.js';
 // Temp store for maintaining events, in order to display on
 // calendar
 export const eventData = reactive({
   eventIds: [],
+  theEvents: [],
 
   eventDict: {
     0: {
@@ -17,34 +19,23 @@ export const eventData = reactive({
   // functions
   addEvent: (month, day) => {
     eventData.eventDict[month][day].event_ctr++;
+  },
+
+  userEvents: () => {
+    userStore.getEvents();
+    console.log(userStore.events)
+    eventData.theEvents = userStore.events;
+    return eventData.theEvents
+  },
+
+  getEventDate: () => {
+    console.log(eventData.theEvents)
+    // const date = new Date(eventData.theEvents[1]['endTime']);
+    // console.log(date)
   }
+
 });
 export const eventExists = reactive({
-  // eventDict: {
-  //     1: { // month
-  //         1: { // day
-  //             event: true
-  //         },
-  //         2: { // day
-  //             event: true
-  //         },
-  //         3: { // day
-  //             event: false
-  //         },
-  //         4: { // day
-  //             event: true
-  //         },
-  //         5: { // day
-  //             event: false
-  //         },
-  //         6: { // day
-  //             event: false
-  //         },
-  //         7: { // day
-  //             event: false
-  //         },
-  //     },
-  // },
 
   eventDict: {
     1: {
