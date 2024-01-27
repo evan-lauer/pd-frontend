@@ -1,5 +1,64 @@
-<script setup></script>
+<script setup>
+import { selectedDate } from 'src/stores/calendarStores';
+import LeftChevron from '../../icons/LeftChevron.vue';
+import RightChevron from '../../icons/RightChevron.vue';
+import SimpleButton from 'src/components/icons/SimpleButton.vue';
+</script>
 
 <template>
-  <div></div>
+  <div class="monthDropdown">
+    <LeftChevron @click="() => selectedDate.decrementMonth()" />
+    <h1 class="monthHeader">
+      {{ selectedDate.dateTime.toLocaleString('default', { month: 'long' }) }}
+    </h1>
+    <RightChevron @click="() => selectedDate.incrementMonth()" />
+    <h1 class="yearHeader">{{ selectedDate.dateTime.getFullYear() }}</h1>
+  </div>
+  <!-- TODO: these buttons are not functional right now
+    and not in line with the month and year headers -->
+  <div class="buttons">
+      <SimpleButton 
+        inner-text="<"
+      />
+      <SimpleButton 
+        inner-text="Today"
+      />
+      <SimpleButton 
+        inner-text=">"
+      />
+    </div>
 </template>
+
+<style scoped>
+.monthHeader {
+  font-size: 36px;
+  font-weight: 700;
+  margin: 0;
+  width: 200px;
+  text-align: center;
+}
+
+.yearHeader {
+  font-size: 24px;
+  font-weight: normal;
+}
+
+.monthDropdown {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
+.buttons {
+  display: flex;
+  flex-direction: row;
+  width: 80%;
+  justify-content: center;
+  align-items: center;
+}
+
+.monthDropdown > div {
+  background-color: gray;
+}
+</style>

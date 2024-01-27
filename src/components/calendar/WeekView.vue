@@ -44,11 +44,11 @@ userStore.getEvents();
     >
       <div
         class="hourContainer"
-        v-for="hour in 24"
-        :key="hour"
-        :class="hour === 1 ? `hourContainer first` : `hourContainer`"
+        v-for="(n, i) in 24"
+        :key="n"
+        :class="i === 0 ? `hourContainer first` : `hourContainer`"
       >
-        {{ hour }}:00
+        <div v-if="day === 1">{{ i }}:00</div>
       </div>
     </div>
   </div>
@@ -81,5 +81,13 @@ userStore.getEvents();
 
 .hourContainer.first {
   border-top: var(--calendar-border-grey) 1px solid;
+}
+
+.dateNumber {
+  padding-left: 3px;
+}
+
+.dateNumber.lastMonth {
+  color: #9098a1;
 }
 </style>
