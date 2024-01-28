@@ -3,7 +3,6 @@ import { computed } from 'vue';
 import { Calendar } from 'calendar-base';
 import { selectedDate } from 'src/stores/calendarStores';
 import userStore from 'src/stores/userStore';
-import { eventExists } from 'src/stores/eventStores';
 import { eventData } from '../../stores/eventStores';
 
 const calendar = new Calendar({ siblingMonths: true, weekNumbers: true });

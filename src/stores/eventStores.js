@@ -139,23 +139,4 @@ export const eventData = reactive({
   }
 
 });
-export const eventExists = reactive({
 
-  isEventByTruth: (day) => {
-    // console.log(eventExists.eventDict[day]);
-    // console.log(day)
-    // if (eventExists.eventDict[day]['hasEvent']) {
-    //     console.log("It's a true event ")
-    // }
-    // return eventExists.eventDict[day];
-
-    // console.log(day, eventExists.eventArray[day - 1])
-    // return eventExists.eventArray[day - 1];
-
-    console.log(eventExists.numEventsArray[3]);
-    // eventExists.eventArray[3] = true;
-    // console.log(eventExists.eventArray[3]);
-
-  }
-
-});
