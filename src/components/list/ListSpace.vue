@@ -1,5 +1,11 @@
 <script setup>
 import { selectedTab, listsData } from 'src/stores/listStores';
+
+const handleEnterList = () => {
+  const itemName = ''
+  listsData.addItem(selectedTab.id, itemName);
+}
+
 </script>
 
 <template>
@@ -7,21 +13,21 @@ import { selectedTab, listsData } from 'src/stores/listStores';
     <!-- v-for to display all list items that have been
     added to an array of lists -->
     <p>Selected id: {{ selectedTab.id }}</p>
-    <!-- <div
+    <textarea
       v-for="item in listsData.tabDict[selectedTab.id].items"
+      @keyup.enter="handleEnterList"
+      @keydown.enter.prevent
       :key="item.id"
+      placeholder="Add item!"
     >
       {{ item.label }}
-    </div> -->
+    </textarea>
     <!-- <input
       v-model="itemName"
       ref="itemNameInput"
     /> -->
-    <textarea class="listArea" name="listArea" 
-      v-model="listsData.tabDict[selectedTab.id].items.label" 
-      placeholder="Placeholder">
-    </textarea>
-    <!-- <button
+    <button
+      class="addButton"
       @click="
         () => {
           listsData.addItem(selectedTab.id, itemName);
@@ -30,12 +36,17 @@ import { selectedTab, listsData } from 'src/stores/listStores';
       "
     >
       +
-    </button> change this to at enter-->
+    </button>
   </div>
 </template>
 
 <style scoped>
-.listArea {
+
+.addButton {
+  width: 100%;
+}
+
+textarea {
   display: flex;
   height: 100%;
   width: 90%;

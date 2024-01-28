@@ -1,6 +1,12 @@
 <script setup>
 import { listsData } from 'src/stores/listStores';
 import { selectedTab } from 'src/stores/listStores';
+
+const handleEnterTab = (ref) => {
+  listsData.addTab(ref);
+}
+// have to change this function to reference whatever text was typed into the input
+
 </script>
 
 <template>
@@ -23,6 +29,7 @@ import { selectedTab } from 'src/stores/listStores';
       class="tabNameInput"
       v-model="tabName"
       ref="tabNameInput"
+      @keyup.enter="handleEnterTab(tabName)"
     />
     <button
       @click="

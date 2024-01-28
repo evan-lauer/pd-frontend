@@ -19,14 +19,14 @@ export const listsData = reactive({
       label: 'Tasks'
     }
   },
-  addTab: (tabLabel) => {
+  addTab: (tabName) => {
     // add a new tab to the dict of tabs
     const suid = new ShortUniqueId({ length: 10 });
     const id = suid.rnd();
     listsData.tabIds.push(id);
     listsData.tabDict[id] = {
       items: [],
-      label: tabLabel
+      label: tabName
     };
   },
   addItem: (tabId, itemLabel) => {
