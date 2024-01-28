@@ -1,8 +1,4 @@
 <script setup>
-// TODO: Needs to faciliate adding ListItems that are displayed
-//TODO: Need type-able space to add new ListItems --> These need
-// to be saved into a store
-
 import { selectedTab, listsData } from 'src/stores/listStores';
 </script>
 
@@ -21,10 +17,10 @@ import { selectedTab, listsData } from 'src/stores/listStores';
       v-model="itemName"
       ref="itemNameInput"
     /> -->
-      <textarea class="listArea" name="listArea" 
+    <textarea class="listArea" name="listArea" 
       v-model="listsData.tabDict[selectedTab.id].items.label" 
-      placeholder="Placeholder"></textarea>
-      <div v-html="bulletPoints"></div>
+      placeholder="Placeholder">
+    </textarea>
     <!-- <button
       @click="
         () => {
@@ -34,7 +30,7 @@ import { selectedTab, listsData } from 'src/stores/listStores';
       "
     >
       +
-    </button> -->
+    </button> change this to at enter-->
   </div>
 </template>
 

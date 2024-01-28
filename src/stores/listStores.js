@@ -2,7 +2,10 @@ import ShortUniqueId from 'short-unique-id';
 import { reactive } from 'vue';
 
 export const listsData = reactive({
-  // tabs: [], // This will be a 2d array
+  // tabs will be a 2d array
+  // TODO: (1) alter the first, hardcoded tab
+  // (2) might add a variable to tabDict.id.items that keeps track of checkbox boolean
+  
   tabIds: ['0'],
 
   tabDict: {
