@@ -10,7 +10,7 @@ import { selectedTab } from 'src/stores/listStores';
     :key="tabId"
     @click="
       () => {
-        console.log(`tab ` + tabId + ` clicked!`);
+        // console.log(`tab ` + tabId + ` clicked!`);
         selectedTab.id = tabId;
       }
     "

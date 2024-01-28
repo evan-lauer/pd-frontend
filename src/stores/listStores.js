@@ -9,19 +9,14 @@ export const listsData = reactive({
     0: {
       items: [
         {
-          label: 'Your first item',
+          list: 'Your first item',
           id: '0'
         },
-        {
-          label: 'Your first item',
-          id: '1'
-        }
       ],
       label: 'Tasks'
     }
   },
   addTab: (tabLabel) => {
-    // add a new tab label to the tabNames array.
     // add a new tab to the dict of tabs
     const suid = new ShortUniqueId({ length: 10 });
     const id = suid.rnd();
@@ -30,7 +25,6 @@ export const listsData = reactive({
       items: [],
       label: tabLabel
     };
-    console.log(listsData.tabDict);
   },
   addItem: (tabId, itemLabel) => {
     // add an item to the specified tab
