@@ -29,7 +29,7 @@ userStore.getEvents();
       :key="day"
       :class="day === 1 ? `dayHeader first` : `dayHeader`"
     >
-      Today
+      {{selectedDate}}
     </div>
   </div>
   <div class="contentDiv">
@@ -47,10 +47,19 @@ userStore.getEvents();
       >
         {{ hour }}:00
       </div>
+
     </div>
   </div>
+  <div class= "datePickerDiv">
+    <input
+          class="datePicker start"
+          name = "newDate"
+          type="date"
+        />
+  </div>
 </template>
-
+<script>
+</script>
 <style scoped>
 .dayHeader {
   text-align: center;
@@ -75,5 +84,11 @@ userStore.getEvents();
 .contentDiv {
   overflow-y: scroll;
   height: 95.5%;
+  width: 70%;
+  float:left;
+}
+.datePickerDiv{
+  float:right;
+  padding: 0 40px;
 }
 </style>
