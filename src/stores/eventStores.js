@@ -6,71 +6,46 @@ import  userStore  from 'src/stores/userStore.js';
 export const eventData = reactive({
   eventIds: [],
   theEvents: [],
+  numEventsArray: new Array(31).fill(0),
 
-  eventDict: {
-    0: {
-      // month
-      1: {
-        // day
-        event_ctr: 0
-      }
-    }
-  },
   // functions
-  addEvent: (month, day) => {
-    eventData.eventDict[month][day].event_ctr++;
+  addEvent: (day) => {
+    eventData.numEventsArray[day]++;
   },
 
   userEvents: () => {
     userStore.getEvents();
-    console.log(userStore.events)
+    console.log(userStore.events);
     eventData.theEvents = userStore.events;
     return eventData.theEvents
   },
 
-  getEventDate: () => {
-    console.log(eventData.theEvents)
-    // const date = new Date(eventData.theEvents[1]['endTime']);
-    // console.log(date)
+  getEventDate: (event) => {
+    console.log(eventData.theEvents);
+    // const date = new Date(eventData.theEvents[event]['endTime']); //currently causing an error
+    // console.log(date);
+
+    // return date.getDate(); //returns day of the month
   }
 
 });
 export const eventExists = reactive({
 
-  eventDict: {
-    1: {
-      hasEvent: true
-    },
-    2: {
-      hasEvent: true
-    },
-    3: {
-      hasEvent: true
-    },
-    4: {
-      hasEvent: false
-    },
-    5: {
-      hasEvent: true
-    }
-  },
-
-  eventArray: [true, false, true, true, true, false],
-
   isEventByTruth: (day) => {
     // console.log(eventExists.eventDict[day]);
-    // if (eventExists.eventDict[day]) {
+    // console.log(day)
+    // if (eventExists.eventDict[day]['hasEvent']) {
     //     console.log("It's a true event ")
     // }
     // return eventExists.eventDict[day];
-    return eventExists.eventArray[day - 1];
-  },
 
-  isEventOnDay: (day) => {
-    if (day < 15) {
-      return true;
-    } else {
-      return false;
-    }
+    // console.log(day, eventExists.eventArray[day - 1])
+    // return eventExists.eventArray[day - 1];
+
+    console.log(eventExists.numEventsArray[3]);
+    // eventExists.eventArray[3] = true;
+    // console.log(eventExists.eventArray[3]);
+
   }
+
 });

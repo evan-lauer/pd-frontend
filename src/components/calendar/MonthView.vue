@@ -4,6 +4,7 @@ import { Calendar } from 'calendar-base';
 import { selectedDate } from 'src/stores/calendarStores';
 import userStore from 'src/stores/userStore';
 import { eventExists } from 'src/stores/eventStores';
+import { eventData } from '../../stores/eventStores';
 
 const calendar = new Calendar({ siblingMonths: true, weekNumbers: true });
 
@@ -88,7 +89,7 @@ function renderWeekHeader(week, day) {
           {{ getDayByIndex(week, day).day }}
           <div
             class="eventSymbol"
-            v-if="eventExists.isEventByTruth(getDayByIndex(week, day).day)"
+            v-if="eventData.numEventsArray[getDayByIndex(week, day).day] >= 1"
           >
             <!-- Using the eventStores, display a "o" if there is/are events -->
             <!-- This is just to test out getting events to display -->
