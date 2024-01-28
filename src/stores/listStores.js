@@ -9,7 +9,7 @@ export const listsData = reactive({
     0: {
       items: [
         {
-          list: 'Your first item',
+          label: 'Your first item',
           id: '0'
         },
       ],

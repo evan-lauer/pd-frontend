@@ -22,7 +22,7 @@ import { selectedTab, listsData } from 'src/stores/listStores';
       ref="itemNameInput"
     /> -->
       <textarea class="listArea" name="listArea" 
-      v-model="listsData.tabDict[selectedTab.id].items.list" 
+      v-model="listsData.tabDict[selectedTab.id].items.label" 
       placeholder="Placeholder"></textarea>
       <div v-html="bulletPoints"></div>
     <!-- <button
