@@ -44,17 +44,22 @@ function getDateIndex() {
   }
 }
 
-// return arr of days in week of today; right now it only
-// rets the index in displayDays that matches today's date.
+// return arr of days in week of today
 function getDays() {
-  let cal_index = getDateIndex();
-  return cal_index;
+  const cal_index = getDateIndex();
+  const cur_day_weekday = displayDays.value[cal_index].weekDay;
+  const start_date_index = cal_index - cur_day_weekday;
+  const get_days_arr = [];
+  for (let i = start_date_index; i < start_date_index + 7; i++) {
+    get_days_arr.push(displayDays.value[i]);
+  }
+  return get_days_arr;
 }
 userStore.getEvents();
 </script>
 
 <template>
-  {{ console.log(getDays()) }}
+  {{ console.log(selectedDate.dateTime) }}
   <div class="weekContainer">
     <div
       v-for="day in 7"
@@ -62,7 +67,7 @@ userStore.getEvents();
       :class="day === 1 ? `weekContainer first` : `weekContainer`"
     >
       <div class="rowDisplay">
-        {{ day }}
+        {{ getDays()[day - 1].day }}
       </div>
       <div class="rowDisplay dateHeader">
         {{ getWeekDays(day - 1) }}
