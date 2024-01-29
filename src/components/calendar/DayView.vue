@@ -19,9 +19,33 @@ function getDayByIndex(week, day) {
     return false;
   }
 }
+var thisTime;
+function currentTime(){
+  let date = new Date(); 
+    let hh = date.getHours();
+    let mm = date.getMinutes();
+    let session = "AM";
+  
+      
+    if(hh > 12){
+        session = "PM";
+        hh = hh - 12;
+     }
+    
+     hh = (hh < 10) ? "0" + hh : hh;
+     mm = (mm < 10) ? "0" + mm : mm;
+      
+     let time = hh + ":" + mm  + " " + session;
+    
+    thisTime = time; 
+    setInterval(function(){
+      currentTime();
+      document.getElementById("clockTimer").innerText = time;
+    }, 6000);
+}
+currentTime();
 userStore.getEvents();
 </script>
-
 <template>
   <div class="dayHeader">
     <div
@@ -29,7 +53,7 @@ userStore.getEvents();
       :key="day"
       :class="day === 1 ? `dayHeader first` : `dayHeader`"
     >
-      {{selectedDate}}
+    <div id = "clockTimer">{{ thisTime }}</div>
     </div>
   </div>
   <div class="contentDiv">
@@ -43,23 +67,25 @@ userStore.getEvents();
         class="hourContainer"
         v-for="hour in 24"
         :key="hour"
+        :id="hour"
         :class="hour === 1 ? `hourContainer first` : `hourContainer`"
       >
-        {{ hour }}:00
+        {{ hour - 1}}:00
       </div>
 
     </div>
   </div>
   <div class= "datePickerDiv">
     <input
-          class="datePicker start"
+          class="datePicker"
+          id = "dayDatePicker"
           name = "newDate"
           type="date"
-        />
+        >
   </div>
+
 </template>
-<script>
-</script>
+
 <style scoped>
 .dayHeader {
   text-align: center;
