@@ -1,7 +1,6 @@
 <script setup>
 import ListSpace from 'src/components/list/ListSpace.vue';
 import TabBar from 'src/components/list/TabBar.vue';
-//TODO: Needs to manage which ListSpace is displayed based on which tab is selected
 </script>
 
 <template>
@@ -17,11 +16,13 @@ import TabBar from 'src/components/list/TabBar.vue';
 .header {
   display: flex;
   flex-direction: row;
-  height: 5%;
+  flex-wrap: wrap;
+  height: auto;
   vertical-align: left;
   padding: 10px;
+  gap: 8px;
   overflow: hidden;
-  gap: 4px;
+  border-bottom: 1px solid grey;
 }
 
 .lists {

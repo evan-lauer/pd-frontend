@@ -2,11 +2,12 @@
 import { listsData } from 'src/stores/listStores';
 import { selectedTab } from 'src/stores/listStores';
 
-const handleEnterTab = (ref) => {
-  listsData.addTab(ref);
+const handleEnterTab = (tabName) => {
+  listsData.addTab(tabName);
+  tabName = '';
 }
 // have to change this function to reference whatever text was typed into the input
-
+// add some way to delete a specific tab, use deleteTab function from listStores
 </script>
 
 <template>
@@ -16,7 +17,6 @@ const handleEnterTab = (ref) => {
     :key="tabId"
     @click="
       () => {
-        // console.log(`tab ` + tabId + ` clicked!`);
         selectedTab.id = tabId;
       }
     "
@@ -28,7 +28,6 @@ const handleEnterTab = (ref) => {
     <input
       class="tabNameInput"
       v-model="tabName"
-      ref="tabNameInput"
       @keyup.enter="handleEnterTab(tabName)"
     />
     <button
@@ -57,6 +56,7 @@ const handleEnterTab = (ref) => {
 }
 .tabButton:hover {
   cursor: pointer;
+  /* make is so that a delete button shows up when hovered */
 }
 .tabButton.selected {
   font-weight: bold;

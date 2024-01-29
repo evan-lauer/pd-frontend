@@ -15,6 +15,10 @@ export const listsData = reactive({
           label: 'Your first item',
           id: '0'
         },
+        {
+          label: 'second',
+          id: 1
+        },
       ],
       label: 'Tasks'
     }
