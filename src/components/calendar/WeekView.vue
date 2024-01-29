@@ -8,31 +8,65 @@ const calendar = new Calendar({ siblingMonths: true, weekNumbers: true });
 
 const displayDays = computed(() => {
   return calendar.getCalendar(
-    selectedDate.dateTime.getYear(),
-    selectedDate.dateTime.getMonth() - 1
+    selectedDate.dateTime.getFullYear(),
+    selectedDate.dateTime.getMonth()
   );
 });
 
-// 1 indexed
-function getDayByIndex(week, day) {
-  const index = (week - 1) * 7 + (day - 1);
-  if (displayDays.value[index]) {
-    return displayDays.value[index];
-  } else {
-    return false;
+function getWeekDays(weekDay) {
+  switch (weekDay) {
+    case 0:
+      return `Sun`;
+    case 1:
+      return `Mon`;
+    case 2:
+      return `Tues`;
+    case 3:
+      return `Wed`;
+    case 4:
+      return `Thurs`;
+    case 5:
+      return `Fri`;
+    case 6:
+      return `Sat`;
+    default:
+      return ``;
   }
+}
+
+function getDateIndex() {
+  const cur_date = new Date();
+  for (let i = 0; i < 35; i++) {
+    if (displayDays.value[i].day === cur_date.getDate() && 
+      displayDays.value[i].month === cur_date.getMonth()) {
+        return i;
+      }
+  }
+}
+
+// return arr of days in week of today; right now it only
+// rets the index in displayDays that matches today's date.
+function getDays() {
+  let cal_index = getDateIndex();
+  return cal_index;
 }
 userStore.getEvents();
 </script>
 
 <template>
+  {{ console.log(getDays()) }}
   <div class="weekContainer">
     <div
       v-for="day in 7"
       :key="day"
       :class="day === 1 ? `weekContainer first` : `weekContainer`"
     >
-      Day {{ day }}
+      <div class="rowDisplay">
+        {{ day }}
+      </div>
+      <div class="rowDisplay dateHeader">
+        {{ getWeekDays(day - 1) }}
+      </div>
     </div>
   </div>
   <div class="contentDiv">
@@ -61,6 +95,14 @@ userStore.getEvents();
   flex-direction: row;
   gap: 5px;
   border-bottom: var(--calendar-border-grey) 1px solid;
+}
+.rowDisplay {
+  display: flex;
+  flex-direction: row;
+}
+.rowDisplay.dateHeader {
+  font-size: 70%;
+  align-self: flex-end;
 }
 .dayContainer {
   flex-direction: row;
