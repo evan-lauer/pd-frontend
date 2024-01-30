@@ -38,13 +38,12 @@ function currentTime(){
      let time = hh + ":" + mm  + " " + session;
     
     thisTime = time; 
-    var pos = (date.getHours() - 1)*20;
-    document.getElementById("redBar").style.top = pos + '%';
+
+
     setInterval(function(){
       currentTime();
       document.getElementById("clockTimer").innerText = time;
-      pos = document.getElementById("redBar").style.top;
-      document.getElementById("redBar").style.top = pos + 1.66 + '%';
+
     }, 6000);
 }
 currentTime();
