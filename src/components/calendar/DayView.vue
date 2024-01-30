@@ -19,34 +19,7 @@ function getDayByIndex(week, day) {
     return false;
   }
 }
-var thisTime;
-function currentTime(){
-  let date = new Date(); 
-    let hh = date.getHours();
-    let mm = date.getMinutes();
-    let session = "AM";
-  
-      
-    if(hh > 12){
-        session = "PM";
-        hh = hh - 12;
-     }
-    
-     hh = (hh < 10) ? "0" + hh : hh;
-     mm = (mm < 10) ? "0" + mm : mm;
-      
-     let time = hh + ":" + mm  + " " + session;
-    
-    thisTime = time; 
 
-
-    setInterval(function(){
-      currentTime();
-      document.getElementById("clockTimer").innerText = time;
-
-    }, 6000);
-}
-currentTime();
 userStore.getEvents();
 </script>
 <template>
@@ -56,13 +29,10 @@ userStore.getEvents();
       :key="day"
       :class="day === 1 ? `dayHeader first` : `dayHeader`"
     >
-    <div id = "clockTimer">{{ thisTime }}</div>
+    <div id = "clockTimer">{{ selectedDate }}</div>
     </div>
   </div>
   <div class="contentDiv">
-    <div class="redBar">
-       _____________________________________________________________
-      </div>
     <div
       class="dayContainer"
       v-for="day in 1"
