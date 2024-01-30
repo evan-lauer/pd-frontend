@@ -19,7 +19,18 @@ function getDayByIndex(week, day) {
     return false;
   }
 }
+function currentTime(){
+  let date = new Date(); 
+    let hh = date.getHours();
+  
+    setInterval(function(){
+      currentTime();
+      document.getElementById(hh-1).style.color = 'black';
+      document.getElementById(hh).style.color = 'red';
 
+    }, 6000);
+}
+currentTime();
 userStore.getEvents();
 </script>
 <template>
@@ -33,6 +44,7 @@ userStore.getEvents();
     </div>
   </div>
   <div class="contentDiv">
+  
     <div
       class="dayContainer"
       v-for="day in 1"
