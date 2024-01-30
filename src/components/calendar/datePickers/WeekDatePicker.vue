@@ -23,7 +23,7 @@ import SimpleButton from 'src/components/icons/SimpleButton.vue';
       <LeftChevron @click="() => selectedDate.decrementWeek()" />
       <SimpleButton 
         inner-text="Today"
-        @click="() => console.log(selectedDate.dateTime)"
+        @click="() => selectedDate.setToToday()"
       />
       <!-- <SimpleButton 
         inner-text=">"

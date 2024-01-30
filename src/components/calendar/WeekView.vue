@@ -65,7 +65,7 @@ userStore.getEvents();
 </script>
 
 <template>
-  {{ console.log(selectedDate) }}
+  {{ console.log(selectedDate.dateTime) }}
   <div class="weekContainer">
     <div
       v-for="day in 7"

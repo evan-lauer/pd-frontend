@@ -43,6 +43,10 @@ export const selectedDate = reactive({
       selectedDate.dateTime.setDate(selectedDate.dateTime.getDate() - 7)
     );
   },
+  setToToday: () => {
+    const cur_day = new Date();
+    selectedDate.dateTime = cur_day;
+  }
 });
 
 export const viewMode = reactive({
