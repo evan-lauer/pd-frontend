@@ -1,46 +1,35 @@
+<!-- TODO: make the whole list scrollable
+TODO: make the items deletable. Use deleteItem from listStores.
+      if textarea empty and delete key is pressed, call the function?
+TODO: automatically switch the text cursor to the newly created item
+TODO: change the font of textarea and make height hug its content
+TODO: make the list space scrollable
+TODO: @enter, create a new textarea RIGHT BELOW the currently focused textarea-->
+
 <script setup>
 import { selectedTab, listsData } from 'src/stores/listStores';
-import { ref } from 'vue';
-// TODO: make it scrollable
-// TODO: make the items deletable. Use deleteItem from listStores.
-      // if textarea empty and delete key is pressed, call the function?
-// TODO: automatically switch the cursor to the newly created item
 
 const handleEnterList = () => { //this is probably wrong, check later
   const itemName = ''
   listsData.addItem(selectedTab.id, itemName);
-}
 
-const autoResize = () => { // supposedly modifies textarea to hug its content height-wise
-  const textarea = textareaRef.value;
-  textarea.style.height = 'auto';
-  textarea.style.height = `${textarea.scrollHeight}px`;
+  // how do I get to the latest item added?
+  // setTimeout(() => {
+  //   listsData.tabDict[newId].items.focus();
+  // });
 }
-
-const textareaRef = ref(null);
 </script>
 
 <template>
-  <div>
-    <!-- v-for to display all list items that have been
-    added to an array of lists -->
-    <p>Selected id: {{ selectedTab.id }}</p>
-    <textarea
-      class="item"
-      v-for="item in listsData.tabDict[selectedTab.id].items"
-      @input="autoResize()"
-      @keyup.enter="handleEnterList"
-      @keydown.enter.prevent
-      :key="item.id"
-      placeholder="Add item!"
-    >
-      {{ item.label }}
-    </textarea>
-    <!-- <input
-      v-model="itemName"
-      ref="itemNameInput"
-    /> -->
-    <button
+  <div class="individualItem" v-for="item in listsData.tabDict[selectedTab.id].items" :key="item.id">
+    <input class="checkbox" type="checkbox" v-model="item.checked">
+    <textarea class="itemName" v-model="item.label"
+    @keyup.enter="handleEnterList" @keydown.enter.prevent 
+    @input="resizeTextarea()"
+    :style="{ 'text-decoration': item.checked ? 'line-through' : 'none' }"></textarea>
+  </div>
+
+  <button
       class="addButton"
       @click="
         () => {
@@ -50,26 +39,43 @@ const textareaRef = ref(null);
       "
     >
       +
-    </button>
-  </div>
+  </button>
 </template>
 
 <style scoped>
 
 .addButton {
-  width: 100%;
+  vertical-align: center;
+  width: 50%;
 }
 
-.item {
+.individualItem {
+  display: flex;
+  flex-wrap: wrap;
+  vertical-align: center;
+}
+
+.checkbox {
+  display: flex;
+  width: auto;
+}
+
+/* change font of itemName */
+.itemName { 
   display: flex;
   height: 20%;
-  width: 90%;
+  width: 85%;
   font-size: 14px;
+  font: Inter-Regular;
 
-  resize: none;
+  resize: both;
   border: 1px solid green;
   border-radius: 5px;
-  margin: 8px;
+  padding: 10px;
+  margin: 5px;
   outline: none;
+}
+.itemName:focus {
+  background: rgb(2, 170, 47);
 }
 </style>
