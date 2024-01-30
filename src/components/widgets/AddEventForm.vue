@@ -21,6 +21,23 @@ const endTime = ref({
   minutes: 0,
   amOrPm: oneHourAhead.getHours() >= 12 ? 'pm' : 'am'
 });
+
+const startDate = ref(
+  selectedDate.dateTime.getFullYear() +
+    `-` +
+    selectedDate.dateTime.getMonth() +
+    1 +
+    `-` +
+    selectedDate.dateTime.getDate()
+);
+const endDate = ref(
+  selectedDate.dateTime.getFullYear() +
+    `-` +
+    selectedDate.dateTime.getMonth() +
+    1 +
+    `-` +
+    selectedDate.dateTime.getDate()
+);
 </script>
 <template>
   <div class="formContainer">
@@ -33,6 +50,7 @@ const endTime = ref({
         <input
           class="datePicker start"
           type="date"
+          v-bind:value="startDate"
         />
       </div>
       <div class="inputRow time">
@@ -44,6 +62,7 @@ const endTime = ref({
         <input
           class="datePicker end"
           type="date"
+          v-bind:value="endDate"
         />
       </div>
       <div class="inputRow time">
