@@ -6,12 +6,9 @@ const handleEnterTab = (tabName) => {
   listsData.addTab(tabName);
   tabName = '';
 }
-// add some way to delete a specific tab, use deleteTab function from listStores
-// figure out how to edit the name of a tab after its been created
-// TODO: automatically switch the text cursor to the newly created tab
+// TODO: add some way to delete a specific tab, use deleteTab function from listStores
 </script>
 
-<!-- tried to add a deletebutton, isn't showing up -->
 <template>
   <div
     class="tabContainer"

@@ -30,5 +30,6 @@ import TabBar from 'src/components/list/TabBar.vue';
 .lists {
   height: 95%;
   padding: 5px;
+  overflow: hidden;
 }
 </style>
