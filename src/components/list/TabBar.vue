@@ -14,24 +14,20 @@ const handleEnterTab = (tabName) => {
 <!-- tried to add a deletebutton, isn't showing up -->
 <template>
   <div
-    :class="selectedTab.id === tabId ? `tabButton selected` : `tabButton`"
-    v-for="tabId in listsData.tabIds" :key="tabId"
+    class="tabContainer"
+    v-for="tabId in listsData.tabIds" :key="tabId">
+    <input :class="selectedTab.id === tabId ? `tabButton selected` : `tabButton`"
+    v-model="listsData.tabDict[tabId].label" 
+    @keyup.enter="handleEnterTab(tabName)"
     @click="
-      () => {
-        selectedTab.id = tabId;
-      }
-    "
-  >
-  <button class="deleteButton" @click="listsData.deleteTab(selectedTab.id)">xxxx</button>
-    {{ listsData.tabDict[tabId].label }}
+    () => {
+      selectedTab.id = tabId;
+    }
+    ">
+    <button class="deleteButton" @click="listsData.deleteTab(selectedTab)">×</button>
   </div>
 
   <div v-if="listsData.tabIds.length < 10">
-    <input
-      class="tabNameInput"
-      v-model="tabName"
-      @keyup.enter="handleEnterTab(tabName)"
-    />
     <button
       @click="
         () => {
@@ -46,30 +42,42 @@ const handleEnterTab = (tabName) => {
 </template>
 
 <style scoped>
+
+.tabContainer {
+  display: flex;
+  /* border: 1px purple solid; */
+  width: 40%;
+}
 .tabNameInput {
   width: 60px;
 }
 .tabButton {
+  display: flex;
+  width: 100px;
+  height: auto;
   border: 1px black solid;
   border-radius: 4px;
-  display: flex;
   align-items: center;
-  padding: 2px 20px;
+  padding: 2px 10px;
+  text-align: center;
+  overflow: auto;
+}
+.tabButton.selected {
+  font-weight: bold;
+  display: flex;
+  border: 1px black solid;
+  border-radius: 4px;
+  align-items: center;
+  padding: 2px 10px;
 }
 .tabButton:hover {
   cursor: pointer;
 }
-.tabButton.selected {
-  font-weight: bold;
-}
 
 .deleteButton {
-  display: none;
-}
-
-.deleteButton:hover {
   display: flex;
-  background: grey;
+  align-items: right;
+  margin: 4px;
 }
 </style>
 

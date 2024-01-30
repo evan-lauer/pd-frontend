@@ -9,7 +9,7 @@ TODO: @enter, create a new textarea RIGHT BELOW the currently focused textarea--
 <script setup>
 import { selectedTab, listsData } from 'src/stores/listStores';
 
-const handleEnterList = () => { //this is probably wrong, check later
+const handleEnterList = () => { //Have to disable this once we reach 10 tabs
   const itemName = ''
   listsData.addItem(selectedTab.id, itemName);
 
@@ -25,7 +25,6 @@ const handleEnterList = () => { //this is probably wrong, check later
     <input class="checkbox" type="checkbox" v-model="item.checked">
     <textarea class="itemName" v-model="item.label"
     @keyup.enter="handleEnterList" @keydown.enter.prevent 
-    @input="resizeTextarea()"
     :style="{ 'text-decoration': item.checked ? 'line-through' : 'none' }"></textarea>
   </div>
 
@@ -66,9 +65,8 @@ const handleEnterList = () => { //this is probably wrong, check later
   height: 20%;
   width: 85%;
   font-size: 14px;
-  font: Inter-Regular;
 
-  resize: both;
+  resize: vertical;
   border: 1px solid green;
   border-radius: 5px;
   padding: 10px;

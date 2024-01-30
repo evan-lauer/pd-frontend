@@ -15,11 +15,6 @@ export const listsData = reactive({
           id: '0',
           checked: false
         },
-        {
-          label: 'second',
-          id: '1',
-          checked: false
-        },
       ],
       label: 'Tasks'
     }
@@ -44,6 +39,8 @@ export const listsData = reactive({
   },
   deleteTab: (tabId) => {
     // delete the specified tab
+    console.log("in deleteTab")
+    console.log(tabId)    
     delete listsData.tabDict.tabId;
     listsData.tabIds = listsData.tabIds.filter((item) => {
       return item !== tabId;
