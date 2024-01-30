@@ -30,7 +30,7 @@ function currentTime(){
 
     }, 6000);
 }
-currentTime();
+
 userStore.getEvents();
 </script>
 <template>
