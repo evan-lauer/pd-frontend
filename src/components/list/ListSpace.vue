@@ -2,7 +2,9 @@
 TODO: make the items deletable. Use deleteItem from listStores.
       if textarea empty and delete key is pressed, call the function?
 TODO: automatically switch the text cursor to the newly created item
-TODO: change the font of textarea and make height hug its content -->
+TODO: change the font of textarea and make height hug its content
+TODO: make the list space scrollable
+TODO: @enter, create a new textarea RIGHT BELOW the currently focused textarea-->
 
 <script setup>
 import { selectedTab, listsData } from 'src/stores/listStores';
