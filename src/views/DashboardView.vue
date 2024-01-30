@@ -14,7 +14,6 @@ import { eventData } from 'src/stores/eventStores.js';
 
 const userEvents = eventData.userEvents();
 console.log(userEvents);
-eventData.getEventDate();
 </script>
 
 <template>
