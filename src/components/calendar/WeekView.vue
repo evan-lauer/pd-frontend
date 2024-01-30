@@ -8,31 +8,70 @@ const calendar = new Calendar({ siblingMonths: true, weekNumbers: true });
 
 const displayDays = computed(() => {
   return calendar.getCalendar(
-    selectedDate.dateTime.getYear(),
-    selectedDate.dateTime.getMonth() - 1
+    selectedDate.dateTime.getFullYear(),
+    selectedDate.dateTime.getMonth()
   );
 });
 
-// 1 indexed
-function getDayByIndex(week, day) {
-  const index = (week - 1) * 7 + (day - 1);
-  if (displayDays.value[index]) {
-    return displayDays.value[index];
-  } else {
-    return false;
+function getWeekDays(weekDay) {
+  switch (weekDay) {
+    case 0:
+      return `Sun`;
+    case 1:
+      return `Mon`;
+    case 2:
+      return `Tues`;
+    case 3:
+      return `Wed`;
+    case 4:
+      return `Thurs`;
+    case 5:
+      return `Fri`;
+    case 6:
+      return `Sat`;
+    default:
+      return ``;
   }
+}
+
+function getDateIndex() {
+  const cur_date = new Date();
+  for (let i = 0; i < 35; i++) {
+    if (displayDays.value[i].day === cur_date.getDate() && 
+      displayDays.value[i].month === cur_date.getMonth()) {
+        return i;
+      }
+  }
+}
+
+// return arr of days in week of today
+function getDays() {
+  const cal_index = getDateIndex();
+  const cur_day_weekday = displayDays.value[cal_index].weekDay;
+  const start_date_index = cal_index - cur_day_weekday;
+  const get_days_arr = [];
+  for (let i = start_date_index; i < start_date_index + 7; i++) {
+    get_days_arr.push(displayDays.value[i]);
+  }
+  return get_days_arr;
 }
 userStore.getEvents();
 </script>
 
 <template>
+  {{ console.log(selectedDate.dateTime) }}
   <div class="weekContainer">
     <div
       v-for="day in 7"
       :key="day"
       :class="day === 1 ? `weekContainer first` : `weekContainer`"
     >
-      Day {{ day }}
+      <div class="rowDisplay">
+        {{ getDays()[day - 1].day }}
+      </div>
+      <div class="rowDisplay dateHeader">
+        {{ getWeekDays(day - 1) }}
+      </div>
     </div>
   </div>
   <div class="contentDiv">
@@ -44,11 +83,11 @@ userStore.getEvents();
     >
       <div
         class="hourContainer"
-        v-for="hour in 24"
-        :key="hour"
-        :class="hour === 1 ? `hourContainer first` : `hourContainer`"
+        v-for="(n, i) in 24"
+        :key="n"
+        :class="i === 0 ? `hourContainer first` : `hourContainer`"
       >
-        {{ hour }}:00
+        <div v-if="day === 1">{{ i }}:00</div>
       </div>
     </div>
   </div>
@@ -61,6 +100,14 @@ userStore.getEvents();
   flex-direction: row;
   gap: 5px;
   border-bottom: var(--calendar-border-grey) 1px solid;
+}
+.rowDisplay {
+  display: flex;
+  flex-direction: row;
+}
+.rowDisplay.dateHeader {
+  font-size: 70%;
+  align-self: flex-end;
 }
 .dayContainer {
   flex-direction: row;
@@ -81,5 +128,13 @@ userStore.getEvents();
 
 .hourContainer.first {
   border-top: var(--calendar-border-grey) 1px solid;
+}
+
+.dateNumber {
+  padding-left: 3px;
+}
+
+.dateNumber.lastMonth {
+  color: #9098a1;
 }
 </style>

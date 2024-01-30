@@ -1,8 +1,23 @@
 <script setup>
 import { selectedTab, listsData } from 'src/stores/listStores';
-// TODO: Needs to faciliate adding ListItems that are displayed
-//TODO: Need type-able space to add new ListItems --> These need
-// to be saved into a store
+import { ref } from 'vue';
+// TODO: make it scrollable
+// TODO: make the items deletable. Use deleteItem from listStores.
+      // if textarea empty and delete key is pressed, call the function?
+// TODO: automatically switch the cursor to the newly created item
+
+const handleEnterList = () => { //this is probably wrong, check later
+  const itemName = ''
+  listsData.addItem(selectedTab.id, itemName);
+}
+
+const autoResize = () => { // supposedly modifies textarea to hug its content height-wise
+  const textarea = textareaRef.value;
+  textarea.style.height = 'auto';
+  textarea.style.height = `${textarea.scrollHeight}px`;
+}
+
+const textareaRef = ref(null);
 </script>
 
 <template>
@@ -10,17 +25,23 @@ import { selectedTab, listsData } from 'src/stores/listStores';
     <!-- v-for to display all list items that have been
     added to an array of lists -->
     <p>Selected id: {{ selectedTab.id }}</p>
-    <div
+    <textarea
+      class="item"
       v-for="item in listsData.tabDict[selectedTab.id].items"
+      @input="autoResize()"
+      @keyup.enter="handleEnterList"
+      @keydown.enter.prevent
       :key="item.id"
+      placeholder="Add item!"
     >
       {{ item.label }}
-    </div>
-    <input
+    </textarea>
+    <!-- <input
       v-model="itemName"
       ref="itemNameInput"
-    />
+    /> -->
     <button
+      class="addButton"
       @click="
         () => {
           listsData.addItem(selectedTab.id, itemName);
@@ -33,4 +54,22 @@ import { selectedTab, listsData } from 'src/stores/listStores';
   </div>
 </template>
 
-<style scoped></style>
+<style scoped>
+
+.addButton {
+  width: 100%;
+}
+
+.item {
+  display: flex;
+  height: 20%;
+  width: 90%;
+  font-size: 14px;
+
+  resize: none;
+  border: 1px solid green;
+  border-radius: 5px;
+  margin: 8px;
+  outline: none;
+}
+</style>

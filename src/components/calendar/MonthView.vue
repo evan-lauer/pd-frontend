@@ -1,9 +1,9 @@
 <script setup>
-import { computed } from 'vue';
+import { computed, watch } from 'vue';
 import { Calendar } from 'calendar-base';
 import { selectedDate } from 'src/stores/calendarStores';
 import userStore from 'src/stores/userStore';
-import { eventExists } from 'src/stores/eventStores';
+import { eventData } from '../../stores/eventStores';
 
 const calendar = new Calendar({ siblingMonths: true, weekNumbers: true });
 
@@ -34,6 +34,16 @@ function isToday(date) {
 }
 
 userStore.getEvents();
+eventData.creatingDaysEventArray();
+
+watch(
+  () => selectedDate.dateTime.getMonth(),
+  () => {
+    // This ensures that the numsEventsArray is reset when the month is changed
+    userStore.getEvents();
+    eventData.creatingDaysEventArray();
+  }
+);
 
 function renderWeekHeader(week, day) {
   if (week === 1) {
@@ -86,10 +96,13 @@ function renderWeekHeader(week, day) {
           :style="isToday(getDayByIndex(week, day)) ? `color: #DD825F; font-weight: bold;` : ``"
         >
           {{ getDayByIndex(week, day).day }}
+        </div>
+        <div class="eventsContainer">
           <div
             class="eventSymbol"
-            v-if="eventExists.isEventByTruth(getDayByIndex(week, day).day)"
+            v-for="x in eventData.numEventsArray[getDayByIndex(week, day).day]"
           >
+            <!-- v-if="eventData.numEventsArray[getDayByIndex(week, day).day] >= 1" -->
             <!-- Using the eventStores, display a "o" if there is/are events -->
             <!-- This is just to test out getting events to display -->
             o
@@ -130,6 +143,15 @@ function renderWeekHeader(week, day) {
   height: 100%;
   width: 100%;
   position: relative;
+}
+
+.eventsContainer {
+  max-height: 2em;
+  padding-left: 5px;
+  padding-right: 5px;
+  display: flex;
+  flex-wrap: wrap;
+  overflow: auto;
 }
 
 .pseudoDay {

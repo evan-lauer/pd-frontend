@@ -20,6 +20,7 @@ import DayView from 'src/components/calendar/DayView.vue';
 import DatePicker from 'src/components/calendar/datePickers/DatePicker.vue';
 import CreateEventButton from 'src/components/calendar/CreateEventButton.vue';
 import CreateEventOverlay from 'src/components/calendar/CreateEventOverlay.vue';
+import { eventData } from 'src/stores/eventStores.js';
 </script>
 
 <template>
@@ -28,6 +29,7 @@ import CreateEventOverlay from 'src/components/calendar/CreateEventOverlay.vue';
     <div class="rightJustifiedInputs">
       <ModePicker />
       <CreateEventButton @click="() => (addEventForm.isFormActive = !addEventForm.isFormActive)" />
+      <!-- <CreateEventButton @click="() => eventData.addEvent(5)" />  -->
     </div>
   </div>
   <div class="content">

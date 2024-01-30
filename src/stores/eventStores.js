@@ -1,85 +1,148 @@
 // import ShortUniqueId from "short-unique-id";
 import { reactive } from 'vue';
+import  userStore  from 'src/stores/userStore.js';
+import { selectedDate } from 'src/stores/calendarStores';
+
 // Temp store for maintaining events, in order to display on
 // calendar
 export const eventData = reactive({
   eventIds: [],
+  theEvents: [
+    
+  ],
+  numEventsArray: new Array(31).fill(0),
 
-  eventDict: {
-    0: {
-      // month
-      1: {
-        // day
-        event_ctr: 0
-      }
-    }
+  reset: ()=> {
+    eventData.numEventsArray = new Array(31).fill(0);
+    console.log('reset called: ',eventData.numEventsArray);
   },
+
   // functions
-  addEvent: (month, day) => {
-    eventData.eventDict[month][day].event_ctr++;
-  }
-});
-export const eventExists = reactive({
-  // eventDict: {
-  //     1: { // month
-  //         1: { // day
-  //             event: true
-  //         },
-  //         2: { // day
-  //             event: true
-  //         },
-  //         3: { // day
-  //             event: false
-  //         },
-  //         4: { // day
-  //             event: true
-  //         },
-  //         5: { // day
-  //             event: false
-  //         },
-  //         6: { // day
-  //             event: false
-  //         },
-  //         7: { // day
-  //             event: false
-  //         },
-  //     },
+  addEvent: (day) => {
+    eventData.numEventsArray[day]++;
+  },
+
+  userEvents: async () => {
+    await userStore.getEvents();    
+    eventData.theEvents = userStore.events;
+    console.log(eventData.theEvents);
+    return eventData.theEvents
+  },
+
+  // getEventDate: (event) => {
+  //   // not being passed an event where function is called
+  //   const date = new Date(userStore.events[event]['endTime']); //currently causing an error
+  //   console.log(date);
+
+  //   // return date.getDate(); //returns day of the month
   // },
 
-  eventDict: {
-    1: {
-      hasEvent: true
-    },
-    2: {
-      hasEvent: true
-    },
-    3: {
-      hasEvent: true
-    },
-    4: {
-      hasEvent: false
-    },
-    5: {
-      hasEvent: true
-    }
-  },
+  creatingDaysEventArray: () => {
+    eventData.reset();
+    const month = selectedDate.dateTime.getMonth();
+    const year = selectedDate.dateTime.getFullYear();
+    // The excessive number of events occuring on one day is to
+    // test the behavior of how the event symbols display when
+    // they overflow the container.
+    const testEvents = [
+      {
+        endTime: "2024-01-08T05:00:00.000Z"
+      },
+      {
+        endTime: "2024-01-22T06:00:00.000Z"
+      },
+      {
+        endTime: "2024-01-22T06:00:00.000Z"
+      },
+      {
+        endTime: "2024-01-22T06:00:00.000Z"
+      },
+      {
+        endTime: "2024-01-22T06:00:00.000Z"
+      },
+      {
+        endTime: "2024-01-22T06:00:00.000Z"
+      },
+      {
+        endTime: "2024-01-22T06:00:00.000Z"
+      },
+      {
+        endTime: "2024-01-22T06:00:00.000Z"
+      },
+      {
+        endTime: "2024-01-22T06:00:00.000Z"
+      },
+      {
+        endTime: "2024-01-22T06:00:00.000Z"
+      },
+      {
+        endTime: "2024-01-22T06:00:00.000Z"
+      },
+      {
+        endTime: "2024-01-22T06:00:00.000Z"
+      },
+      {
+        endTime: "2024-01-22T06:00:00.000Z"
+      },
+      {
+        endTime: "2024-01-22T06:00:00.000Z"
+      },
+      {
+        endTime: "2024-01-22T06:00:00.000Z"
+      },
+      {
+        endTime: "2024-01-22T06:00:00.000Z"
+      },
+      {
+        endTime: "2024-01-22T06:00:00.000Z"
+      },
+      {
+        endTime: "2024-01-22T06:00:00.000Z"
+      },
+      {
+        endTime: "2024-01-22T06:00:00.000Z"
+      },
+      {
+        endTime: "2024-01-22T06:00:00.000Z"
+      },
+      {
+        endTime: "2024-01-22T06:00:00.000Z"
+      },
+      {
+        endTime: "2024-01-22T06:00:00.000Z"
+      },
+      {
+        endTime: "2024-01-22T06:00:00.000Z"
+      },
+      {
+        endTime: "2024-01-22T06:00:00.000Z"
+      },
+      {
+        endTime: "2024-01-22T06:00:00.000Z"
+      },
+      {
+        endTime: "2024-01-22T06:00:00.000Z"
+      },
+      {
+        endTime: "2024-01-22T06:00:00.000Z"
+      }
 
-  eventArray: [true, false, true, true, true, false],
+    ]
 
-  isEventByTruth: (day) => {
-    // console.log(eventExists.eventDict[day]);
-    // if (eventExists.eventDict[day]) {
-    //     console.log("It's a true event ")
-    // }
-    // return eventExists.eventDict[day];
-    return eventExists.eventArray[day - 1];
-  },
-
-  isEventOnDay: (day) => {
-    if (day < 15) {
-      return true;
-    } else {
-      return false;
+    for (const item of eventData.theEvents) {
+      const date = new Date(item['endTime']); //currently causing an error
+      // console.log(date);
+      const eventMonth = date.getMonth();
+      const eventYear = date.getFullYear();
+      // console.log('Current Month: ',month,' Event Month: ',eventMonth,'\nCurrent Year: ',year,'Event Year: ', eventYear )
+      
+      if (month === eventMonth && year === eventYear) {
+        const eventDay = date.getDate();
+        eventData.numEventsArray[eventDay]++;
+      }
+  
     }
   }
+
 });
+

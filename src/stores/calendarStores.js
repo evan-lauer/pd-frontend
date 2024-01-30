@@ -22,6 +22,16 @@ export const selectedDate = reactive({
     selectedDate.dateTime = new Date(
       selectedDate.dateTime.setMonth(selectedDate.dateTime.getMonth() - 1)
     );
+  },
+  incrementDay: () => {
+    selectedDate.dateTime = new Date(
+      selectedDate.dateTime.setDate(selectedDate.dateTime.getDate() + 1)
+    );
+  },
+  decrementDay: () => {
+    selectedDate.dateTime = new Date(
+      selectedDate.dateTime.setDate(selectedDate.dateTime.getDate() - 1)
+    );
   }
 });
 

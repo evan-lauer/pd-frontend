@@ -2,7 +2,10 @@ import ShortUniqueId from 'short-unique-id';
 import { reactive } from 'vue';
 
 export const listsData = reactive({
-  // tabs: [], // This will be a 2d array
+  // tabs will be a 2d array
+  // TODO: (1) alter the first, hardcoded tab
+  // (2) might add a variable to tabDict.id.items that keeps track of checkbox boolean
+  
   tabIds: ['0'],
 
   tabDict: {
@@ -13,24 +16,22 @@ export const listsData = reactive({
           id: '0'
         },
         {
-          label: 'Your first item',
-          id: '1'
-        }
+          label: 'second',
+          id: 1
+        },
       ],
       label: 'Tasks'
     }
   },
-  addTab: (tabLabel) => {
-    // add a new tab label to the tabNames array.
+  addTab: (tabName) => {
     // add a new tab to the dict of tabs
     const suid = new ShortUniqueId({ length: 10 });
     const id = suid.rnd();
     listsData.tabIds.push(id);
     listsData.tabDict[id] = {
       items: [],
-      label: tabLabel
+      label: tabName
     };
-    console.log(listsData.tabDict);
   },
   addItem: (tabId, itemLabel) => {
     // add an item to the specified tab
