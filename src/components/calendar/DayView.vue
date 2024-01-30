@@ -38,9 +38,13 @@ function currentTime(){
      let time = hh + ":" + mm  + " " + session;
     
     thisTime = time; 
+    var pos = (date.getHours() - 1)*20;
+    document.getElementById("redBar").style.top = pos + '%';
     setInterval(function(){
       currentTime();
       document.getElementById("clockTimer").innerText = time;
+      pos = document.getElementById("redBar").style.top;
+      document.getElementById("redBar").style.top = pos + 1.66 + '%';
     }, 6000);
 }
 currentTime();
@@ -57,17 +61,21 @@ userStore.getEvents();
     </div>
   </div>
   <div class="contentDiv">
+    <div class="redBar">
+       _____________________________________________________________
+      </div>
     <div
       class="dayContainer"
       v-for="day in 1"
       :key="day"
       :class="day === 1 ? `dayContainer first` : `dayContainer`"
     >
+
       <div
         class="hourContainer"
         v-for="hour in 24"
         :key="hour"
-        :id="hour"
+        :id="hour-1"
         :class="hour === 1 ? `hourContainer first` : `hourContainer`"
       >
         {{ hour - 1}}:00
@@ -81,11 +89,17 @@ userStore.getEvents();
           id = "dayDatePicker"
           name = "newDate"
           type="date"
+          onclick = "function setDate(){
+            selectedDate.dateTime = newDate;
+            console.log(selectedDate.dateTime);
+        }"
         >
+
   </div>
 
 </template>
-
+<script>
+</script>
 <style scoped>
 .dayHeader {
   text-align: center;
@@ -100,7 +114,6 @@ userStore.getEvents();
 }
 .hourContainer {
   height: 20%;
-
   border-bottom: var(--calendar-border-grey) 1px solid;
 }
 
@@ -112,9 +125,20 @@ userStore.getEvents();
   height: 95.5%;
   width: 70%;
   float:left;
+  z-index: 0;
 }
 .datePickerDiv{
   float:right;
   padding: 0 40px;
 }
+.redBar{
+  z-index: 1;
+  height:0px;
+  top: auto;
+  position:relative;
+  color: red;
+  font-weight: black;
+
+}
 </style>
+
