@@ -9,20 +9,20 @@ const handleEnterTab = (tabName) => {
 // add some way to delete a specific tab, use deleteTab function from listStores
 // figure out how to edit the name of a tab after its been created
 // TODO: automatically switch the text cursor to the newly created tab
-
 </script>
 
+<!-- tried to add a deletebutton, isn't showing up -->
 <template>
   <div
     :class="selectedTab.id === tabId ? `tabButton selected` : `tabButton`"
-    v-for="tabId in listsData.tabIds"
-    :key="tabId"
+    v-for="tabId in listsData.tabIds" :key="tabId"
     @click="
       () => {
         selectedTab.id = tabId;
       }
     "
   >
+  <button class="deleteButton" @click="listsData.deleteTab(selectedTab.id)">xxxx</button>
     {{ listsData.tabDict[tabId].label }}
   </div>
 
@@ -58,10 +58,18 @@ const handleEnterTab = (tabName) => {
 }
 .tabButton:hover {
   cursor: pointer;
-  /* make is so that a delete button shows up when hovered */
 }
 .tabButton.selected {
   font-weight: bold;
+}
+
+.deleteButton {
+  display: none;
+}
+
+.deleteButton:hover {
+  display: flex;
+  background: grey;
 }
 </style>
 

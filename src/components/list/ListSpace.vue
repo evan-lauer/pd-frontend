@@ -25,7 +25,6 @@ const handleEnterList = () => { //this is probably wrong, check later
     @keyup.enter="handleEnterList" @keydown.enter.prevent 
     @input="resizeTextarea()"
     :style="{ 'text-decoration': item.checked ? 'line-through' : 'none' }"></textarea>
-    
   </div>
 
   <button
