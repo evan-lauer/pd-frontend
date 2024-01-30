@@ -32,7 +32,17 @@ export const selectedDate = reactive({
     selectedDate.dateTime = new Date(
       selectedDate.dateTime.setDate(selectedDate.dateTime.getDate() - 1)
     );
-  }
+  },
+  incrementWeek: () => {
+    selectedDate.dateTime = new Date(
+      selectedDate.dateTime.setDate(selectedDate.dateTime.getDate() + 7)
+    );
+  },
+  decrementWeek: () => {
+    selectedDate.dateTime = new Date(
+      selectedDate.dateTime.setDate(selectedDate.dateTime.getDate() - 7)
+    );
+  },
 });
 
 export const viewMode = reactive({

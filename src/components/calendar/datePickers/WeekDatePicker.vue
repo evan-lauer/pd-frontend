@@ -7,25 +7,28 @@ import SimpleButton from 'src/components/icons/SimpleButton.vue';
 
 <template>
   <div class="monthDropdown">
-    <LeftChevron @click="() => selectedDate.decrementMonth()" />
+    <!-- <LeftChevron @click="() => selectedDate.decrementMonth()" /> -->
     <h1 class="monthHeader">
       {{ selectedDate.dateTime.toLocaleString('default', { month: 'long' }) }}
     </h1>
-    <RightChevron @click="() => selectedDate.incrementMonth()" />
+    <!-- <RightChevron @click="() => selectedDate.incrementMonth()" /> -->
     <h1 class="yearHeader">{{ selectedDate.dateTime.getFullYear() }}</h1>
   </div>
   <!-- TODO: these buttons are not functional right now
     and not in line with the month and year headers -->
   <div class="buttons">
-      <SimpleButton 
+      <!-- <SimpleButton 
         inner-text="<"
-      />
+      /> -->
+      <LeftChevron @click="() => selectedDate.decrementWeek()" />
       <SimpleButton 
         inner-text="Today"
+        @click="() => console.log(selectedDate.dateTime)"
       />
-      <SimpleButton 
+      <!-- <SimpleButton 
         inner-text=">"
-      />
+      /> -->
+      <RightChevron @click="() => selectedDate.incrementWeek()" />
     </div>
 </template>
 
