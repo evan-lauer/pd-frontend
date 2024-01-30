@@ -12,33 +12,39 @@ export const eventData = reactive({
   ],
   numEventsArray: new Array(31).fill(0),
 
+  reset: ()=> {
+    eventData.numEventsArray = new Array(31).fill(0);
+    console.log('reset called: ',eventData.numEventsArray);
+  },
+
   // functions
   addEvent: (day) => {
     eventData.numEventsArray[day]++;
   },
 
-  userEvents: () => {
-    userStore.getEvents();
-    console.log(userStore.events);
+  userEvents: async () => {
+    await userStore.getEvents();    
     eventData.theEvents = userStore.events;
+    console.log(eventData.theEvents);
     return eventData.theEvents
   },
 
-  getEventDate: (event) => {
-    console.log(eventData.theEvents);
-    // const date = new Date(eventData.theEvents[event]['endTime']); //currently causing an error
-    // console.log(date);
+  // getEventDate: (event) => {
+  //   // not being passed an event where function is called
+  //   const date = new Date(userStore.events[event]['endTime']); //currently causing an error
+  //   console.log(date);
 
-    // return date.getDate(); //returns day of the month
-  },
+  //   // return date.getDate(); //returns day of the month
+  // },
 
   creatingDaysEventArray: () => {
-    let month = selectedDate.dateTime.getMonth();
-    let year = selectedDate.dateTime.getFullYear();
+    eventData.reset();
+    const month = selectedDate.dateTime.getMonth();
+    const year = selectedDate.dateTime.getFullYear();
     // The excessive number of events occuring on one day is to
     // test the behavior of how the event symbols display when
     // they overflow the container.
-    let testEvents = [
+    const testEvents = [
       {
         endTime: "2024-01-08T05:00:00.000Z"
       },
@@ -123,19 +129,19 @@ export const eventData = reactive({
 
     ]
 
-    for (let item of testEvents) {
-      let date = new Date(item['endTime']); //currently causing an error
-      let eventMonth = date.getMonth();
-      let eventYear = date.getFullYear();
-      console.log(date, date.getDate())
-
+    for (const item of eventData.theEvents) {
+      const date = new Date(item['endTime']); //currently causing an error
+      // console.log(date);
+      const eventMonth = date.getMonth();
+      const eventYear = date.getFullYear();
+      // console.log('Current Month: ',month,' Event Month: ',eventMonth,'\nCurrent Year: ',year,'Event Year: ', eventYear )
+      
       if (month === eventMonth && year === eventYear) {
-        let eventDay = date.getDate();
+        const eventDay = date.getDate();
         eventData.numEventsArray[eventDay]++;
       }
   
     }
-    console.log(eventData.numEventsArray);
   }
 
 });

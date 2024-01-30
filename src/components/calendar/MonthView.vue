@@ -1,5 +1,5 @@
 <script setup>
-import { computed } from 'vue';
+import { computed, watch } from 'vue';
 import { Calendar } from 'calendar-base';
 import { selectedDate } from 'src/stores/calendarStores';
 import userStore from 'src/stores/userStore';
@@ -35,6 +35,15 @@ function isToday(date) {
 
 userStore.getEvents();
 eventData.creatingDaysEventArray();
+
+watch(
+  () => selectedDate.dateTime.getMonth(),
+  () => {
+    // This ensures that the numsEventsArray is reset when the month is changed
+    userStore.getEvents();
+    eventData.creatingDaysEventArray();
+  }
+);
 
 function renderWeekHeader(week, day) {
   if (week === 1) {

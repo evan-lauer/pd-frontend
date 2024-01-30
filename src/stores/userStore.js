@@ -12,17 +12,14 @@ const options = {
 const userStore = reactive({
   userId: TEST_USER_ID,
   events: [],
-  getEvents() {
+  async getEvents() {
     // get all the events from the database for the given user
-    axios
-      .request(options)
-      .then((res) => {
-        // console.log(res.data);
-        this.events = res.data;
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    const res = await axios.request(options);
+    if (res.data) {
+      this.events = res.data;
+    } else {
+      console.log(res);
+    }
   }
 });
 
