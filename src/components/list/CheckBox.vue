@@ -22,5 +22,5 @@ const model = computed({
 <template>
     <input type="checkbox" v-model="model" :value="value" />
     <span>{{ label }}</span>
-  </template>
+</template>
   

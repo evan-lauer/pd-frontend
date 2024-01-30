@@ -4,7 +4,6 @@ import { reactive } from 'vue';
 export const listsData = reactive({
   // tabs will be a 2d array
   // TODO: (1) alter the first, hardcoded tab
-  // (2) might add a variable to tabDict.id.items that keeps track of checkbox boolean
   
   tabIds: ['0'],
 
@@ -13,11 +12,13 @@ export const listsData = reactive({
       items: [
         {
           label: 'Your first item',
-          id: '0'
+          id: '0',
+          checked: false
         },
         {
           label: 'second',
-          id: 1
+          id: '1',
+          checked: false
         },
       ],
       label: 'Tasks'
@@ -30,7 +31,8 @@ export const listsData = reactive({
     listsData.tabIds.push(id);
     listsData.tabDict[id] = {
       items: [],
-      label: tabName
+      label: tabName,
+      checked: false
     };
   },
   addItem: (tabId, itemLabel) => {

@@ -1,3 +1,5 @@
+<!-- currently not in use -->
+
 <script setup>
 import CheckBox from 'src/components/list/CheckBox.vue';
 import { ref } from 'vue';

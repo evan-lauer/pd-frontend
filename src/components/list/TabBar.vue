@@ -6,8 +6,10 @@ const handleEnterTab = (tabName) => {
   listsData.addTab(tabName);
   tabName = '';
 }
-// have to change this function to reference whatever text was typed into the input
 // add some way to delete a specific tab, use deleteTab function from listStores
+// figure out how to edit the name of a tab after its been created
+// TODO: automatically switch the text cursor to the newly created tab
+
 </script>
 
 <template>
@@ -52,7 +54,7 @@ const handleEnterTab = (tabName) => {
   border-radius: 4px;
   display: flex;
   align-items: center;
-  padding: 0px 10px;
+  padding: 2px 20px;
 }
 .tabButton:hover {
   cursor: pointer;

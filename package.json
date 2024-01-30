@@ -10,6 +10,7 @@
     "format": "prettier --write src/"
   },
   "dependencies": {
+    "autosize": "^6.0.1",
     "axios": "^1.6.0",
     "calendar-base": "^2.0.1",
     "short-unique-id": "^5.0.3",
