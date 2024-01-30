@@ -32,6 +32,20 @@ export const selectedDate = reactive({
     selectedDate.dateTime = new Date(
       selectedDate.dateTime.setDate(selectedDate.dateTime.getDate() - 1)
     );
+  },
+  incrementWeek: () => {
+    selectedDate.dateTime = new Date(
+      selectedDate.dateTime.setDate(selectedDate.dateTime.getDate() + 7)
+    );
+  },
+  decrementWeek: () => {
+    selectedDate.dateTime = new Date(
+      selectedDate.dateTime.setDate(selectedDate.dateTime.getDate() - 7)
+    );
+  },
+  setToToday: () => {
+    const cur_day = new Date();
+    selectedDate.dateTime = cur_day;
   }
 });
 

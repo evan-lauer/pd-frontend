@@ -1,17 +1,22 @@
 <script setup>
-import { computed } from 'vue';
+import { ref } from 'vue';
 import { Calendar } from 'calendar-base';
 import userStore from 'src/stores/userStore';
 import { selectedDate } from 'src/stores/calendarStores';
 
 const calendar = new Calendar({ siblingMonths: true, weekNumbers: true });
 
-const displayDays = computed(() => {
-  return calendar.getCalendar(
+// const displayDays = computed(() => {
+//   return calendar.getCalendar(
+//     selectedDate.dateTime.getFullYear(),
+//     selectedDate.dateTime.getMonth()
+//   );
+// });
+
+const displayDays = ref(calendar.getCalendar(
     selectedDate.dateTime.getFullYear(),
     selectedDate.dateTime.getMonth()
-  );
-});
+  ));
 
 function getWeekDays(weekDay) {
   switch (weekDay) {
@@ -34,6 +39,7 @@ function getWeekDays(weekDay) {
   }
 }
 
+// getDays() helper
 function getDateIndex() {
   const cur_date = new Date();
   for (let i = 0; i < 35; i++) {
@@ -44,7 +50,7 @@ function getDateIndex() {
   }
 }
 
-// return arr of days in week of today
+// return arr of days in week of today.
 function getDays() {
   const cal_index = getDateIndex();
   const cur_day_weekday = displayDays.value[cal_index].weekDay;
