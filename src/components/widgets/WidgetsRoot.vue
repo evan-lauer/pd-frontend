@@ -14,4 +14,8 @@ import AddEventForm from 'src/components/widgets/AddEventForm.vue';
   width: 50%;
   height: 100%;
 }
+.test {
+  width: 50%;
+  height: 50%;
+}
 </style>

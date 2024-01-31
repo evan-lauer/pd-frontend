@@ -9,40 +9,52 @@ TODO: @enter, create a new textarea RIGHT BELOW the currently focused textarea--
 <script setup>
 import { selectedTab, listsData } from 'src/stores/listStores';
 
-const handleEnterList = () => { //Have to disable this once we reach 10 tabs
-  const itemName = ''
+const handleEnterList = () => {
+  //Have to disable this once we reach 10 tabs
+  const itemName = '';
   listsData.addItem(selectedTab.id, itemName);
 
   // how do I get to the latest item added?
   // setTimeout(() => {
   //   listsData.tabDict[newId].items.focus();
   // });
-}
+};
 </script>
 
 <template>
-  <div class="individualItem" v-for="item in listsData.tabDict[selectedTab.id].items" :key="item.id">
-    <input class="checkbox" type="checkbox" v-model="item.checked">
-    <textarea class="itemName" v-model="item.label"
-    @keyup.enter="handleEnterList" @keydown.enter.prevent 
-    :style="{ 'text-decoration': item.checked ? 'line-through' : 'none' }"></textarea>
+  <div
+    class="individualItem"
+    v-for="item in listsData.tabDict[selectedTab.id].items"
+    :key="item.id"
+  >
+    <input
+      class="checkbox"
+      type="checkbox"
+      v-model="item.checked"
+    />
+    <textarea
+      class="itemName"
+      v-model="item.label"
+      @keyup.enter="handleEnterList"
+      @keydown.enter.prevent
+      :style="{ 'text-decoration': item.checked ? 'line-through' : 'none' }"
+    ></textarea>
   </div>
 
   <button
-      class="addButton"
-      @click="
-        () => {
-          listsData.addItem(selectedTab.id, itemName);
-          itemName = '';
-        }
-      "
-    >
-      +
+    class="addButton"
+    @click="
+      () => {
+        listsData.addItem(selectedTab.id, itemName);
+        itemName = '';
+      }
+    "
+  >
+    +
   </button>
 </template>
 
 <style scoped>
-
 .addButton {
   vertical-align: center;
   width: 50%;
@@ -60,7 +72,7 @@ const handleEnterList = () => { //Have to disable this once we reach 10 tabs
 }
 
 /* change font of itemName */
-.itemName { 
+.itemName {
   display: flex;
   height: 20%;
   width: 85%;

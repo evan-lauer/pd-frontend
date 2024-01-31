@@ -13,7 +13,6 @@ import TabBar from 'src/components/list/TabBar.vue';
 </template>
 
 <style scoped>
-
 /* should we align left or center? */
 .header {
   display: flex;
@@ -28,8 +27,8 @@ import TabBar from 'src/components/list/TabBar.vue';
 }
 
 .lists {
-  height: 95%;
   padding: 5px;
-  overflow: hidden;
+  max-height: 700px;
+  overflow-y: auto;
 }
 </style>

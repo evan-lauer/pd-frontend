@@ -4,6 +4,7 @@ import { Calendar } from 'calendar-base';
 import { selectedDate } from 'src/stores/calendarStores';
 import userStore from 'src/stores/userStore';
 import { eventData } from '../../stores/eventStores';
+import EventStar from './events/EventStar.vue';
 
 const calendar = new Calendar({ siblingMonths: true, weekNumbers: true });
 
@@ -102,10 +103,14 @@ function renderWeekHeader(week, day) {
             class="eventSymbol"
             v-for="x in eventData.numEventsArray[getDayByIndex(week, day).day]"
           >
-            <!-- v-if="eventData.numEventsArray[getDayByIndex(week, day).day] >= 1" -->
-            <!-- Using the eventStores, display a "o" if there is/are events -->
-            <!-- This is just to test out getting events to display -->
-            o
+            <EventStar
+              eventID=""
+              eventTitle=""
+              eventDescription=""
+              eventType=""
+              eventStartTime=""
+              eventEndTime=""
+            />
           </div>
         </div>
         <div :class="day === 1 ? `pseudoDay first` : `pseudoDay`">
