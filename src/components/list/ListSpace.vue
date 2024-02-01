@@ -2,8 +2,6 @@
 TODO: make the items deletable. Use deleteItem from listStores.
       if textarea empty and delete key is pressed, call the function?
 TODO: automatically switch the text cursor to the newly created item
-TODO: change the font of textarea and make height hug its content
-TODO: make the list space scrollable
 TODO: @enter, create a new textarea RIGHT BELOW the currently focused textarea-->
 
 <script setup>
@@ -19,6 +17,11 @@ const handleEnterList = () => {
   //   listsData.tabDict[newId].items.focus();
   // });
 };
+
+const handleItemDelete = (event) => {
+  if (event.key === 'Delete' && listsData.tabDict[selectedTab.id].items.label === '')
+  listsData.deleteItem(selectedTab.id, )
+}
 </script>
 
 <template>
@@ -37,12 +40,13 @@ const handleEnterList = () => {
       v-model="item.label"
       @keyup.enter="handleEnterList"
       @keydown.enter.prevent
+      @keydown="handleItemDelete"
       :style="{ 'text-decoration': item.checked ? 'line-through' : 'none' }"
     ></textarea>
   </div>
 
   <button
-    class="addButton"
+    class="itemAddButton"
     @click="
       () => {
         listsData.addItem(selectedTab.id, itemName);
@@ -55,9 +59,14 @@ const handleEnterList = () => {
 </template>
 
 <style scoped>
-.addButton {
-  vertical-align: center;
-  width: 50%;
+.itemAddButton {
+  justify-content: center;
+  width: 15%;
+  border-radius: 20px;
+  border-style: solid;
+}
+.itemAddButton:hover {
+  cursor: pointer;
 }
 
 .individualItem {
@@ -70,6 +79,9 @@ const handleEnterList = () => {
   display: flex;
   width: auto;
 }
+.checkbox:hover {
+  cursor: pointer;
+}
 
 /* change font of itemName */
 .itemName {
@@ -79,13 +91,13 @@ const handleEnterList = () => {
   font-size: 14px;
 
   resize: vertical;
-  border: 1px solid green;
+  border: 1px solid orange;
   border-radius: 5px;
   padding: 10px;
   margin: 5px;
   outline: none;
 }
 .itemName:focus {
-  background: rgb(2, 170, 47);
+  background: yellow;
 }
 </style>

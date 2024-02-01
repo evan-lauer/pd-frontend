@@ -2,11 +2,11 @@
 import { listsData } from 'src/stores/listStores';
 import { selectedTab } from 'src/stores/listStores';
 
+// TODO: implement some if-statement so if there are 10 tabs, we prevent this function to be executed
 const handleEnterTab = (tabName) => {
   listsData.addTab(tabName);
   tabName = '';
 }
-// TODO: add some way to delete a specific tab, use deleteTab function from listStores
 </script>
 
 <template>
@@ -14,18 +14,20 @@ const handleEnterTab = (tabName) => {
     class="tabContainer"
     v-for="tabId in listsData.tabIds" :key="tabId">
     <input :class="selectedTab.id === tabId ? `tabButton selected` : `tabButton`"
-    v-model="listsData.tabDict[tabId].label" 
+    v-model="listsData.tabDict[tabId].label"
     @keyup.enter="handleEnterTab(tabName)"
     @click="
     () => {
       selectedTab.id = tabId;
     }
     ">
-    <button class="deleteButton" @click="listsData.deleteTab(selectedTab)">×</button>
+    <button :class="selectedTab.id === tabId ? `deleteButton focus` : `deleteButton`"
+    @click="listsData.deleteTab(selectedTab.id)">×</button>
   </div>
 
   <div v-if="listsData.tabIds.length < 10">
     <button
+      class="tabAddButton"
       @click="
         () => {
           listsData.addTab(tabName);
@@ -42,16 +44,14 @@ const handleEnterTab = (tabName) => {
 
 .tabContainer {
   display: flex;
-  /* border: 1px purple solid; */
-  width: 40%;
+  min-height: 30px;
+  width: auto;
 }
-.tabNameInput {
-  width: 60px;
-}
+
 .tabButton {
   display: flex;
-  width: 100px;
-  height: auto;
+  width: 70px;
+  height: 100%;
   border: 1px black solid;
   border-radius: 4px;
   align-items: center;
@@ -66,15 +66,37 @@ const handleEnterTab = (tabName) => {
   border-radius: 4px;
   align-items: center;
   padding: 2px 10px;
+  outline: none;
 }
 .tabButton:hover {
   cursor: pointer;
 }
 
 .deleteButton {
+  display: none;
+}
+.deleteButton:hover {
+  cursor: pointer;
+}
+
+.deleteButton.focus {
   display: flex;
   align-items: right;
+  border-radius: 20px;
+  border-style: solid;
+  font-size: small;
   margin: 4px;
+}
+
+.tabAddButton {
+  display: table;
+  border-radius: 20px;
+  border-style: solid;
+  font-size: medium;
+
+}
+.tabAddButton:hover {
+  cursor: pointer;
 }
 </style>
 

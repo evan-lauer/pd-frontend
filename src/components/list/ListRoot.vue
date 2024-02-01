@@ -28,7 +28,7 @@ import TabBar from 'src/components/list/TabBar.vue';
 
 .lists {
   padding: 5px;
-  max-height: 700px;
+  max-height: 85vh;
   overflow-y: auto;
 }
 </style>
