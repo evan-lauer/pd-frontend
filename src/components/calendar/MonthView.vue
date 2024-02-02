@@ -99,13 +99,10 @@ function renderWeekHeader(week, day) {
           {{ getDayByIndex(week, day).day }}
         </div>
         <div class="eventsContainer">
-          <div
-            class="eventSymbol"
-            v-if="eventData.numEventsArray[getDayByIndex(week, day).day] > 0"
-          >
+          <div class="eventSymbol">
             <EventStar
-              v-for="index in eventData.numEventsArray[getDayByIndex(week, day).day]"
-              :key="index"
+              v-for="event of eventData.dailyEvents[getDayByIndex(week, day).day]"
+              :key="event"
               eventID=""
               eventTitle=""
               eventDescription=""

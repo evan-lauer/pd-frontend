@@ -10,16 +10,16 @@ export const eventData = reactive({
   theEvents: [
     
   ],
-  numEventsArray: new Array(31).fill(0),
+  dailyEvents: Array.from( new Array(31), function() {return [];}),
 
   reset: ()=> {
-    eventData.numEventsArray = new Array(31).fill(0);
-    console.log('reset called: ',eventData.numEventsArray);
+    eventData.dailyEvents = Array.from( new Array(31), function() {return [];});
+    console.log('reset called: ',eventData.dailyEvents);
   },
 
   // functions
   addEvent: (day) => {
-    eventData.numEventsArray[day]++;
+    eventData.dailyEvents[day]++;
   },
 
   userEvents: async () => {
@@ -29,21 +29,12 @@ export const eventData = reactive({
     return eventData.theEvents
   },
 
-  // getEventDate: (event) => {
-  //   // not being passed an event where function is called
-  //   const date = new Date(userStore.events[event]['endTime']); //currently causing an error
-  //   console.log(date);
-
-  //   // return date.getDate(); //returns day of the month
-  // },
 
   creatingDaysEventArray: () => {
     eventData.reset();
     const month = selectedDate.dateTime.getMonth();
     const year = selectedDate.dateTime.getFullYear();
-    // The excessive number of events occuring on one day is to
-    // test the behavior of how the event symbols display when
-    // they overflow the container.
+   
     const testEvents = [
       {
         description: "hi",
@@ -183,7 +174,7 @@ export const eventData = reactive({
     ]
 
     for (const item of testEvents) {
-      const date = new Date(item['startTime']); //currently causing an error
+      const date = new Date(item['startTime']); 
       console.log(date);
       const eventMonth = date.getMonth();
       const eventYear = date.getFullYear();
@@ -191,10 +182,15 @@ export const eventData = reactive({
       
       if (month === eventMonth && year === eventYear) {
         const eventDay = date.getDate();
-        eventData.numEventsArray[eventDay]++;
-      }
+        if (!eventData.dailyEvents[eventDay]) {
+            eventData.dailyEvents[eventDay] = [];
+        }
+        eventData.dailyEvents[eventDay].push(item);
+    }
+    
   
     }
+    console.log(eventData.dailyEvents);
   }
 
 });
