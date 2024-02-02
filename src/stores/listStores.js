@@ -9,38 +9,44 @@ export const listsData = reactive({
 
   tabDict: {
     0: {
+      // items might have to have another dictionary inside it with the id as the key
+      label: 'Tasks',
       items: [
         {
-          label: 'Your first item',
-          id: '0',
+          label: 'first',
+          id: '1',
+          checked: false
+        },
+        {
+          label: '',
+          id: '2',
           checked: false
         },
       ],
-      label: 'Tasks'
-    }
+    },
   },
   addTab: (tabName) => {
     // add a new tab to the dict of tabs
     const suid = new ShortUniqueId({ length: 10 });
-    const id = suid.rnd();
-    listsData.tabIds.push(id);
-    listsData.tabDict[id] = {
+    const tabId = suid.rnd();
+    listsData.tabIds.push(tabId);
+    listsData.tabDict[tabId] = {
       items: [],
       label: tabName,
-      checked: false
     };
   },
   addItem: (tabId, itemLabel) => {
     // add an item to the specified tab
+    const suid = new ShortUniqueId({ length: 10 });
+    const itemId = suid.rnd();
     listsData.tabDict[tabId].items.push({
       label: itemLabel,
-      id: new ShortUniqueId()
+      id: itemId,
+      checked: false,
     });
   },
   deleteTab: (tabId) => {
     // delete the specified tab
-    console.log("in deleteTab")
-    console.log(tabId)    
     delete listsData.tabDict.tabId;
     listsData.tabIds = listsData.tabIds.filter((item) => {
       return item !== tabId;
@@ -48,6 +54,11 @@ export const listsData = reactive({
   },
   deleteItem: (tabId, itemId) => {
     // delete the specified item from the tab
+    console.log("in listStores deleteItem")
+    console.log(itemId)
+    console.log(tabId)
+
+    // use indexof(itemId) to retrieve nad delete the object?
     listsData.tabDict[tabId].items.filter((item) => {
       return item.id !== itemId;
     });

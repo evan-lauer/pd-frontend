@@ -89,7 +89,8 @@ const handleEnterTab = (tabName) => {
 }
 
 .tabAddButton {
-  display: table;
+  display: flex;
+  vertical-align: right;
   border-radius: 20px;
   border-style: solid;
   font-size: medium;

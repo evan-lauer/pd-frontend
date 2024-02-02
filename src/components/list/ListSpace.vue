@@ -9,6 +9,7 @@ import { selectedTab, listsData } from 'src/stores/listStores';
 
 const handleEnterList = () => {
   //Have to disable this once we reach 10 tabs
+  console.log("making more items")
   const itemName = '';
   listsData.addItem(selectedTab.id, itemName);
 
@@ -18,9 +19,12 @@ const handleEnterList = () => {
   // });
 };
 
-const handleItemDelete = (event) => {
-  if (event.key === 'Delete' && listsData.tabDict[selectedTab.id].items.label === '')
-  listsData.deleteItem(selectedTab.id, )
+const handleItemDelete = (itemId) => {
+  // needs the id of the item
+  console.log("in handleItemDelete", itemId)
+  // if (listsData.tabDict[selectedTab.id][itemId].label === '')
+  //   console.log("in the if statement")
+  //   listsData.deleteItem(selectedTab.id, itemId)
 }
 </script>
 
@@ -40,7 +44,7 @@ const handleItemDelete = (event) => {
       v-model="item.label"
       @keyup.enter="handleEnterList"
       @keydown.enter.prevent
-      @keydown="handleItemDelete"
+      @keyup.delete="handleItemDelete(item.id)"
       :style="{ 'text-decoration': item.checked ? 'line-through' : 'none' }"
     ></textarea>
   </div>
