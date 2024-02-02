@@ -99,17 +99,20 @@ function renderWeekHeader(week, day) {
           {{ getDayByIndex(week, day).day }}
         </div>
         <div class="eventsContainer">
-          <div class="eventSymbol">
-            <EventStar
-              v-for="event of eventData.dailyEvents[getDayByIndex(week, day).day]"
-              :key="event"
-              eventID=""
-              eventTitle=""
-              eventDescription=""
-              eventType=""
-              eventStartTime=""
-              eventEndTime=""
-            />
+          <!-- <div @click="() => console.log('Clicked!')">Click me</div> -->
+          <div
+            class="eventSymbol"
+            @click="() => console.log('clicked')"
+            v-for="eventA of eventData.dailyEvents[getDayByIndex(week, day).day]"
+            :key="eventA"
+            eventId="event.eventId"
+            eventTitle="event.title"
+            eventDescription="event.description"
+            eventType=""
+            eventStartTime="event.startTime"
+            eventEndTime="event.endTime"
+          >
+            <EventStar />
           </div>
         </div>
         <div :class="day === 1 ? `pseudoDay first` : `pseudoDay`">
@@ -156,6 +159,10 @@ function renderWeekHeader(week, day) {
   display: flex;
   flex-wrap: wrap;
   overflow: auto;
+}
+
+.eventSymbol {
+  z-index: 10;
 }
 
 .pseudoDay {

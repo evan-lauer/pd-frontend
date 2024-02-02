@@ -175,7 +175,6 @@ export const eventData = reactive({
 
     for (const item of testEvents) {
       const date = new Date(item['startTime']); 
-      console.log(date);
       const eventMonth = date.getMonth();
       const eventYear = date.getFullYear();
       // console.log('Current Month: ',month,' Event Month: ',eventMonth,'\nCurrent Year: ',year,'Event Year: ', eventYear )

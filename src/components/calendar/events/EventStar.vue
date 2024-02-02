@@ -1,6 +1,6 @@
 <script setup>
 defineProps({
-  eventID: {
+  eventId: {
     type: String,
     default: ''
   },
