@@ -9,7 +9,6 @@ import { selectedTab, listsData } from 'src/stores/listStores';
 
 const handleEnterList = () => {
   //Have to disable this once we reach 10 tabs
-  console.log("making more items")
   const itemName = '';
   listsData.addItem(selectedTab.id, itemName);
 
@@ -21,10 +20,11 @@ const handleEnterList = () => {
 
 const handleItemDelete = (itemId) => {
   // needs the id of the item
-  console.log("in handleItemDelete", itemId)
-  // if (listsData.tabDict[selectedTab.id][itemId].label === '')
-  //   console.log("in the if statement")
-  //   listsData.deleteItem(selectedTab.id, itemId)
+  const findItem = listsData.tabDict[selectedTab.id].items.find(item => item.id === itemId)
+
+  if (findItem.label === ''){
+    listsData.deleteItem(selectedTab.id, itemId)
+  }
 }
 </script>
 

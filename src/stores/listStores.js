@@ -54,11 +54,7 @@ export const listsData = reactive({
   },
   deleteItem: (tabId, itemId) => {
     // delete the specified item from the tab
-    console.log("in listStores deleteItem")
-    console.log(itemId)
-
-    // use indexof(itemId) to retrieve nad delete the object?
-    listsData.tabDict[tabId].items.filter((item) => {
+    listsData.tabDict[tabId].items = listsData.tabDict[tabId].items.filter((item) => {
       return item.id !== itemId;
     });
   }
