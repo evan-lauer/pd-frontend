@@ -41,7 +41,7 @@ function getWeekDays(weekDay) {
 
 // getDays() helper
 function getDateIndex() {
-  const cur_date = new Date();
+  const cur_date = selectedDate.dateTime;
   for (let i = 0; i < 35; i++) {
     if (displayDays.value[i].day === cur_date.getDate() && 
       displayDays.value[i].month === cur_date.getMonth()) {
