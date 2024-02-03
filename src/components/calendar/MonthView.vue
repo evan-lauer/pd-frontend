@@ -3,7 +3,7 @@ import { computed, watch } from 'vue';
 import { Calendar } from 'calendar-base';
 import { selectedDate } from 'src/stores/calendarStores';
 import userStore from 'src/stores/userStore';
-import { eventData } from '../../stores/eventStores';
+import { eventData, eventMethods } from '../../stores/eventStores';
 import EventStar from './events/EventStar.vue';
 
 const calendar = new Calendar({ siblingMonths: true, weekNumbers: true });
@@ -102,15 +102,9 @@ function renderWeekHeader(week, day) {
           <!-- <div @click="() => console.log('Clicked!')">Click me</div> -->
           <div
             class="eventSymbol"
-            @click="() => console.log('clicked')"
+            @click="() => eventMethods.displayEvent(eventA)"
             v-for="eventA of eventData.dailyEvents[getDayByIndex(week, day).day]"
             :key="eventA"
-            eventId="event.eventId"
-            eventTitle="event.title"
-            eventDescription="event.description"
-            eventType=""
-            eventStartTime="event.startTime"
-            eventEndTime="event.endTime"
           >
             <EventStar />
           </div>
