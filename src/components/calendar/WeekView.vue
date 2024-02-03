@@ -13,10 +13,31 @@ const calendar = new Calendar({ siblingMonths: true, weekNumbers: true });
 //   );
 // });
 
-const displayDays = ref(calendar.getCalendar(
+const previousMonth = ref(calendar.getCalendar(
     selectedDate.dateTime.getFullYear(),
-    selectedDate.dateTime.getMonth()
+    selectedDate.dateTime.getMonth() - 1
   ));
+
+console.log('previousMonth: ', previousMonth.value[1]);
+
+const currentMonth = ref(calendar.getCalendar(
+  selectedDate.dateTime.getFullYear(),
+  selectedDate.dateTime.getMonth()
+));
+
+const nextMonth = ref(calendar.getCalendar(
+    selectedDate.dateTime.getFullYear(),
+    selectedDate.dateTime.getMonth() + 1
+  ));
+
+// const displayDays = ref(calendar.getCalendar(
+//     selectedDate.dateTime.getFullYear(),
+//     selectedDate.dateTime.getMonth()
+//   ));
+
+const displayDays = ref([...previousMonth.value, ...currentMonth.value, ...nextMonth.value])
+
+console.log('displayDays: ', displayDays.value);
 
 function getWeekDays(weekDay) {
   switch (weekDay) {
@@ -42,7 +63,7 @@ function getWeekDays(weekDay) {
 // getDays() helper
 function getDateIndex() {
   const cur_date = selectedDate.dateTime;
-  for (let i = 0; i < 35; i++) {
+  for (let i = 0; i < displayDays.value.length; i++) {
     if (displayDays.value[i].day === cur_date.getDate() && 
       displayDays.value[i].month === cur_date.getMonth()) {
         return i;
@@ -53,6 +74,7 @@ function getDateIndex() {
 // return arr of days in week of today.
 function getDays() {
   const cal_index = getDateIndex();
+  console.log('cal_index: ', cal_index);
   const cur_day_weekday = displayDays.value[cal_index].weekDay;
   const start_date_index = cal_index - cur_day_weekday;
   const get_days_arr = [];
