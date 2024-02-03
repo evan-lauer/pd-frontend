@@ -2,9 +2,20 @@
 import { reactive } from 'vue';
 import  userStore  from 'src/stores/userStore.js';
 import { selectedDate } from 'src/stores/calendarStores';
+import { eventDetails } from './eventDetailsStores';
+import { addEventForm } from './addEventFormStores';
 
-// Temp store for maintaining events, in order to display on
+// Store for maintaining events, in order to display on
 // calendar
+export const eventMethods = reactive ({
+  displayEvent:(event) => {
+    addEventForm.isFormActive = false;
+    eventDetails.isDetailsActive = true;
+    console.log(event.eventId,event.title,event.description,event.startTime,event.endTime);
+
+  }
+})
+
 export const eventData = reactive({
   eventIds: [],
   theEvents: [
