@@ -17,15 +17,12 @@ import SimpleButton from 'src/components/icons/SimpleButton.vue';
   <!-- TODO: these buttons are not functional right now
     and not in line with the month and year headers -->
   <div class="buttons">
-      <SimpleButton 
-        inner-text="<"
-      />
+
       <SimpleButton 
         inner-text="Today"
+        @click="() => selectedDate.setToToday()"
       />
-      <SimpleButton 
-        inner-text=">"
-      />
+
     </div>
 </template>
 

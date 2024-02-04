@@ -1,4 +1,5 @@
 <script setup>
+
 import { computed } from 'vue';
 import { Calendar } from 'calendar-base';
 import { selectedDate } from 'src/stores/calendarStores';
@@ -30,9 +31,9 @@ function currentTime(){
 
     }, 6000);
 }
-
 userStore.getEvents();
 </script>
+
 <template>
   <div class="dayHeader">
     <div
@@ -65,22 +66,12 @@ userStore.getEvents();
     </div>
   </div>
   <div class= "datePickerDiv">
-    <input
-          class="datePicker"
-          id = "dayDatePicker"
-          name = "newDate"
-          type="date"
-          onclick = "function setDate(){
-            selectedDate.dateTime = newDate;
-            console.log(selectedDate.dateTime);
-        }"
-        >
-
+    <input type="date" onsubmit="selectedDate.setToDate(date)">
+    <input type="submit">
   </div>
 
 </template>
-<script>
-</script>
+
 <style scoped>
 .dayHeader {
   text-align: center;
@@ -110,16 +101,8 @@ userStore.getEvents();
 }
 .datePickerDiv{
   float:right;
-  padding: 0 40px;
-}
-.redBar{
-  z-index: 1;
-  height:0px;
-  top: auto;
-  position:relative;
-  color: red;
-  font-weight: black;
 
 }
+
 </style>
 

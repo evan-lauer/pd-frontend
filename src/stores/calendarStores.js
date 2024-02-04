@@ -46,6 +46,15 @@ export const selectedDate = reactive({
   setToToday: () => {
     const cur_day = new Date();
     selectedDate.dateTime = cur_day;
+  },
+  setToDate: (date) => {
+    selectedDate.dateTime = new Date(
+      selectedDate.dateTime.setFullYear(
+        date.getFullYear(),
+        date.getMonth(),
+        date.getDate()
+      )
+    )
   }
 });
 
