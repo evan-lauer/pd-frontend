@@ -21,14 +21,15 @@ import TabBar from 'src/components/list/TabBar.vue';
   height: auto;
   vertical-align: left;
   padding: 10px;
-  gap: 8px;
   overflow: hidden;
-  border-bottom: 1px solid grey;
+  border-bottom: 1px solid green;
+  align-items: flex-end;
 }
 
 .lists {
   padding: 5px;
   max-height: 85vh;
   overflow-y: auto;
+  align-items: flex-end;
 }
 </style>

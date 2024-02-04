@@ -11,7 +11,7 @@ const handleEnterTab = (tabName) => {
 
 <template>
   <div
-    class="tabContainer"
+    :class="selectedTab.id === tabId ? `tabContainer selected` : `tabContainer`"
     v-for="tabId in listsData.tabIds" :key="tabId">
     <input :class="selectedTab.id === tabId ? `tabButton selected` : `tabButton`"
     v-model="listsData.tabDict[tabId].label"
@@ -41,29 +41,39 @@ const handleEnterTab = (tabName) => {
 </template>
 
 <style scoped>
-
 .tabContainer {
   display: flex;
-  min-height: 30px;
+  border-radius: 10px 10px 0px 0px;
+  border: 1px solid black;
+  border-bottom: transparent;
+  height: auto;
+  width: 15%;
+  padding: 2px;
+  margin-bottom: 5px;
+  align-items: center;
+}
+.tabContainer.selected {
+  border-bottom: transparent;
+  height: 100%;
   width: auto;
 }
 
 .tabButton {
   display: flex;
   width: 70px;
-  height: 100%;
-  border: 1px black solid;
-  border-radius: 4px;
+  height: 20px;
+  border-radius: 10px 10px 0px 0px;
+  border: 1px solid transparent;
   align-items: center;
   padding: 2px 10px;
   text-align: center;
   overflow: auto;
+
 }
 .tabButton.selected {
   font-weight: bold;
+  height: 85%;
   display: flex;
-  border: 1px black solid;
-  border-radius: 4px;
   align-items: center;
   padding: 2px 10px;
   outline: none;
@@ -75,29 +85,35 @@ const handleEnterTab = (tabName) => {
 .deleteButton {
   display: none;
 }
-.deleteButton:hover {
-  cursor: pointer;
-}
 
 .deleteButton.focus {
   display: flex;
   align-items: right;
   border-radius: 20px;
-  border-style: solid;
+  background-color: white;
+  border: 1px solid transparent;
   font-size: small;
   margin: 4px;
+}
+
+.deleteButton.focus:hover {
+  border-radius: 20px;
+  background-color: rgb(221, 221, 221);
+  cursor: pointer;
 }
 
 .tabAddButton {
   display: flex;
   vertical-align: right;
   border-radius: 20px;
-  border-style: solid;
+  background-color: transparent;
+  border: 0px;
   font-size: medium;
-
+  margin: 6px;
 }
 .tabAddButton:hover {
   cursor: pointer;
+  background-color: rgb(221, 221, 221);
 }
 </style>
 

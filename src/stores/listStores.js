@@ -9,17 +9,11 @@ export const listsData = reactive({
 
   tabDict: {
     0: {
-      // items might have to have another dictionary inside it with the id as the key
       label: 'Tasks',
       items: [
         {
           label: 'first',
           id: '1',
-          checked: false
-        },
-        {
-          label: '',
-          id: '2',
           checked: false
         },
       ],
