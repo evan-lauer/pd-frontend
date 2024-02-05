@@ -66,7 +66,7 @@ userStore.getEvents();
     </div>
   </div>
   <div class= "datePickerDiv">
-    <input type="date" id="newDate">
+    <input type="datetime-local" id="newDate">
     <button @click ="updateDate()">Submit</button>
   </div>
 
