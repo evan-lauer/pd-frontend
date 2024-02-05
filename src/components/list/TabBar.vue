@@ -4,7 +4,6 @@ import { selectedTab } from 'src/stores/listStores';
 
 // TODO: implement some if-statement so if there are 10 tabs, we prevent this function to be executed
 // TODO: make the unselected tabs a bit shorter
-// TODO: make the tab name editable only when double clicked
 
 const handleEnterTab = (tabName) => {
   //Have to disable this once we reach 10 tabs

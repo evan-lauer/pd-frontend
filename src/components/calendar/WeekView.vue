@@ -78,41 +78,41 @@ userStore.getEvents();
 </script>
 
 <template>
-  <div class="weekContainer">
-    <div
-      v-for="day in 7"
-      :key="day"
-      :class="day === 1 ? `weekContainer first` : `weekContainer`"
-    >
-      <div class="rowDisplay"
-        :style="isToday(getDays()[day - 1]) ? `color: #DD825F; font-weight: bold;` : ``"
-      >
-        <div class="rowDisplay">
-          {{ getDays()[day - 1].day }}
-        </div>
-        <div class="rowDisplay dateHeader">
-          {{ getWeekDays(day - 1) }}
-        </div>
-      </div>
-    </div>
-  </div>
-  <div class="contentDiv">
-    <div
-      class="dayContainer"
-      v-for="day in 7"
-      :key="day"
-      :class="day === 1 ? `dayContainer first` : `dayContainer`"
-    >
+    <div class="weekContainer">
       <div
-        class="hourContainer"
-        v-for="(n, i) in 24"
-        :key="n"
-        :class="i === 0 ? `hourContainer first` : `hourContainer`"
+        v-for="day in 7"
+        :key="day"
+        :class="day === 1 ? `weekContainer first` : `weekContainer`"
       >
-        <div v-if="day === 1">{{ i }}:00</div>
+        <div class="rowDisplay"
+          :style="isToday(getDays()[day - 1]) ? `color: #DD825F; font-weight: bold;` : ``"
+        >
+          <div class="rowDisplay">
+            {{ getDays()[day - 1].day }}
+          </div>
+          <div class="rowDisplay dateHeader">
+            {{ getWeekDays(day - 1) }}
+          </div>
+        </div>
       </div>
     </div>
-  </div>
+    <div class="contentDiv">
+      <div
+        class="dayContainer"
+        v-for="day in 7"
+        :key="day"
+        :class="day === 1 ? `dayContainer first` : `dayContainer`"
+      >
+        <div
+          class="hourContainer"
+          v-for="(n, i) in 24"
+          :key="n"
+          :class="i === 0 ? `hourContainer first` : `hourContainer`"
+        >
+          <div v-if="day === 1">{{ i }}:00</div>
+        </div>
+      </div>
+    </div>
 </template>
 
 <style scoped>
