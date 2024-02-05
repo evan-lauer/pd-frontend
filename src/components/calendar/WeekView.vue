@@ -109,7 +109,9 @@ userStore.getEvents();
         :key="n"
         :class="i === 0 ? `hourContainer first` : `hourContainer`"
       >
-        <div v-if="day === 1">{{ i }}:00</div>
+        <div 
+          v-if="day === 1"
+          class="times">{{ i }}:00</div>
       </div>
     </div>
   </div>
@@ -159,5 +161,9 @@ userStore.getEvents();
 
 .dateNumber.lastMonth {
   color: #9098a1;
+}
+
+.times {
+  font-size: 13px;
 }
 </style>
