@@ -21,10 +21,10 @@ const handleEnterList = (indexOfPrevItem) => {
   });
 };
 
-const handleItemDelete = (itemId) => {
+const handleItemDelete = (itemId, event) => {
   // maybe the find used below is not finding the object so it's returning -1
   const findItem = listsData.tabDict[selectedTab.id].items.find(item => item.id === itemId);
-  if (findItem.label === ''){
+  if (findItem.label === '' && event.key === "Backspace"){
     listsData.deleteItem(selectedTab.id, itemId);
   }
 }
@@ -47,7 +47,7 @@ const handleItemDelete = (itemId) => {
       v-model="item.label"
       @keyup.enter="handleEnterList(listsData.tabDict[selectedTab.id].items.indexOf(listsData.tabDict[selectedTab.id].items.find(item => item.id === itemId)))"
       @keydown.enter.prevent
-      @keyup.delete="handleItemDelete(item.id)"
+      @keydown="handleItemDelete(item.id, $event)"
       :style="{ 'text-decoration': item.checked ? 'line-through' : 'none' }"
     ></textarea>
   </div>
