@@ -51,6 +51,7 @@ console.log(userEvents);
   grid-area: calendarContainer;
   padding: 10px;
   display: flex;
+  overflow: hidden;
   flex-direction: column;
   gap: 15px;
 }

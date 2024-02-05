@@ -60,18 +60,23 @@ userStore.getEvents();
         :id="hour-1"
         :class="hour === 1 ? `hourContainer first` : `hourContainer`"
       >
-        {{ hour - 1}}:00
+        {{ hour - 1 }}:00
       </div>
 
     </div>
   </div>
   <div class= "datePickerDiv">
-    <input type="date" onsubmit="selectedDate.setToDate(date)">
-    <input type="submit">
+    <input type="datetime-local" id="newDate">
+    <br>
+    <button @click ="updateDate()">Submit</button>
   </div>
 
 </template>
-
+<script>
+function updateDate(){
+  selectedDate.setToDate(document.getElementById('newDate').value);
+}
+</script>
 <style scoped>
 .dayHeader {
   text-align: center;
@@ -100,8 +105,7 @@ userStore.getEvents();
   z-index: 0;
 }
 .datePickerDiv{
-  float:right;
-
+  float:center;
 }
 
 </style>
