@@ -60,13 +60,14 @@ userStore.getEvents();
         :id="hour-1"
         :class="hour === 1 ? `hourContainer first` : `hourContainer`"
       >
-        {{ hour - 1}}:00
+        {{ hour - 1 }}:00
       </div>
 
     </div>
   </div>
   <div class= "datePickerDiv">
     <input type="datetime-local" id="newDate">
+    <br>
     <button @click ="updateDate()">Submit</button>
   </div>
 
@@ -104,8 +105,7 @@ function updateDate(){
   z-index: 0;
 }
 .datePickerDiv{
-  float:right;
-
+  float:center;
 }
 
 </style>
