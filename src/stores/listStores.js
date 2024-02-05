@@ -29,15 +29,22 @@ export const listsData = reactive({
       label: tabName,
     };
   },
-  addItem: (tabId, itemLabel) => {
+  addItem: (tabId, itemLabel, indexOfPrevItem) => {
     // add an item to the specified tab
     const suid = new ShortUniqueId({ length: 10 });
     const itemId = suid.rnd();
-    listsData.tabDict[tabId].items.push({
-      label: itemLabel,
+    const newItem = {
+      label:itemLabel,
       id: itemId,
       checked: false,
-    });
+    }
+    listsData.tabDict[tabId].items.splice(indexOfPrevItem, 0, newItem)
+    // listsData.tabDict[tabId].items.push({
+      //   label:itemLabel,
+      //   id: itemId,
+      //   checked: false,
+    // });
+    return itemId;
   },
   deleteTab: (tabId) => {
     // delete the specified tab

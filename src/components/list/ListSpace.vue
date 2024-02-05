@@ -5,22 +5,27 @@ TODO: @enter, create a new textarea RIGHT BELOW the currently focused textarea. 
 <script setup>
 import { selectedTab, listsData } from 'src/stores/listStores';
 
-const handleEnterList = () => {
-  //Have to disable this once we reach 10 tabs
+const handleEnterList = (indexOfPrevItem) => {
   const itemName = '';
-  listsData.addItem(selectedTab.id, itemName);
+  console.log("in handleEnterList");
+  // have to retrieve the index of the textarea that we are currently in, rather than the index of the most recently
+  // added item
+  console.log(indexOfPrevItem);
+  const newId = listsData.addItem(selectedTab.id, itemName, indexOfPrevItem);
 
-  // how do I get to the latest item added?
-  // setTimeout(() => {
-  //   listsData.tabDict[newId].items.focus();
-  // });
+  setTimeout(() => {
+    const newTextarea = document.getElementById(`textArea-${newId}`);
+    if (newTextarea) {
+      newTextarea.focus();
+    }
+  });
 };
 
 const handleItemDelete = (itemId) => {
-  const findItem = listsData.tabDict[selectedTab.id].items.find(item => item.id === itemId)
-
+  // maybe the find used below is not finding the object so it's returning -1
+  const findItem = listsData.tabDict[selectedTab.id].items.find(item => item.id === itemId);
   if (findItem.label === ''){
-    listsData.deleteItem(selectedTab.id, itemId)
+    listsData.deleteItem(selectedTab.id, itemId);
   }
 }
 </script>
@@ -37,9 +42,10 @@ const handleItemDelete = (itemId) => {
       v-model="item.checked"
     />
     <textarea
+      :id="'textArea-' + item.id"
       class="itemName"
       v-model="item.label"
-      @keyup.enter="handleEnterList"
+      @keyup.enter="handleEnterList(listsData.tabDict[selectedTab.id].items.indexOf(listsData.tabDict[selectedTab.id].items.find(item => item.id === itemId)))"
       @keydown.enter.prevent
       @keyup.delete="handleItemDelete(item.id)"
       :style="{ 'text-decoration': item.checked ? 'line-through' : 'none' }"

@@ -1,11 +1,35 @@
 <script setup>
 import { listsData } from 'src/stores/listStores';
 import { selectedTab } from 'src/stores/listStores';
+import { ref } from 'vue';
 
 // TODO: implement some if-statement so if there are 10 tabs, we prevent this function to be executed
+// TODO: make the unselected tabs a bit shorter
+// TODO: make the tab name editable only when double clicked
+
 const handleEnterTab = (tabName) => {
+  //Have to disable this once we reach 10 tabs
   listsData.addTab(tabName);
   tabName = '';
+}
+
+const changeSelectedTab = (tabId) => {
+  selectedTab.id = tabId;
+}
+
+const makeEditable = (tabId) => {
+  console.log("in makeEditable")
+  const tabName = document.getElementById(`tabName-${tabId}`)
+  if (tabName) {
+    tabName.readOnly = false;
+  }
+}
+
+const makeReadOnly = (tabId) => {
+  const tabName = document.getElementById(`tabName-${tabId}`)
+  if (tabName) {
+    tabName.readOnly = true;
+  }
 }
 </script>
 
@@ -13,14 +37,15 @@ const handleEnterTab = (tabName) => {
   <div
     :class="selectedTab.id === tabId ? `tabContainer selected` : `tabContainer`"
     v-for="tabId in listsData.tabIds" :key="tabId">
-    <input :class="selectedTab.id === tabId ? `tabButton selected` : `tabButton`"
+    <input
+    :id="'tabName-'+tabId"
+    :class="selectedTab.id === tabId ? `tabButton selected` : `tabButton`"
     v-model="listsData.tabDict[tabId].label"
     @keyup.enter="handleEnterTab(tabName)"
-    @click="
-    () => {
-      selectedTab.id = tabId;
-    }
-    ">
+    @click="changeSelectedTab(tabId)"
+    @dblclick="makeEditable(tabId)"
+    @focusout="makeReadOnly(tabId)"
+    readonly>
     <button :class="selectedTab.id === tabId ? `deleteButton focus` : `deleteButton`"
     @click="listsData.deleteTab(selectedTab.id)">×</button>
   </div>
@@ -41,6 +66,8 @@ const handleEnterTab = (tabName) => {
 </template>
 
 <style scoped>
+
+/* tabContainer doesn't change height... why? Wanna make it shorter  */
 .tabContainer {
   display: flex;
   border-radius: 10px 10px 0px 0px;
@@ -62,7 +89,6 @@ const handleEnterTab = (tabName) => {
   display: flex;
   width: 70px;
   height: 20px;
-  border-radius: 10px 10px 0px 0px;
   border: 1px solid transparent;
   align-items: center;
   padding: 2px 10px;
@@ -73,9 +99,6 @@ const handleEnterTab = (tabName) => {
 .tabButton.selected {
   font-weight: bold;
   height: 85%;
-  display: flex;
-  align-items: center;
-  padding: 2px 10px;
   outline: none;
 }
 .tabButton:hover {
@@ -108,7 +131,7 @@ const handleEnterTab = (tabName) => {
   border-radius: 20px;
   background-color: transparent;
   border: 0px;
-  font-size: medium;
+  font-size: large;
   margin: 6px;
 }
 .tabAddButton:hover {
@@ -153,28 +176,4 @@ const handleEnterTab = (tabName) => {
             <AddButton />
         </div>
     </div>
-</template>
-
-<style scoped>
-.tabBar {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    border: black 1px solid;
-    overflow: hidden;
-    flex-wrap: wrap;
-    height: 90%;
-}
-
-.tabButton {
-    border: black 1px solid;
-    margin: 2px;
-    height: 50%;
-}
-
-.addButton {
-    border: black 1px solid;
-    margin: 2px;
-    height: 50%;
-}
-</style> -->
+</template> -->
