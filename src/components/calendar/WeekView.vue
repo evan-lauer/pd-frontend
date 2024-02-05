@@ -6,19 +6,10 @@ import { selectedDate } from 'src/stores/calendarStores';
 
 const calendar = new Calendar({ siblingMonths: true, weekNumbers: true });
 
-// const displayDays = computed(() => {
-//   return calendar.getCalendar(
-//     selectedDate.dateTime.getFullYear(),
-//     selectedDate.dateTime.getMonth()
-//   );
-// });
-
 const previousMonth = ref(calendar.getCalendar(
     selectedDate.dateTime.getFullYear(),
     selectedDate.dateTime.getMonth() - 1
   ));
-
-console.log('previousMonth: ', previousMonth.value[1]);
 
 const currentMonth = ref(calendar.getCalendar(
   selectedDate.dateTime.getFullYear(),
@@ -30,14 +21,7 @@ const nextMonth = ref(calendar.getCalendar(
     selectedDate.dateTime.getMonth() + 1
   ));
 
-// const displayDays = ref(calendar.getCalendar(
-//     selectedDate.dateTime.getFullYear(),
-//     selectedDate.dateTime.getMonth()
-//   ));
-
 const displayDays = ref([...previousMonth.value, ...currentMonth.value, ...nextMonth.value])
-
-console.log('displayDays: ', displayDays.value);
 
 function getWeekDays(weekDay) {
   switch (weekDay) {
@@ -74,7 +58,6 @@ function getDateIndex() {
 // return arr of days in week of today.
 function getDays() {
   const cal_index = getDateIndex();
-  console.log('cal_index: ', cal_index);
   const cur_day_weekday = displayDays.value[cal_index].weekDay;
   const start_date_index = cal_index - cur_day_weekday;
   const get_days_arr = [];
@@ -83,22 +66,33 @@ function getDays() {
   }
   return get_days_arr;
 }
+
+function isToday(cur_date) {
+  const today = new Date();
+  return (cur_date.day === today.getDate() &&
+    cur_date.month === today.getMonth() &&
+    cur_date.year === today.getFullYear());
+}
+
 userStore.getEvents();
 </script>
 
 <template>
-  {{ console.log(selectedDate.dateTime) }}
   <div class="weekContainer">
     <div
       v-for="day in 7"
       :key="day"
       :class="day === 1 ? `weekContainer first` : `weekContainer`"
     >
-      <div class="rowDisplay">
-        {{ getDays()[day - 1].day }}
-      </div>
-      <div class="rowDisplay dateHeader">
-        {{ getWeekDays(day - 1) }}
+      <div class="rowDisplay"
+        :style="isToday(getDays()[day - 1]) ? `color: #DD825F; font-weight: bold;` : ``"
+      >
+        <div class="rowDisplay">
+          {{ getDays()[day - 1].day }}
+        </div>
+        <div class="rowDisplay dateHeader">
+          {{ getWeekDays(day - 1) }}
+        </div>
       </div>
     </div>
   </div>
@@ -132,6 +126,7 @@ userStore.getEvents();
 .rowDisplay {
   display: flex;
   flex-direction: row;
+  padding-right: 5px;
 }
 .rowDisplay.dateHeader {
   font-size: 70%;

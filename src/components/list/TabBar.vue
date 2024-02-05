@@ -1,7 +1,6 @@
 <script setup>
 import { listsData } from 'src/stores/listStores';
 import { selectedTab } from 'src/stores/listStores';
-import { ref } from 'vue';
 
 // TODO: implement some if-statement so if there are 10 tabs, we prevent this function to be executed
 // TODO: make the unselected tabs a bit shorter
@@ -18,10 +17,11 @@ const changeSelectedTab = (tabId) => {
 }
 
 const makeEditable = (tabId) => {
-  console.log("in makeEditable")
   const tabName = document.getElementById(`tabName-${tabId}`)
   if (tabName) {
     tabName.readOnly = false;
+    tabName.style.borderColor = "blue";
+    tabName.style.cursor = "text";
   }
 }
 
@@ -29,6 +29,8 @@ const makeReadOnly = (tabId) => {
   const tabName = document.getElementById(`tabName-${tabId}`)
   if (tabName) {
     tabName.readOnly = true;
+    tabName.style.borderColor = "transparent";
+    tabName.style.cursor = "pointer";
   }
 }
 </script>
@@ -39,7 +41,7 @@ const makeReadOnly = (tabId) => {
     v-for="tabId in listsData.tabIds" :key="tabId">
     <input
     :id="'tabName-'+tabId"
-    :class="selectedTab.id === tabId ? `tabButton selected` : `tabButton`"
+    :class="selectedTab.id === tabId ? `tabName selected` : `tabName`"
     v-model="listsData.tabDict[tabId].label"
     @keyup.enter="handleEnterTab(tabName)"
     @click="changeSelectedTab(tabId)"
@@ -85,23 +87,23 @@ const makeReadOnly = (tabId) => {
   width: auto;
 }
 
-.tabButton {
+.tabName {
   display: flex;
   width: 70px;
   height: 20px;
   border: 1px solid transparent;
+  border-radius: 5px;
   align-items: center;
   padding: 2px 10px;
   text-align: center;
   overflow: auto;
-
 }
-.tabButton.selected {
+.tabName.selected {
   font-weight: bold;
   height: 85%;
   outline: none;
 }
-.tabButton:hover {
+.tabName:hover {
   cursor: pointer;
 }
 
