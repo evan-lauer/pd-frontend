@@ -1,27 +1,43 @@
 <script setup>
-import { ref } from 'vue';
+import { ref, watch } from 'vue';
 import { Calendar } from 'calendar-base';
 import userStore from 'src/stores/userStore';
 import { selectedDate } from 'src/stores/calendarStores';
 
 const calendar = new Calendar({ siblingMonths: true, weekNumbers: true });
 
-const previousMonth = ref(calendar.getCalendar(
+function previousMonth() {
+  return calendar.getCalendar(
     selectedDate.dateTime.getFullYear(),
     selectedDate.dateTime.getMonth() - 1
-  ));
+  )
+};
 
-const currentMonth = ref(calendar.getCalendar(
-  selectedDate.dateTime.getFullYear(),
-  selectedDate.dateTime.getMonth()
-));
+function currentMonth() {
+  return calendar.getCalendar(
+    selectedDate.dateTime.getFullYear(),
+    selectedDate.dateTime.getMonth()
+  )
+};
 
-const nextMonth = ref(calendar.getCalendar(
+function nextMonth() {
+  return calendar.getCalendar(
     selectedDate.dateTime.getFullYear(),
     selectedDate.dateTime.getMonth() + 1
-  ));
+  )
+};
 
-const displayDays = ref([...previousMonth.value, ...currentMonth.value, ...nextMonth.value])
+// const currentMonth = ref(calendar.getCalendar(
+//   selectedDate.dateTime.getFullYear(),
+//   selectedDate.dateTime.getMonth()
+// ));
+
+// const nextMonth = ref(calendar.getCalendar(
+//     selectedDate.dateTime.getFullYear(),
+//     selectedDate.dateTime.getMonth() + 1
+//   ));
+
+const displayDays = ref([...previousMonth(), ...currentMonth(), ...nextMonth()])
 
 function getWeekDays(weekDay) {
   switch (weekDay) {
@@ -75,6 +91,13 @@ function isToday(cur_date) {
 }
 
 userStore.getEvents();
+
+watch(
+  () => selectedDate.dateTime.getMonth(),
+  () => {
+    displayDays.value = [...previousMonth(), ...currentMonth(), ...nextMonth()];
+  }
+);
 </script>
 
 <template>
