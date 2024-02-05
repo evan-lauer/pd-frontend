@@ -49,11 +49,7 @@ export const selectedDate = reactive({
   },
   setToDate: (date) => {
     selectedDate.dateTime = new Date(
-      selectedDate.dateTime.setFullYear(
-        date.getFullYear(),
-        date.getMonth(),
-        date.getDate()
-      )
+      date
     )
   }
 });

@@ -66,12 +66,16 @@ userStore.getEvents();
     </div>
   </div>
   <div class= "datePickerDiv">
-    <input type="date" onsubmit="selectedDate.setToDate(date)">
-    <input type="submit">
+    <input type="date" id="newDate">
+    <button @click ="updateDate()">Submit</button>
   </div>
 
 </template>
-
+<script>
+function updateDate(){
+  selectedDate.setToDate(document.getElementById('newDate').value);
+}
+</script>
 <style scoped>
 .dayHeader {
   text-align: center;
