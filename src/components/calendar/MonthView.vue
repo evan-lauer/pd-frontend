@@ -99,7 +99,6 @@ function renderWeekHeader(week, day) {
           {{ getDayByIndex(week, day).day }}
         </div>
         <div class="eventsContainer">
-          <!-- <div @click="() => console.log('Clicked!')">Click me</div> -->
           <div
             class="eventSymbol"
             @click="() => eventMethods.displayEvent(eventA)"

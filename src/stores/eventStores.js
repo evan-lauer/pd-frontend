@@ -11,7 +11,12 @@ export const eventMethods = reactive ({
   displayEvent:(event) => {
     addEventForm.isFormActive = false;
     eventDetails.isDetailsActive = true;
-    console.log(event.eventId,event.title,event.description,event.startTime,event.endTime);
+
+    eventDetails.eventId = event.eventId;
+    eventDetails.title = event.title;
+    eventDetails.description = event.description;
+    eventDetails.startDateTime =new Date(event.startTime);
+    eventDetails.endDateTime = new Date(event.endTime);
 
   }
 })

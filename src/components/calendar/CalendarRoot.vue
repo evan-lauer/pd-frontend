@@ -21,6 +21,12 @@ import DatePicker from 'src/components/calendar/datePickers/DatePicker.vue';
 import CreateEventButton from 'src/components/calendar/CreateEventButton.vue';
 import CreateEventOverlay from 'src/components/calendar/CreateEventOverlay.vue';
 import { eventData } from 'src/stores/eventStores.js';
+import { eventDetails } from '../../stores/eventDetailsStores';
+
+function openEventForm() {
+  addEventForm.isFormActive = !addEventForm.isFormActive;
+  eventDetails.isDetailsActive = false;
+}
 </script>
 
 <template>
@@ -28,7 +34,7 @@ import { eventData } from 'src/stores/eventStores.js';
     <DatePicker />
     <div class="rightJustifiedInputs">
       <ModePicker />
-      <CreateEventButton @click="() => (addEventForm.isFormActive = !addEventForm.isFormActive)" />
+      <CreateEventButton @click="openEventForm()" />
       <!-- <CreateEventButton @click="() => eventData.addEvent(5)" />  -->
     </div>
   </div>
