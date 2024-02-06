@@ -1,27 +1,32 @@
 <script setup>
-import { ref } from 'vue';
+import { ref, watch } from 'vue';
 import { Calendar } from 'calendar-base';
 import userStore from 'src/stores/userStore';
+import { eventData } from '../../stores/eventStores';
 import { selectedDate } from 'src/stores/calendarStores';
 
 const calendar = new Calendar({ siblingMonths: true, weekNumbers: true });
 
-const previousMonth = ref(calendar.getCalendar(
+function previousMonth() {
+  return calendar.getCalendar(
     selectedDate.dateTime.getFullYear(),
     selectedDate.dateTime.getMonth() - 1
-  ));
-
-const currentMonth = ref(calendar.getCalendar(
-  selectedDate.dateTime.getFullYear(),
-  selectedDate.dateTime.getMonth()
-));
-
-const nextMonth = ref(calendar.getCalendar(
+  )
+};
+function currentMonth() {
+  return calendar.getCalendar(
+    selectedDate.dateTime.getFullYear(),
+    selectedDate.dateTime.getMonth()
+  )
+};
+function nextMonth() {
+  return calendar.getCalendar(
     selectedDate.dateTime.getFullYear(),
     selectedDate.dateTime.getMonth() + 1
-  ));
+  )
+};
 
-const displayDays = ref([...previousMonth.value, ...currentMonth.value, ...nextMonth.value])
+const displayDays = ref([...previousMonth(), ...currentMonth(), ...nextMonth()])
 
 function getWeekDays(weekDay) {
   switch (weekDay) {
@@ -74,7 +79,15 @@ function isToday(cur_date) {
     cur_date.year === today.getFullYear());
 }
 
+watch(
+  () => selectedDate.dateTime.getMonth(),
+  () => {
+    displayDays.value = [...previousMonth(), ...currentMonth(), ...nextMonth()];
+  }
+);
+
 userStore.getEvents();
+eventData.creatingDaysEventArray();
 </script>
 
 <template>
@@ -109,7 +122,7 @@ userStore.getEvents();
           :key="n"
           :class="i === 0 ? `hourContainer first` : `hourContainer`"
         >
-          <div v-if="day === 1">{{ i }}:00</div>
+          <div v-if="day === 1" class="times">{{ i }}:00</div>
         </div>
       </div>
     </div>
@@ -159,5 +172,9 @@ userStore.getEvents();
 
 .dateNumber.lastMonth {
   color: #9098a1;
+}
+
+.times {
+  font-size: 13px;
 }
 </style>
