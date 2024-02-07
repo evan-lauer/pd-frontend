@@ -1,36 +1,7 @@
 <script setup>
-
-import { computed } from 'vue';
-import { Calendar } from 'calendar-base';
 import { selectedDate } from 'src/stores/calendarStores';
 import userStore from 'src/stores/userStore';
 
-const calendar = new Calendar({ siblingMonths: true, weekNumbers: true });
-
-const displayDays = computed(() => {
-  return calendar.getCalendar(selectedDate.date.getYear(), selectedDate.date.getMonth());
-});
-
-// 1 indexed
-function getDayByIndex(week, day) {
-  const index = (week - 1) * 7 + (day - 1);
-  if (displayDays.value[index]) {
-    return displayDays.value[index];
-  } else {
-    return false;
-  }
-}
-function currentTime(){
-  let date = new Date(); 
-    let hh = date.getHours();
-  
-    setInterval(function(){
-      currentTime();
-      document.getElementById(hh-1).style.color = 'black';
-      document.getElementById(hh).style.color = 'red';
-
-    }, 6000);
-}
 userStore.getEvents();
 </script>
 
