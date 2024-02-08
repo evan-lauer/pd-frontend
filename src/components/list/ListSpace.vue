@@ -5,12 +5,10 @@ TODO: @enter, create a new textarea RIGHT BELOW the currently focused textarea. 
 <script setup>
 import { selectedTab, listsData } from 'src/stores/listStores';
 
-const handleEnterList = (indexOfPrevItem) => {
+const handleEnterList = (itemId) => {
   const itemName = '';
-  console.log("in handleEnterList");
-  // have to retrieve the index of the textarea that we are currently in, rather than the index of the most recently
-  // added item
-  console.log(indexOfPrevItem);
+  const findItem = listsData.tabDict[selectedTab.id].items.find(item => item.id === itemId);
+  const indexOfPrevItem = listsData.tabDict[selectedTab.id].items.indexOf(findItem);
   const newId = listsData.addItem(selectedTab.id, itemName, indexOfPrevItem);
 
   setTimeout(() => {
@@ -22,7 +20,6 @@ const handleEnterList = (indexOfPrevItem) => {
 };
 
 const handleItemDelete = (itemId, event) => {
-  // maybe the find used below is not finding the object so it's returning -1
   const findItem = listsData.tabDict[selectedTab.id].items.find(item => item.id === itemId);
   if (findItem.label === '' && event.key === "Backspace"){
     listsData.deleteItem(selectedTab.id, itemId);
@@ -45,7 +42,7 @@ const handleItemDelete = (itemId, event) => {
       :id="'textArea-' + item.id"
       class="itemName"
       v-model="item.label"
-      @keyup.enter="handleEnterList(listsData.tabDict[selectedTab.id].items.indexOf(listsData.tabDict[selectedTab.id].items.find(item => item.id === itemId)))"
+      @keyup.enter="handleEnterList(item.id)"
       @keydown.enter.prevent
       @keydown="handleItemDelete(item.id, $event)"
       :style="{ 'text-decoration': item.checked ? 'line-through' : 'none' }"

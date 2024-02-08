@@ -1,5 +1,5 @@
 <!-- Sourced from: https://dev.to/maxwelladapoe/creating-a-custom-checkbox-component-in-vue-3-a-better-approach-2jjd -->
-
+<!-- not in use -->
 <script setup >
 import { computed, defineEmits } from "vue";
 const props = defineProps({

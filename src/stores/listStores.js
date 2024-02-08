@@ -38,7 +38,7 @@ export const listsData = reactive({
       id: itemId,
       checked: false,
     }
-    listsData.tabDict[tabId].items.splice(indexOfPrevItem, 0, newItem)
+    listsData.tabDict[tabId].items.splice(indexOfPrevItem + 1, 0, newItem)
     // listsData.tabDict[tabId].items.push({
       //   label:itemLabel,
       //   id: itemId,
