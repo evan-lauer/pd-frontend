@@ -5,8 +5,6 @@ export const eventDetails = reactive({
   title: '',
   description: '',
   startDateTime: Date,
-  // startTime: '',
   endDateTime: Date,
-  // endTime: '',
   eventId: ''
 });

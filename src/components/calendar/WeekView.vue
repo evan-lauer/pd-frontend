@@ -1,27 +1,26 @@
 <script setup>
-import { ref } from 'vue';
+import { ref, watch } from 'vue';
 import { Calendar } from 'calendar-base';
 import userStore from 'src/stores/userStore';
 import { selectedDate } from 'src/stores/calendarStores';
+import { eventData, eventMethods } from '../../stores/eventStores';
+import EventStar from './events/EventStar.vue';
 
 const calendar = new Calendar({ siblingMonths: true, weekNumbers: true });
 
-const previousMonth = ref(calendar.getCalendar(
-    selectedDate.dateTime.getFullYear(),
-    selectedDate.dateTime.getMonth() - 1
-  ));
+const previousMonth = ref(
+  calendar.getCalendar(selectedDate.dateTime.getFullYear(), selectedDate.dateTime.getMonth() - 1)
+);
 
-const currentMonth = ref(calendar.getCalendar(
-  selectedDate.dateTime.getFullYear(),
-  selectedDate.dateTime.getMonth()
-));
+const currentMonth = ref(
+  calendar.getCalendar(selectedDate.dateTime.getFullYear(), selectedDate.dateTime.getMonth())
+);
 
-const nextMonth = ref(calendar.getCalendar(
-    selectedDate.dateTime.getFullYear(),
-    selectedDate.dateTime.getMonth() + 1
-  ));
+const nextMonth = ref(
+  calendar.getCalendar(selectedDate.dateTime.getFullYear(), selectedDate.dateTime.getMonth() + 1)
+);
 
-const displayDays = ref([...previousMonth.value, ...currentMonth.value, ...nextMonth.value])
+const displayDays = ref([...previousMonth.value, ...currentMonth.value, ...nextMonth.value]);
 
 function getWeekDays(weekDay) {
   switch (weekDay) {
@@ -48,10 +47,12 @@ function getWeekDays(weekDay) {
 function getDateIndex() {
   const cur_date = selectedDate.dateTime;
   for (let i = 0; i < displayDays.value.length; i++) {
-    if (displayDays.value[i].day === cur_date.getDate() && 
-      displayDays.value[i].month === cur_date.getMonth()) {
-        return i;
-      }
+    if (
+      displayDays.value[i].day === cur_date.getDate() &&
+      displayDays.value[i].month === cur_date.getMonth()
+    ) {
+      return i;
+    }
   }
 }
 
@@ -69,50 +70,81 @@ function getDays() {
 
 function isToday(cur_date) {
   const today = new Date();
-  return (cur_date.day === today.getDate() &&
+  return (
+    cur_date.day === today.getDate() &&
     cur_date.month === today.getMonth() &&
-    cur_date.year === today.getFullYear());
+    cur_date.year === today.getFullYear()
+  );
+}
+function getDayByIndex(week, day) {
+  const index = (week - 1) * 7 + (day - 1);
+  if (displayDays.value[index]) {
+    return displayDays.value[index];
+  } else {
+    return false;
+  }
 }
 
 userStore.getEvents();
+eventData.creatingWeeksEventArray();
+watch(
+  () => eventData.getWeekOutOfYear(selectedDate.dateTime, new Date().getFullYear()),
+  () => {
+    // This ensures that the numsEventsArray is reset when the month is changed
+    userStore.getEvents();
+    eventData.creatingWeeksEventArray();
+  }
+);
 </script>
 
 <template>
-    <div class="weekContainer">
+  <div class="weekContainer">
+    <div
+      v-for="day in 7"
+      :key="day"
+      :class="day === 1 ? `weekContainer first` : `weekContainer`"
+    >
       <div
-        v-for="day in 7"
-        :key="day"
-        :class="day === 1 ? `weekContainer first` : `weekContainer`"
+        class="rowDisplay"
+        :style="isToday(getDays()[day - 1]) ? `color: #DD825F; font-weight: bold;` : ``"
       >
-        <div class="rowDisplay"
-          :style="isToday(getDays()[day - 1]) ? `color: #DD825F; font-weight: bold;` : ``"
-        >
-          <div class="rowDisplay">
-            {{ getDays()[day - 1].day }}
-          </div>
-          <div class="rowDisplay dateHeader">
-            {{ getWeekDays(day - 1) }}
-          </div>
+        <div class="rowDisplay">
+          {{ getDays()[day - 1].day }}
+        </div>
+        <div class="rowDisplay dateHeader">
+          {{ getWeekDays(day - 1) }}
         </div>
       </div>
     </div>
-    <div class="contentDiv">
-      <div
-        class="dayContainer"
-        v-for="day in 7"
-        :key="day"
-        :class="day === 1 ? `dayContainer first` : `dayContainer`"
-      >
+  </div>
+  <div class="contentDiv">
+    <div
+      class="dayContainer"
+      v-for="day in 7"
+      :key="day"
+      :class="day === 1 ? `dayContainer first` : `dayContainer`"
+    >
+      <div class="eventsContainer">
         <div
-          class="hourContainer"
-          v-for="(n, i) in 24"
-          :key="n"
-          :class="i === 0 ? `hourContainer first` : `hourContainer`"
+          class="eventSymbol"
+          @click="() => eventMethods.displayEvent(eventA)"
+          v-for="eventA of eventData.weeklyEvents[day]"
+          :key="eventA"
         >
-          <div v-if="day === 1">{{ i }}:00</div>
+          <EventStar />
+          <!-- Current issue: For some reason, Monday grabs events from one week in the future -->
         </div>
       </div>
+      <div
+        class="hourContainer"
+        v-for="(n, i) in 24"
+        :key="n"
+        :class="i === 0 ? `hourContainer first` : `hourContainer`"
+      >
+        <div v-if="day === 1">{{ i }}:00</div>
+      </div>
     </div>
+  </div>
 </template>
 
 <style scoped>
