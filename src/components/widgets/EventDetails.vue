@@ -35,7 +35,6 @@ import { eventDetails } from '../../stores/eventDetailsStores';
   flex-wrap: nowrap;
   flex-direction: column;
   justify-content: space-evenly;
-  padding: 15px;
 }
 .eventDisplayHeader {
   display: flex;

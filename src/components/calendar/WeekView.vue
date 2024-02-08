@@ -8,19 +8,26 @@ import EventStar from './events/EventStar.vue';
 
 const calendar = new Calendar({ siblingMonths: true, weekNumbers: true });
 
-const previousMonth = ref(
-  calendar.getCalendar(selectedDate.dateTime.getFullYear(), selectedDate.dateTime.getMonth() - 1)
-);
+function previousMonth() {
+  return calendar.getCalendar(
+    selectedDate.dateTime.getFullYear(),
+    selectedDate.dateTime.getMonth() - 1
+  );
+}
+function currentMonth() {
+  return calendar.getCalendar(
+    selectedDate.dateTime.getFullYear(),
+    selectedDate.dateTime.getMonth()
+  );
+}
+function nextMonth() {
+  return calendar.getCalendar(
+    selectedDate.dateTime.getFullYear(),
+    selectedDate.dateTime.getMonth() + 1
+  );
+}
 
-const currentMonth = ref(
-  calendar.getCalendar(selectedDate.dateTime.getFullYear(), selectedDate.dateTime.getMonth())
-);
-
-const nextMonth = ref(
-  calendar.getCalendar(selectedDate.dateTime.getFullYear(), selectedDate.dateTime.getMonth() + 1)
-);
-
-const displayDays = ref([...previousMonth.value, ...currentMonth.value, ...nextMonth.value]);
+const displayDays = ref([...previousMonth(), ...currentMonth(), ...nextMonth()]);
 
 function getWeekDays(weekDay) {
   switch (weekDay) {
@@ -85,6 +92,13 @@ function getDayByIndex(week, day) {
   }
 }
 
+watch(
+  () => selectedDate.dateTime.getMonth(),
+  () => {
+    displayDays.value = [...previousMonth(), ...currentMonth(), ...nextMonth()];
+  }
+);
+
 userStore.getEvents();
 eventData.creatingWeeksEventArray();
 watch(
@@ -133,6 +147,12 @@ watch(
         >
           <EventStar />
           <!-- Current issue: For some reason, Monday grabs events from one week in the future -->
+          <div
+            v-if="day === 1"
+            class="times"
+          >
+            {{ i }}:00
+          </div>
         </div>
       </div>
       <div
@@ -191,5 +211,9 @@ watch(
 
 .dateNumber.lastMonth {
   color: #9098a1;
+}
+
+.times {
+  font-size: 13px;
 }
 </style>
