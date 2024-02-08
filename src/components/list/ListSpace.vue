@@ -21,8 +21,12 @@ const handleEnterList = (itemId) => {
 
 const handleItemDelete = (itemId, event) => {
   const findItem = listsData.tabDict[selectedTab.id].items.find(item => item.id === itemId);
-  if (findItem.label === '' && event.key === "Backspace"){
+  if (findItem.label === '' && event.key === "Backspace" && listsData.tabDict[selectedTab.id].items.length != 1){
+    const indexOfPrev = listsData.tabDict[selectedTab.id].items.indexOf(findItem) - 1;
+    const idOfPrev = listsData.tabDict[selectedTab.id].items[indexOfPrev].id;
     listsData.deleteItem(selectedTab.id, itemId);
+    const previousTextarea = document.getElementById(`textArea-${idOfPrev}`);
+    previousTextarea.focus();
   }
 }
 </script>
