@@ -215,7 +215,7 @@ export const eventData = reactive({
       }
     ]
 
-    for (const item of testEvents) {
+    for (const item of eventData.theEvents) {
       const date = new Date(item['startTime']); 
       const eventMonth = date.getMonth();
       const eventYear = date.getFullYear();
@@ -269,6 +269,46 @@ export const eventData = reactive({
         endTime: "2024-01-23T06:00:00.000Z",
         eventId: "7qvWWpcvci",
         startTime: "2024-01-23T06:00:00.000Z",
+        title: "New Event",
+        userId: "test-user",
+      },
+      {
+        description: "bai",
+        endTime: "2024-01-24T06:00:00.000Z",
+        eventId: "7qvWWpcvci",
+        startTime: "2024-01-24T06:00:00.000Z",
+        title: "New Event",
+        userId: "test-user",
+      },
+      {
+        description: "bai",
+        endTime: "2024-01-25T06:00:00.000Z",
+        eventId: "7qvWWpcvci",
+        startTime: "2024-01-25T06:00:00.000Z",
+        title: "New Event",
+        userId: "test-user",
+      },
+      {
+        description: "bai",
+        endTime: "2024-01-26T06:00:00.000Z",
+        eventId: "7qvWWpcvci",
+        startTime: "2024-01-26T06:00:00.000Z",
+        title: "New Event",
+        userId: "test-user",
+      },
+      {
+        description: "bai",
+        endTime: "2024-01-27T06:00:00.000Z",
+        eventId: "7qvWWpcvci",
+        startTime: "2024-01-27T06:00:00.000Z",
+        title: "New Event",
+        userId: "test-user",
+      },
+      {
+        description: "bai",
+        endTime: "2024-01-21T06:00:00.000Z",
+        eventId: "7qvWWpcvci",
+        startTime: "2024-01-21T06:00:00.000Z",
         title: "New Event",
         userId: "test-user",
       },
@@ -393,7 +433,7 @@ export const eventData = reactive({
       }
     ]
 
-    for (const item of testEvents) {
+    for (const item of eventData.theEvents) {
       const date = new Date(item['startTime']); 
       const eventMonth = date.getMonth();
       const eventYear = date.getFullYear();
@@ -402,10 +442,10 @@ export const eventData = reactive({
       
       if (month === eventMonth && year === eventYear && weekNumber === eventWeekNumber) {
         const eventDay = date.getDay();
-        if (!eventData.weeklyEvents[eventDay+1]) {
-            eventData.weeklyEvents[eventDay+1] = [];
+        if (!eventData.weeklyEvents[eventDay]) {
+            eventData.weeklyEvents[eventDay] = [];
         }
-        eventData.weeklyEvents[eventDay+1].push(item);
+        eventData.weeklyEvents[eventDay].push(item);
     }
     
   

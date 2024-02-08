@@ -142,7 +142,7 @@ watch(
         <div
           class="eventSymbol"
           @click="() => eventMethods.displayEvent(eventA)"
-          v-for="eventA of eventData.weeklyEvents[day]"
+          v-for="eventA of eventData.weeklyEvents[day - 1]"
           :key="eventA"
         >
           <EventStar />
