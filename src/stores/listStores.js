@@ -68,32 +68,3 @@ export const listsData = reactive({
 export const selectedTab = reactive({
   id: '0'
 });
-
-export const test = reactive({
-  createList: (listTitle) => {
-    const uid = new ShortUniqueId({ length: 10 });
-    const listId = uid.rnd();
-    const options = {
-      method: 'PUT',
-      url: `${API_ENDPOINT}/ListItems`,
-      headers: {
-        'content-type': 'application/json'
-      },
-      data: {
-        userId: TEST_USER_ID,
-        listId: listId,
-        listTitle: listTitle,
-        itemId: -1,
-        itemContent: ''
-      }
-    };
-    axios
-      .request(options)
-      .then((res) => {
-        console.log(res);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }
-});
