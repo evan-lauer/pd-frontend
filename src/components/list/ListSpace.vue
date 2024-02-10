@@ -1,7 +1,3 @@
-<!--
-TODO: automatically switch the text cursor to the newly created item
-TODO: @enter, create a new textarea RIGHT BELOW the currently focused textarea. might use indexOf function to do this-->
-
 <script setup>
 import { selectedTab, listsData, test } from 'src/stores/listStores';
 
@@ -31,6 +27,7 @@ const handleItemDelete = (itemId, event) => {
     listsData.deleteItem(selectedTab.id, itemId);
     const previousTextarea = document.getElementById(`textArea-${idOfPrev}`);
     previousTextarea.focus();
+    event.preventDefault()
   }
 };
 </script>
