@@ -3,7 +3,7 @@ import { addEventForm } from 'src/stores/addEventFormStores';
 import AddEventForm from 'src/components/widgets/AddEventForm.vue';
 import EventDetails from 'src/components/widgets/EventDetails.vue';
 import { eventDetails } from 'src/stores/eventDetailsStores';
-import TimeVisualizer from 'src/components/widgets/TimeVisualizer.vue'
+import VisualizerWidgets from 'src/components/widgets/VisualizerWidgets.vue'
 </script>
 <template>
   <div class="leftPanel">
@@ -11,19 +11,19 @@ import TimeVisualizer from 'src/components/widgets/TimeVisualizer.vue'
     <EventDetails v-if="eventDetails.isDetailsActive" />
   </div>
   <div class="rightPanel">
-    <TimeVisualizer />
+    <VisualizerWidgets />
   </div>
 </template>
 <style scoped>
 .leftPanel,
 .rightPanel {
   width: 50%;
-  height: 100%;
+  height: auto;
   font-size: small;
-  padding: 15px;
+  padding: 10px;
 }
-.test {
+/* .test {
   width: 50%;
   height: 50%;
-}
+} */
 </style>
