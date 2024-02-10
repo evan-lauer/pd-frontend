@@ -1,10 +1,7 @@
-import ShortUniqueId from 'short-unique-id';
 import axios from 'axios';
 
 const API_ENDPOINT = `https://47dfxcjp8i.execute-api.us-east-2.amazonaws.com`;
 const TEST_USER_ID = `test-user`;
-
-const uid = new ShortUniqueId({ length: 10 });
 
 // Calendar backend functions:
 
@@ -49,8 +46,7 @@ export const deleteCalendarEvent = async (eventId) => {
 // Create a new list with the given title
 //
 // Return the id of the created list
-export const createList = async (listTitle) => {
-  const listId = uid.rnd();
+export const createList = async (listId, listTitle) => {
   const options = {
     method: 'PUT',
     url: `${API_ENDPOINT}/ListItems`,
@@ -62,7 +58,8 @@ export const createList = async (listTitle) => {
       listId: listId,
       listTitle: listTitle,
       itemId: '-1',
-      itemContent: ''
+      itemContent: '',
+      timestamp: Date.now()
     }
   };
   const res = await axios.request(options);
@@ -77,8 +74,7 @@ export const createList = async (listTitle) => {
 // Add a new item with the given content to the given list
 //
 // Return the ID of the created item
-export const putListItem = async (listId, listTitle, itemContent) => {
-  const itemId = uid.rnd();
+export const putListItem = async (listId, listTitle, itemId, itemContent) => {
   const options = {
     method: 'PUT',
     url: `${API_ENDPOINT}/ListItems`,
@@ -90,7 +86,8 @@ export const putListItem = async (listId, listTitle, itemContent) => {
       listId: listId,
       listTitle: listTitle,
       itemId: itemId,
-      itemContent: itemContent
+      itemContent: itemContent,
+      timestamp: Date.now()
     }
   };
   const res = await axios.request(options);
@@ -130,6 +127,7 @@ export const deleteList = async (listId) => {
   } else {
     console.log(res);
   }
+  return res;
 };
 
 // Delete the specified item from the specified list
@@ -144,4 +142,5 @@ export const deleteListItem = async (listId, itemId) => {
   } else {
     console.log(res);
   }
+  return res;
 };

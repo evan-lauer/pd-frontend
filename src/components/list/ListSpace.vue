@@ -1,5 +1,5 @@
 <script setup>
-import { selectedTab, listsData, test } from 'src/stores/listStores';
+import { selectedTab, listsData } from 'src/stores/listStores';
 
 const handleEnterList = (itemId) => {
   const itemName = '';
@@ -27,7 +27,7 @@ const handleItemDelete = (itemId, event) => {
     listsData.deleteItem(selectedTab.id, itemId);
     const previousTextarea = document.getElementById(`textArea-${idOfPrev}`);
     previousTextarea.focus();
-    event.preventDefault()
+    event.preventDefault();
   }
 };
 </script>
