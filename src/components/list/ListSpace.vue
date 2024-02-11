@@ -1,13 +1,9 @@
-<!--
-TODO: automatically switch the text cursor to the newly created item
-TODO: @enter, create a new textarea RIGHT BELOW the currently focused textarea. might use indexOf function to do this-->
-
 <script setup>
-import { selectedTab, listsData } from 'src/stores/listStores';
+import { selectedTab, listsData, test } from 'src/stores/listStores';
 
 const handleEnterList = (itemId) => {
   const itemName = '';
-  const findItem = listsData.tabDict[selectedTab.id].items.find(item => item.id === itemId);
+  const findItem = listsData.tabDict[selectedTab.id].items.find((item) => item.id === itemId);
   const indexOfPrevItem = listsData.tabDict[selectedTab.id].items.indexOf(findItem);
   const newId = listsData.addItem(selectedTab.id, itemName, indexOfPrevItem);
 
@@ -20,15 +16,20 @@ const handleEnterList = (itemId) => {
 };
 
 const handleItemDelete = (itemId, event) => {
-  const findItem = listsData.tabDict[selectedTab.id].items.find(item => item.id === itemId);
-  if (findItem.label === '' && event.key === "Backspace" && listsData.tabDict[selectedTab.id].items.length != 1){
+  const findItem = listsData.tabDict[selectedTab.id].items.find((item) => item.id === itemId);
+  if (
+    findItem.label === '' &&
+    event.key === 'Backspace' &&
+    listsData.tabDict[selectedTab.id].items.length != 1
+  ) {
     const indexOfPrev = listsData.tabDict[selectedTab.id].items.indexOf(findItem) - 1;
     const idOfPrev = listsData.tabDict[selectedTab.id].items[indexOfPrev].id;
     listsData.deleteItem(selectedTab.id, itemId);
     const previousTextarea = document.getElementById(`textArea-${idOfPrev}`);
     previousTextarea.focus();
+    event.preventDefault()
   }
-}
+};
 </script>
 
 <template>

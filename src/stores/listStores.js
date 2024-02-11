@@ -1,10 +1,14 @@
 import ShortUniqueId from 'short-unique-id';
+import axios from 'axios';
 import { reactive } from 'vue';
+
+const API_ENDPOINT = `https://47dfxcjp8i.execute-api.us-east-2.amazonaws.com`;
+const TEST_USER_ID = `test-user`;
 
 export const listsData = reactive({
   // tabs will be a 2d array
   // TODO: (1) alter the first, hardcoded tab
-  
+
   tabIds: ['0'],
 
   tabDict: {
@@ -15,9 +19,9 @@ export const listsData = reactive({
           label: 'first',
           id: '1',
           checked: false
-        },
-      ],
-    },
+        }
+      ]
+    }
   },
   addTab: (tabName) => {
     // add a new tab to the dict of tabs
@@ -26,7 +30,7 @@ export const listsData = reactive({
     listsData.tabIds.push(tabId);
     listsData.tabDict[tabId] = {
       items: [],
-      label: tabName,
+      label: tabName
     };
   },
   addItem: (tabId, itemLabel, indexOfPrevItem) => {
@@ -34,15 +38,15 @@ export const listsData = reactive({
     const suid = new ShortUniqueId({ length: 10 });
     const itemId = suid.rnd();
     const newItem = {
-      label:itemLabel,
+      label: itemLabel,
       id: itemId,
-      checked: false,
-    }
-    listsData.tabDict[tabId].items.splice(indexOfPrevItem + 1, 0, newItem)
+      checked: false
+    };
+    listsData.tabDict[tabId].items.splice(indexOfPrevItem + 1, 0, newItem);
     // listsData.tabDict[tabId].items.push({
-      //   label:itemLabel,
-      //   id: itemId,
-      //   checked: false,
+    //   label:itemLabel,
+    //   id: itemId,
+    //   checked: false,
     // });
     return itemId;
   },
