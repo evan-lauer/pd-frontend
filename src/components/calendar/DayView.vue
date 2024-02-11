@@ -45,11 +45,11 @@ watch(
       >
 
         {{ hour - 1 }}:00
-        <div class="eventsContainer">
+              <div class="eventsContainer">
         <div
           class="eventSymbol"
           @click="() => eventMethods.displayEvent(eventA)"
-          v-for="eventA of eventData.monthlyEvents[selectedDate.dateTime]"
+          v-for="eventA of //i don't know how to finish this statement
           :key="eventA"
         >
           <EventStar />
