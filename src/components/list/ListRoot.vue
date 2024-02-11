@@ -22,12 +22,13 @@ import TabBar from 'src/components/list/TabBar.vue';
   vertical-align: left;
   padding: 10px;
   overflow: hidden;
-  border-bottom: 1px solid green;
   align-items: flex-end;
+  background-color: rgb(255, 194, 194);
+  border-bottom: 2px solid rgb(244, 192, 192);
 }
 
 .lists {
-  padding: 5px;
+  padding: 10px;
   max-height: 85vh;
   overflow-y: auto;
   align-items: flex-end;

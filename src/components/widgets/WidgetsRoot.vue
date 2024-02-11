@@ -14,6 +14,7 @@ import VisualizerWidgets from 'src/components/widgets/VisualizerWidgets.vue'
     <VisualizerWidgets />
   </div>
 </template>
+
 <style scoped>
 .leftPanel,
 .rightPanel {
