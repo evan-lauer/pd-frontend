@@ -103,6 +103,7 @@ function renderWeekHeader(week, day) {
             class="eventSymbol"
             @click="() => eventMethods.displayEvent(eventA)"
             v-for="eventA of eventData.monthlyEvents[getDayByIndex(week, day).day]"
+            v-if="getDayByIndex(week, day).month === selectedDate.dateTime.getMonth()"
             :key="eventA"
           >
             <EventStar />

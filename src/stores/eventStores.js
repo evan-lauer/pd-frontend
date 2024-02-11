@@ -26,17 +26,16 @@ export const eventData = reactive({
   monthlyEvents: Array.from(new Array(31), function () {
     return [];
   }),
-  weeklyEvents: Array.from(new Array(7), function () {
-    return [];
-  }),
+  weeklyEvents: {},
 
   reset: () => {
     eventData.monthlyEvents = Array.from(new Array(31), function () {
       return [];
     });
-    eventData.weeklyEvents = Array.from(new Array(7), function () {
-      return [];
-    });
+    // eventData.weeklyEvents = Array.from(new Array(7), function () {
+    //   return [];
+    // });
+    eventData.weeklyEvents = {};
   },
 
   // functions
@@ -234,17 +233,24 @@ export const eventData = reactive({
   },
   creatingWeeksEventArray: () => {
     eventData.reset();
-    const month = selectedDate.dateTime.getMonth();
-    const year = selectedDate.dateTime.getFullYear();
+    // const month = selectedDate.dateTime.getMonth();
+    // const year = selectedDate.dateTime.getFullYear();
+    const day = selectedDate.dateTime.getDate();
 
-    const weekNumber = eventData.getWeekOutOfYear(selectedDate.dateTime, year);
-
+    // const weekNumber = eventData.getWeekOutOfYear(selectedDate.dateTime, year);
+    // selectedDate is currently the saturday (last day) of the week
+    // code written with assumption that this will be changed to be the first day of the week
+    // once it's changed, the below code should be:
+    // const endDate = selectedDate.dateTime + 6
+    const endDate = selectedDate.dateTime
+    const startDate = new Date(endDate)
+    startDate.setDate(startDate.getDate() - 7)
     const testEvents = [
       {
         description: 'hi',
-        endTime: '2024-01-22T06:00:00.000Z',
+        endTime: '2024-01-21T06:00:00.000Z',
         eventId: '5TZIPTLMGs',
-        startTime: '2024-01-22T06:00:00.000Z',
+        startTime: '2024-01-21T06:00:00.000Z',
         title: 'New Event',
         userId: 'test-user'
       },
@@ -433,19 +439,20 @@ export const eventData = reactive({
       }
     ];
 
-    for (const item of eventData.theEvents) {
+    for (const item of testEvents) {
       const date = new Date(item['startTime']);
       const eventMonth = date.getMonth();
       const eventYear = date.getFullYear();
+      const eventDate = date.getDate();
 
-      const eventWeekNumber = eventData.getWeekOutOfYear(date, year);
-
-      if (month === eventMonth && year === eventYear && weekNumber === eventWeekNumber) {
+      // const eventWeekNumber = eventData.getWeekOutOfYear(date, year);
+      console.log("start", startDate, "event", date, "end", endDate)
+      if (startDate <= date && date <= endDate) {
         const eventDay = date.getDay();
-        if (!eventData.weeklyEvents[eventDay]) {
-          eventData.weeklyEvents[eventDay] = [];
+        if (!(eventDate in eventData.weeklyEvents)) {
+          eventData.weeklyEvents[eventDate] = [];
         }
-        eventData.weeklyEvents[eventDay].push(item);
+        eventData.weeklyEvents[eventDate].push(item);
       }
     }
     console.log('Weeks Events Array: ', eventData.weeklyEvents);
