@@ -246,7 +246,9 @@ export const eventData = reactive({
         eventId: "5TZIPTLMGs",
         startTime: "2024-01-22T06:00:00.000Z",
         title: "New Event",
-        userId: "test-user"
+        userId: "test-user",
+        tag: "School",
+        tagColor: "Red"
       },
       {
         description: "hi",
