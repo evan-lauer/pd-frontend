@@ -2,6 +2,16 @@
 TODO: have a circle that represents a certain tab in list and show the percentage of tasks completed-->
 
 <script setups>
+import { computed } from 'vue';
+import { Calendar } from 'calendar-base';
+import { selectedDate } from 'src/stores/calendarStores';
+import userStore from 'src/stores/userStore';
+import { eventData, eventMethods } from '../../stores/eventStores';
+// import { getDayByIndex } from 'src/components/calendar/MonthView.vue';
+
+// const event = () => {
+//     eventData.monthlyEvents[getDayByIndex(week, day).day]
+// }
 </script>
 
 <template>
@@ -11,12 +21,59 @@ TODO: have a circle that represents a certain tab in list and show the percentag
             <div class="taskCircle"></div>
         </div>
         <div class="barContainer">
-            <div class="dayVisualizer"></div>
+            <div class="dayVisualizer">
+                <div class="eventDivs"></div>
+                <!-- this will be called when the day container is clicked on. Using the day info passed, 
+                this will gather the events from eventStores and do a v-for for the events in the given day -->
+            </div>
         </div>
     </div>
-    <!-- call a function that gets the events for the given day. Probably won't have enough space to display
-    all tasks so we can count the number of tasks in each tag. Maybe also mention what the upcoming task for today is?-->
 </template>
+
+
+<!-- example code -->
+<!-- <template>
+    <div class="dayBar">
+      <div
+        v-for="(task, index) in tasks"
+        :key="index"
+        :style="{ left: getLeftOffset(task.startTime), width: getWidth(task.startTime, task.endTime) }"
+        class="taskBlock"
+      ></div>
+    </div>
+  </template>
+  
+  <script>
+  export default {
+    data() {
+      return {
+        tasks: [
+          { startTime: 8, endTime: 10 }, // Example tasks with start and end times in hours
+          { startTime: 12, endTime: 15 },
+          { startTime: 18, endTime: 20 }
+        ]
+      };
+    },
+    methods: {
+      getLeftOffset(startTime) {
+        return `${(startTime / 24) * 100}%`; // Convert start time to percentage for left offset
+      },
+      getWidth(startTime, endTime) {
+        return `${((endTime - startTime) / 24) * 100}%`; // Convert duration to percentage for width
+      }
+    }
+  };
+  </script>
+  
+  <style scoped>
+  .taskBlock {
+    position: absolute;
+    top: 0;
+    height: 100%;
+    background-color: #007bff; /* Example color for task blocks */
+  }
+  </style> -->
+
 
 <style scoped>
 .widgetContainer {
@@ -67,5 +124,9 @@ TODO: have a circle that represents a certain tab in list and show the percentag
     width: 90%;
     border: 1px solid black;
     border-radius: 10px;
+}
+.eventDivs {
+    width: 10%;
+    border: 1px solid orange;
 }
 </style>

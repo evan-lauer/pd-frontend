@@ -43,11 +43,6 @@ export const listsData = reactive({
       checked: false
     };
     listsData.tabDict[tabId].items.splice(indexOfPrevItem + 1, 0, newItem);
-    // listsData.tabDict[tabId].items.push({
-    //   label:itemLabel,
-    //   id: itemId,
-    //   checked: false,
-    // });
     return itemId;
   },
   deleteTab: (tabId) => {
