@@ -13,22 +13,24 @@ import SimpleButton from 'src/components/icons/SimpleButton.vue';
     </h1>
     <RightChevron @click="() => selectedDate.incrementDay()" />
     <h1 class="yearHeader"> {{ selectedDate.dateTime.getFullYear() }}</h1>
+    
+  </div>
+    <div class="buttons">
+
+  <SimpleButton 
+    inner-text="Today"
+    @click="() => selectedDate.setToToday()"
+  />
+
   </div>
   <!-- TODO: these buttons are not functional right now
     and not in line with the month and year headers -->
-  <div class="buttons">
 
-      <SimpleButton 
-        inner-text="Today"
-        @click="() => selectedDate.setToToday()"
-      />
-
-    </div>
 </template>
 
 <style scoped>
 .monthHeader {
-  font-size: 36px;
+  font-size: 32px;
   font-weight: 700;
   margin: 0;
   width: 200px;
