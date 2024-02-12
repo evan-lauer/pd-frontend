@@ -101,6 +101,22 @@ watch(
     eventData.creatingWeeksEventArray();
   }
 );
+
+// calculations need some fixing (like the top one probably)
+
+// event container height component
+function calculate_height(startTime, endTime) {
+  const start_date = new Date(startTime);
+  const end_date = new Date(endTime);
+  const height = (end_date.getHours() - start_date.getHours()) * 47;
+  return height + 'px';
+}
+// event container top component
+function calculate_top(startTime) {
+  const date = new Date(startTime);
+  const top_percent = 24 + (date.getHours() * 48)
+  return top_percent + "px";
+}
 </script>
 
 <template>
@@ -144,9 +160,11 @@ watch(
           </div>
         </div>
       </div>
-      <div class="eventsContainer rowDisplay">
+      <div>
+        <!-- known bug: event container doesn't move with scrolling right now -->
         <div
-          class="eventSymbol"
+          class="eventSymbol eventsContainer"
+          :style="{height:calculate_height(eventA.startTime, eventA.endTime), top:calculate_top(eventA.startTime)}"
           @click="() => eventMethods.displayEvent(eventA)"
           v-for="eventA of eventData.weeklyEvents[getDays()[day - 1].day]"
           :key="eventA"
@@ -211,6 +229,7 @@ watch(
   height: 10%;
 }
 .contentDiv {
+  position: relative;
   overflow-y: scroll;
   height: 95.5%;
 }
@@ -232,12 +251,10 @@ watch(
 }
 
 .eventsContainer{
-  height:min-content;
-  width: 8%;
+  width: 14%;
   border-radius:7px;
   background-color:gray;
   position:absolute;
   z-index:1;
-  top:25%;
 }
 </style>
