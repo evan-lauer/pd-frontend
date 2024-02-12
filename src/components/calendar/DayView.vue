@@ -3,7 +3,6 @@ import {watch } from 'vue';
 import { selectedDate } from 'src/stores/calendarStores';
 import userStore from 'src/stores/userStore';
 import { eventData, eventMethods } from '../../stores/eventStores';
-import EventStar from './events/EventStar.vue';
 import DatePicker from './datePickers/miniCalendar.vue'
 import SimpleButton from 'src/components/icons/SimpleButton.vue';
 userStore.getEvents();
@@ -55,10 +54,16 @@ watch(
         :key="hour"
         :id="hour-1"
         :class="hour === 1 ? `hourContainer first` : `hourContainer`"
-      >
-
-        {{ hour - 1 }}:00
-
+      > 
+      <div class ="hourText">{{ hour - 1 }}:00</div>
+        <div class="halfHourContainer"
+        v-for="halfHour in 2"
+        :key="halfHour"
+        :id="halfHour-1"
+        :class="halfHour === 1 ? `halfHourContainer first` : `halfHourContainer`"
+        >
+        
+      </div>
       </div>
       
     </div>
@@ -99,6 +104,19 @@ function updateDate(){
 
 .hourContainer.first {
   border-top: var(--calendar-border-grey) 1px solid;
+}
+.halfHourContainer {
+  height: 50%;
+  position:flex;
+}
+.hourText{
+  position:relative;
+  height:0%;
+  z-index:1;
+}
+.halfHourContainer.first {
+  height: 50%;
+  border-bottom: var(--calendar-border-grey) 1px dashed;
 }
 .contentDiv {
   overflow-y: scroll;
