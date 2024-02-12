@@ -12,6 +12,33 @@ import { reactive } from 'vue';
 
 const uid = new ShortUniqueId({ length: 10 });
 
+/*
+<tabs> looks like this: 
+const tabs = {
+    "abcdefg": {
+        listTitle: "school list",
+        items: [
+            {
+                itemId: "asdofij",
+                itemContent: "do homework"
+            },
+            {
+                itemId: "asdofi",
+                itemContent: "do laundry"
+            }
+        ]
+        }
+    },
+    "123abce": {
+        listTitle: "work list",
+        items: []
+    }
+  };
+
+console.log(tabs["abcdefg"].items[0].itemContent);
+This will print "do homework"
+*/
+
 export const listsData_ = reactive({
   tabs: {},
 
