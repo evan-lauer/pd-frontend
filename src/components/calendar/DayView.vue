@@ -4,11 +4,12 @@ import { selectedDate } from 'src/stores/calendarStores';
 import userStore from 'src/stores/userStore';
 import { eventData, eventMethods } from '../../stores/eventStores';
 import EventStar from './events/EventStar.vue';
+import DatePicker from './datePickers/miniCalendar.vue'
 import SimpleButton from 'src/components/icons/SimpleButton.vue';
 userStore.getEvents();
 eventData.creatingDaysEventArray();
 watch(
-  () => selectedDate.dateTime.getMonth(),
+  () => selectedDate.dateTime.getDate(),
   () => {
     // This ensures that the numsEventsArray is reset when the month is changed
     userStore.getEvents();
@@ -63,7 +64,7 @@ watch(
     </div>
   </div>
   <div class= "datePickerDiv">
-    <input type="datetime-local" id="newDate">
+    <DatePicker />
     <br>
     <SimpleButton 
         inner-text="Submit"
@@ -110,10 +111,9 @@ function updateDate(){
   float:center;
 }
 .eventsContainer{
-  height:min-content;
   border-radius:7px;
   background-color:rgb(101, 39, 94);
-  position:absolute;
+  position:relative;
   z-index:1;
   top:20%;
 }

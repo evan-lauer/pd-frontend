@@ -12,6 +12,9 @@ import App from 'src/App.vue';
 import { createApp } from 'vue';
 import router from 'src/router';
 
+
+// Use plugin with optional defaults
+
 const app = createApp(App);
 
 app.use(router);
