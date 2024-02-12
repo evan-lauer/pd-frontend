@@ -46,7 +46,7 @@ export const deleteCalendarEvent = async (eventId) => {
 // Create a new list with the given title
 //
 // Return the id of the created list
-export const createList = async (listId, listTitle) => {
+export const createList = async (listId, listTitle, timestamp) => {
   const options = {
     method: 'PUT',
     url: `${API_ENDPOINT}/ListItems`,
@@ -59,7 +59,7 @@ export const createList = async (listId, listTitle) => {
       listTitle: listTitle,
       itemId: '-1',
       itemContent: '',
-      timestamp: Date.now()
+      timestamp: timestamp
     }
   };
   const res = await axios.request(options);
@@ -74,7 +74,7 @@ export const createList = async (listId, listTitle) => {
 // Add a new item with the given content to the given list
 //
 // Return the ID of the created item
-export const putListItem = async (listId, listTitle, itemId, itemContent) => {
+export const putListItem = async (listId, listTitle, itemId, itemContent, timestamp) => {
   const options = {
     method: 'PUT',
     url: `${API_ENDPOINT}/ListItems`,
@@ -87,7 +87,7 @@ export const putListItem = async (listId, listTitle, itemId, itemContent) => {
       listTitle: listTitle,
       itemId: itemId,
       itemContent: itemContent,
-      timestamp: Date.now()
+      timestamp: timestamp
     }
   };
   const res = await axios.request(options);
@@ -98,6 +98,10 @@ export const putListItem = async (listId, listTitle, itemId, itemContent) => {
   }
   return itemId;
 };
+
+// Updates any existing entry in the table.
+// This is just an alias for putListItem
+export const updateListsEntry = putListItem;
 
 // Get all list items associated with the userId
 export const getListItemsByUserId = async () => {

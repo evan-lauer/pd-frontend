@@ -3,7 +3,8 @@ import {
   deleteList,
   deleteListItem,
   getListItemsByUserId,
-  putListItem
+  putListItem,
+  updateListsEntry
 } from 'src/backend';
 
 import ShortUniqueId from 'short-unique-id';
@@ -32,18 +33,21 @@ export const listsData_ = reactive({
         // Add item to existing list
         newTabs[item.listId].items.push({
           itemId: item.itemId,
-          itemContent: item.itemContent
+          itemContent: item.itemContent,
+          timestamp: item.timestamp
         });
       } else {
         // Create new list
         newTabs[item.listId] = {
           listTitle: item.listTitle,
+          timestamp: item.timestamp,
           items: []
         };
         if (item.itemId !== '-1') {
           newTabs[item.listId].items.push({
             itemId: item.itemId,
-            itemContent: item.itemContent
+            itemContent: item.itemContent,
+            timestamp: item.timestamp
           });
         }
       }
@@ -55,21 +59,25 @@ export const listsData_ = reactive({
   // Add a new list to the store, and push it to the database
   createList: async (listTitle) => {
     const listId = uid.rnd();
+    const timestamp = Date.now();
     listsData_.tabs[listId] = {
       listTitle: listTitle,
-      items: []
+      items: [],
+      timestamp: timestamp
     };
-    return await createList(listId, listTitle);
+    return await createList(listId, listTitle, timestamp);
   },
 
   // Add a new list item to the store, and push it to the database
   createListItem: async (listId, listTitle, itemContent) => {
     const itemId = uid.rnd();
+    const timestamp = Date.now();
     listsData_.tabs[listId].items.push({
       itemId: itemId,
-      itemContent: itemContent
+      itemContent: itemContent,
+      timestamp: timestamp
     });
-    return await putListItem(listId, listTitle, itemId, itemContent);
+    return await putListItem(listId, listTitle, itemId, itemContent, timestamp);
   },
 
   // Delete a list from the store, and delete it from the database
@@ -87,8 +95,22 @@ export const listsData_ = reactive({
     return await deleteListItem(listId, itemId);
   },
 
-  updateListTitle: () => {},
-  updateListItemContent: () => {}
+  updateListTitle: async (listId, newTitle) => {
+    const timestamp = listsData_.tabs[listId].timestamp;
+    listsData_.tabs[listId].listTitle = newTitle;
+    return await updateListsEntry(listId, newTitle, '-1', '', timestamp);
+  },
+  updateListItemContent: async (listId, itemId, newItemContent) => {
+    const listTitle = listsData_.tabs[listId].listTitle;
+    for (let i = 0; i < listsData_.tabs[listId].items.length; i++) {
+      if (listsData_.tabs[listId].items[i].itemId === itemId) {
+        const timestamp = listsData_.tabs[listId].items[i].timestamp;
+        listsData_.tabs[listId].items[i].itemContent = newItemContent;
+        return await updateListsEntry(listId, listTitle, itemId, newItemContent, timestamp);
+      }
+    }
+    throw new Error('itemId not found');
+  }
 });
 
 export const listsData = reactive({
