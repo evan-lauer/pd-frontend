@@ -103,14 +103,15 @@ function renderWeekHeader(week, day) {
             class="eventSymbol"
             @click="() => eventMethods.displayEvent(eventA)"
             v-for="eventA of eventData.monthlyEvents[getDayByIndex(week, day).day]"
+            v-if="getDayByIndex(week, day).month === selectedDate.dateTime.getMonth()"
             :key="eventA"
           >
             <EventStar />
           </div>
         </div>
-        <div :class="day === 1 ? `pseudoDay first` : `pseudoDay`">
-          <!-- Pseudo element for CSS styling only -->
-        </div>
+        <div :class="day === 1 ? `pseudoDay first` : `pseudoDay`" 
+          @click="console.log(getDayByIndex(week, day).month, getDayByIndex(week, day).day, getDayByIndex(week, day).year)">
+          <!-- Will make this clickable, pass the year, month, date to VisualizerWidgets. --></div>
       </div>
     </div>
   </div>

@@ -83,14 +83,6 @@ function isToday(cur_date) {
     cur_date.year === today.getFullYear()
   );
 }
-function getDayByIndex(week, day) {
-  const index = (week - 1) * 7 + (day - 1);
-  if (displayDays.value[index]) {
-    return displayDays.value[index];
-  } else {
-    return false;
-  }
-}
 
 watch(
   () => selectedDate.dateTime.getMonth(),
@@ -138,21 +130,37 @@ watch(
       :key="day"
       :class="day === 1 ? `dayContainer first` : `dayContainer`"
     >
-      <div class="eventsContainer">
+      <div class="hourContainer allDayEvents rowDisplay">
         <div
           class="eventSymbol"
           @click="() => eventMethods.displayEvent(eventA)"
-          v-for="eventA of eventData.weeklyEvents[day - 1]"
+          v-for="eventA of eventData.weeklyEvents[getDays()[day - 1].day]"
           :key="eventA"
         >
-          <EventStar />
-          <!-- Current issue: For some reason, Monday grabs events from one week in the future -->
           <div
+            v-if="eventA.startTime === eventA.endTime">
+            {{ console.log('starttime', eventA.startTime) }}
+            <EventStar />
+          </div>
+        </div>
+      </div>
+      <div class="eventsContainer rowDisplay">
+        <div
+          class="eventSymbol"
+          @click="() => eventMethods.displayEvent(eventA)"
+          v-for="eventA of eventData.weeklyEvents[getDays()[day - 1].day]"
+          :key="eventA"
+        >
+          <div
+            v-if="eventA.startTime !== eventA.endTime">
+            <EventStar />
+          </div>
+          <!-- <div
             v-if="day === 1"
             class="times"
           >
             {{ i }}:00
-          </div>
+          </div> -->
         </div>
       </div>
       <div
@@ -161,13 +169,16 @@ watch(
         :key="n"
         :class="i === 0 ? `hourContainer first` : `hourContainer`"
       >
-        <div v-if="day === 1">{{ i }}:00</div>
+        <div v-if="day === 1" class="timeStyle">{{ i }}:00</div>
       </div>
     </div>
   </div>
 </template>
 
 <style scoped>
+.timeStyle {
+  font-size: 10px;
+}
 .weekContainer {
   display: flex;
   width: 100%;
@@ -192,9 +203,12 @@ watch(
   height: 95.5%;
 }
 .hourContainer {
-  height: 10%;
-
+  height: 15%;
   border-bottom: var(--calendar-border-grey) 1px solid;
+}
+
+.hourContainer.allDayEvents {
+  height: 10%;
 }
 .contentDiv {
   overflow-y: scroll;
@@ -215,5 +229,15 @@ watch(
 
 .times {
   font-size: 13px;
+}
+
+.eventsContainer{
+  height:min-content;
+  width: 8%;
+  border-radius:7px;
+  background-color:gray;
+  position:absolute;
+  z-index:1;
+  top:25%;
 }
 </style>

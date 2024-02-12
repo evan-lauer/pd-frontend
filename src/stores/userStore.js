@@ -12,6 +12,8 @@ const options = {
 const userStore = reactive({
   userId: TEST_USER_ID,
   events: [],
+  lists: [],
+
   async getEvents() {
     // get all the events from the database for the given user
     const res = await axios.request(options);
@@ -21,6 +23,10 @@ const userStore = reactive({
     } else {
       console.log(res);
     }
+  },
+  async getLists() {
+    //Get all of the users lists from the database
+    
   }
 });
 
