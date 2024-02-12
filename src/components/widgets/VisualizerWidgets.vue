@@ -4,14 +4,9 @@ TODO: have a circle that represents a certain tab in list and show the percentag
 <script setups>
 import { computed } from 'vue';
 import { Calendar } from 'calendar-base';
-import { selectedDate } from 'src/stores/calendarStores';
+import { selectedDate } from '../../stores/calendarStores';
 import userStore from 'src/stores/userStore';
 import { eventData, eventMethods } from '../../stores/eventStores';
-// import { getDayByIndex } from 'src/components/calendar/MonthView.vue';
-
-// const event = () => {
-//     eventData.monthlyEvents[getDayByIndex(week, day).day]
-// }
 </script>
 
 <template>
@@ -20,11 +15,12 @@ import { eventData, eventMethods } from '../../stores/eventStores';
         <div class="taskContainer">
             <div class="taskCircle"></div>
         </div>
-        <div class="barContainer">
+        <div class="barContainer" @click="console.log(selectedDate.dateTime)">
             <div class="dayVisualizer">
-                <div class="eventDivs"></div>
-                <!-- this will be called when the day container is clicked on. Using the day info passed, 
-                this will gather the events from eventStores and do a v-for for the events in the given day -->
+              <!-- <div v-for="(row, rowIndex) in eventsOfDayClicked.value" :key="rowIndex">
+                <div v-for="(event, eventIndex) in row" :key="eventIndex" class="eventDivs">
+                </div>
+              </div> -->
             </div>
         </div>
     </div>
@@ -127,6 +123,7 @@ import { eventData, eventMethods } from '../../stores/eventStores';
 }
 .eventDivs {
     width: 10%;
+    height: 100%;
     border: 1px solid orange;
 }
 </style>

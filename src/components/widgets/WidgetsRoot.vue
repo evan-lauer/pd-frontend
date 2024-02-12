@@ -5,6 +5,7 @@ import EventDetails from 'src/components/widgets/EventDetails.vue';
 import { eventDetails } from 'src/stores/eventDetailsStores';
 import VisualizerWidgets from 'src/components/widgets/VisualizerWidgets.vue'
 </script>
+
 <template>
   <div class="leftPanel">
     <AddEventForm v-if="addEventForm.isFormActive" />
