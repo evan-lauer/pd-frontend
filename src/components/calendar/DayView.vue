@@ -3,14 +3,14 @@ import { watch } from 'vue';
 import { selectedDate } from 'src/stores/calendarStores';
 import userStore from 'src/stores/userStore';
 import { eventData, eventMethods } from '../../stores/eventStores';
-import EventStar from './events/EventStar.vue';
+import DatePicker from './datePickers/miniCalendar.vue';
 import SimpleButton from 'src/components/icons/SimpleButton.vue';
 import miniCalendarPicker from './miniCalendarPicker.vue';
 
 userStore.getEvents();
 eventData.creatingDaysEventArray();
 watch(
-  () => selectedDate.dateTime.getMonth(),
+  () => selectedDate.dateTime.getDate(),
   () => {
     // This ensures that the numsEventsArray is reset when the month is changed
     userStore.getEvents();
@@ -34,6 +34,19 @@ watch(
       :key="day"
       :class="day === 1 ? `dayContainer first` : `dayContainer`"
     >
+      <div class="eventsContainer">
+        <div
+          class="eventSymbol"
+          @click="() => eventMethods.displayEvent(eventA)"
+          v-for="eventA of eventData.monthlyEvents[selectedDate.dateTime.getDay()]"
+          :key="eventA"
+        >
+          {{ eventA.title }} <br />
+          {{ eventA.description }} <br />
+          {{ eventA.startTime }} <br />
+          {{ eventA.endTime }} <br />
+        </div>
+      </div>
       <div
         class="hourContainer"
         v-for="hour in 24"
@@ -41,17 +54,14 @@ watch(
         :id="hour - 1"
         :class="hour === 1 ? `hourContainer first` : `hourContainer`"
       >
-        {{ hour - 1 }}:00
-        <div class="eventsContainer">
-          <div
-            class="eventSymbol"
-            @click="() => eventMethods.displayEvent(eventA)"
-            v-for="eventA of eventData.monthlyEvents[selectedDate.dateTime.getDay()]"
-            :key="eventA"
-          >
-            <EventStar />
-          </div>
-        </div>
+        <div class="hourText">{{ hour - 1 }}:00</div>
+        <div
+          class="halfHourContainer"
+          v-for="halfHour in 2"
+          :key="halfHour"
+          :id="halfHour - 1"
+          :class="halfHour === 1 ? `halfHourContainer first` : `halfHourContainer`"
+        ></div>
       </div>
     </div>
   </div>
@@ -87,10 +97,24 @@ function updateDate() {
 .hourContainer {
   height: 24%;
   border-bottom: var(--calendar-border-grey) 1px solid;
+  max-height: min-content;
 }
 
 .hourContainer.first {
   border-top: var(--calendar-border-grey) 1px solid;
+}
+.halfHourContainer {
+  height: 50%;
+  position: flex;
+}
+.hourText {
+  position: relative;
+  height: 0%;
+  z-index: 1;
+}
+.halfHourContainer.first {
+  height: 50%;
+  border-bottom: var(--calendar-border-grey) 1px dashed;
 }
 .contentDiv {
   overflow-y: scroll;
@@ -101,5 +125,12 @@ function updateDate() {
 }
 .datePickerDiv {
   float: center;
+}
+.eventsContainer {
+  border-radius: 7px;
+  background-color: rgb(101, 39, 94);
+  position: relative;
+  z-index: 1;
+  top: 20%;
 }
 </style>
