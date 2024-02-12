@@ -3,12 +3,12 @@ import {watch } from 'vue';
 import { selectedDate } from 'src/stores/calendarStores';
 import userStore from 'src/stores/userStore';
 import { eventData, eventMethods } from '../../stores/eventStores';
-import EventStar from './events/EventStar.vue';
+import DatePicker from './datePickers/miniCalendar.vue'
 import SimpleButton from 'src/components/icons/SimpleButton.vue';
 userStore.getEvents();
 eventData.creatingDaysEventArray();
 watch(
-  () => selectedDate.dateTime.getMonth(),
+  () => selectedDate.dateTime.getDate(),
   () => {
     // This ensures that the numsEventsArray is reset when the month is changed
     userStore.getEvents();
@@ -54,16 +54,22 @@ watch(
         :key="hour"
         :id="hour-1"
         :class="hour === 1 ? `hourContainer first` : `hourContainer`"
-      >
-
-        {{ hour - 1 }}:00
-
+      > 
+      <div class ="hourText">{{ hour - 1 }}:00</div>
+        <div class="halfHourContainer"
+        v-for="halfHour in 2"
+        :key="halfHour"
+        :id="halfHour-1"
+        :class="halfHour === 1 ? `halfHourContainer first` : `halfHourContainer`"
+        >
+        
+      </div>
       </div>
       
     </div>
   </div>
   <div class= "datePickerDiv">
-    <input type="datetime-local" id="newDate">
+    <DatePicker />
     <br>
     <SimpleButton 
         inner-text="Submit"
@@ -99,6 +105,19 @@ function updateDate(){
 .hourContainer.first {
   border-top: var(--calendar-border-grey) 1px solid;
 }
+.halfHourContainer {
+  height: 50%;
+  position:flex;
+}
+.hourText{
+  position:relative;
+  height:0%;
+  z-index:1;
+}
+.halfHourContainer.first {
+  height: 50%;
+  border-bottom: var(--calendar-border-grey) 1px dashed;
+}
 .contentDiv {
   overflow-y: scroll;
   height: 95.5%;
@@ -110,10 +129,9 @@ function updateDate(){
   float:center;
 }
 .eventsContainer{
-  height:min-content;
   border-radius:7px;
   background-color:rgb(101, 39, 94);
-  position:absolute;
+  position:relative;
   z-index:1;
   top:20%;
 }

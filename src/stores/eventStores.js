@@ -254,11 +254,12 @@ export const eventData = reactive({
         title: 'New Event',
         userId: 'test-user'
       },
+      // this event has different start and end time, for testing purposes
       {
         description: 'hi',
-        endTime: '2024-01-29T06:00:00.000Z',
+        endTime: '2024-01-29T11:00:00.000Z',
         eventId: '5TZIPTLMGs',
-        startTime: '2024-01-29T06:00:00.000Z',
+        startTime: '2024-01-29T09:00:00.000Z',
         title: 'New Event',
         userId: 'test-user'
       },

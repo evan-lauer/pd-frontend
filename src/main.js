@@ -13,6 +13,9 @@ import { createApp } from 'vue';
 import { listsData_ } from './stores/listStores';
 import router from 'src/router';
 
+
+// Use plugin with optional defaults
+
 const app = createApp(App);
 
 app.use(router);
