@@ -1,22 +1,19 @@
 <!-- TODO: Have a bar that represents a day (24 hours) and fill up the corresponding portions with the tasks scheduled.
 TODO: have a circle that represents a certain tab in list and show the percentage of tasks completed-->
 
-<script setups>
+<script setup>
 import { selectedDate } from '../../stores/calendarStores';
-import userStore from 'src/stores/userStore';
 import { eventData, eventMethods } from '../../stores/eventStores';
-import { defineExpose } from 'vue';
 
-
-const wow = () => {
-  console.log(selectedDate.dateTime);
+const getWidth = (startTime, endTime) => {
+  `${((endTime - startTime) / 24) * 100}%`
 }
-defineExpose({wow});
+const currentDayTime = new Date();
 </script>
 
 <template>
     <div class="widgetContainer">
-        <div class="messageContainer">some motivational something lol</div>
+        <div class="messageContainer">{{(currentDayTime.getHours())}}:{{(currentDayTime.getMinutes())}} Your next event is: </div>
         <div class="taskContainer">
             <div class="taskCircle"></div>
             <select class="dropdown">
@@ -25,16 +22,18 @@ defineExpose({wow});
               <option>1</option>
             </select>
         </div>
-        <div class="barContainer" @click="wow()">
-            <div class="dayVisualizer">
+        <div class="barContainer">
+            Tasks for {{ selectedDate.dateTime.toLocaleString('default', { month: 'long' }) }} {{selectedDate.dateTime.getDate()}} {{selectedDate.dateTime.getFullYear()}}
+            <div class="dayVisualizer" v-if="eventData.monthlyEvents[selectedDate.dateTime] !== ''">
+              <div v-for="events in eventData.monthlyEvents[selectedDate.dateTime.getDate()]"
+              :key="events" class="eventDivs"
+              :style="getWidth(eventData.monthlyEvents[selectedDate.dateTime.getDate()])">
+              </div>
             </div>
         </div>
     </div>
 </template>
-              <!-- <div v-for="(row, rowIndex) in eventsOfDayClicked.value" :key="rowIndex">
-                <div v-for="(event, eventIndex) in row" :key="eventIndex" class="eventDivs">
-                </div>
-              </div> -->
+
 
 <!-- example code -->
 <!-- <template>
@@ -97,6 +96,7 @@ defineExpose({wow});
     display: flex;
     justify-content: center;
     align-items: center;
+    padding: 10px;
 }
 .taskContainer {
     grid-row: 1; /* Each section will take equal space */
@@ -112,8 +112,11 @@ defineExpose({wow});
     border: 1px solid black;
     display: flex;
     justify-content: center;
-    align-items: flex-end;
+    align-items: center;
+    flex-direction: column;
     padding: 10px 0px;
+    gap: 10px;
+    font-size: medium;
 }
 
 .taskCircle {
@@ -135,10 +138,15 @@ defineExpose({wow});
     width: 90%;
     border: 1px solid black;
     border-radius: 10px;
+    display: flex;
+    flex-direction: row;
+    background: transparent;
 }
 .eventDivs {
-    width: 10%;
+    width: 20%;
     height: 100%;
-    border: 1px solid orange;
+    border: 2px solid orange;
+    background-color: blue;
+    z-index: 0;
 }
 </style>

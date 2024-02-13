@@ -10,8 +10,6 @@ const calendar = new Calendar({ siblingMonths: true, weekNumbers: true });
 
 const updateDayClicked = (day, month, year) => {
   selectedDate.setDateToClicked(day, month, year);
-  console.log(day, month, year);
-  console.log(selectedDate.dateTime);
 }
 
 const displayDays = computed(() => {
