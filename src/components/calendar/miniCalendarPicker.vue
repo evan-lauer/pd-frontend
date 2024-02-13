@@ -18,9 +18,11 @@
         <div
           v-for="row in calendar"
           :key="row"
+          class="week"
         >
           <div
             v-for="day in row"
+            style="width:100%;"
             :key="day.date"
             :class="{ today: isToday(day.date), selected: isSelected(day.date) }"
             @click="selectDate(day.date)"
@@ -154,6 +156,9 @@ export default {
 .days {
   display: flex;
   flex-wrap: wrap;
+  flex-direction: column;
+  justify-content: right;
+
 }
 
 .days div {
@@ -161,8 +166,12 @@ export default {
   text-align: center;
   padding: 10px 5px;
   cursor: pointer;
+
 }
 
+.day{
+  width:100%;
+}
 .days .today {
   background-color: lightgray;
 }
@@ -170,5 +179,11 @@ export default {
 .days .selected {
   background-color: #3498db;
   color: white;
+}
+
+.week {
+  display: flex;
+  flex-direction: row;
+
 }
 </style>
