@@ -14,8 +14,8 @@ import { selectedDate } from 'src/stores/calendarStores';
           <div v-for="day in daysOfWeek" :key="day">{{ day }}</div>
         </div>
         <div class="days">
-          <div v-for="row in calendar" :key="row">
-            <div
+          <div v-for="row in calendar" :key="row" >
+            <div 
               v-for="day in row"
               :key="day.date"
               :class="{ 'today': isToday(day.date), 'selected': isSelected(day.date) }"
@@ -117,6 +117,26 @@ import { selectedDate } from 'src/stores/calendarStores';
   <style>
   .date-picker{
     height:50%;
+  }
+  .calendar-header{
+    height:85%;
+  }
+  .calendar{
+  display: flex;
+  
+  flex-direction: column;
+  }
+  .weekdays{
+    display: flex;
+  flex-direction: row;
+  }
+  .days{
+    display:flex;
+    flex-direction:column;
+  }
+  .week{
+  display: flex;
+  flex-direction: row;
   }
   
 </style>

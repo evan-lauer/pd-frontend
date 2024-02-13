@@ -3,7 +3,6 @@ import { watch } from 'vue';
 import { selectedDate } from 'src/stores/calendarStores';
 import userStore from 'src/stores/userStore';
 import { eventData, eventMethods } from '../../stores/eventStores';
-import DatePicker from './datePickers/miniCalendar.vue';
 import SimpleButton from 'src/components/icons/SimpleButton.vue';
 import miniCalendarPicker from './miniCalendarPicker.vue';
 
@@ -66,10 +65,7 @@ watch(
     </div>
   </div>
   <div class="datePickerDiv">
-    <input
-      type="datetime-local"
-      id="newDate"
-    />
+    <miniCalendarPicker/>
     <br />
     <SimpleButton
       inner-text="Submit"
