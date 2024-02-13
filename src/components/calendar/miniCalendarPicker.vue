@@ -109,7 +109,7 @@ const calendar = computed(() => {
           <div
             v-for="day in row"
             :key="day.date"
-            class="day"
+            class="dayMiniPicker"
             :class="{ today: isToday(day.date), selected: isSelected(day.date) }"
             @click="selectDate(day.date)"
           >
@@ -165,7 +165,7 @@ const calendar = computed(() => {
   flex-direction: row;
 }
 
-.day {
+.dayMiniPicker {
   width: calc(100% / 7);
   text-align: center;
   padding: 10px 5px;
