@@ -4,9 +4,15 @@ import { Calendar } from 'calendar-base';
 import { selectedDate } from 'src/stores/calendarStores';
 import userStore from 'src/stores/userStore';
 import { eventData, eventMethods } from '../../stores/eventStores';
-import EventStar from './events/EventStar.vue';
+import EventStar from 'src/components/calendar/events/EventStar.vue';
 
 const calendar = new Calendar({ siblingMonths: true, weekNumbers: true });
+
+const updateDayClicked = (day, month, year) => {
+  selectedDate.setDateToClicked(day, month, year);
+  console.log(day, month, year);
+  console.log(selectedDate.dateTime);
+}
 
 const displayDays = computed(() => {
   return calendar.getCalendar(
@@ -98,20 +104,19 @@ function renderWeekHeader(week, day) {
         >
           {{ getDayByIndex(week, day).day }}
         </div>
-        <div class="eventsContainer">
+        <div class="eventsContainer" v-if="getDayByIndex(week, day).month === selectedDate.dateTime.getMonth()">
           <div
             class="eventSymbol"
             @click="() => eventMethods.displayEvent(eventA)"
             v-for="eventA of eventData.monthlyEvents[getDayByIndex(week, day).day]"
-            v-if="getDayByIndex(week, day).month === selectedDate.dateTime.getMonth()"
             :key="eventA"
           >
             <EventStar />
           </div>
         </div>
-        <div :class="day === 1 ? `pseudoDay first` : `pseudoDay`" 
-          @click="console.log(getDayByIndex(week, day).month, getDayByIndex(week, day).day, getDayByIndex(week, day).year)">
-          <!-- Will make this clickable, pass the year, month, date to VisualizerWidgets. --></div>
+        <div :class="day === 1 ? `pseudoDay first` : `pseudoDay`"
+          @click="updateDayClicked(getDayByIndex(week, day).day, getDayByIndex(week, day).month, getDayByIndex(week, day).year)">
+        </div>
       </div>
     </div>
   </div>

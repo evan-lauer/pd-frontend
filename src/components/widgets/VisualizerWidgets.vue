@@ -2,16 +2,16 @@
 TODO: have a circle that represents a certain tab in list and show the percentage of tasks completed-->
 
 <script setups>
-import { computed } from 'vue';
-import { Calendar } from 'calendar-base';
-import { selectedDate } from 'src/stores/calendarStores';
+import { selectedDate } from '../../stores/calendarStores';
 import userStore from 'src/stores/userStore';
 import { eventData, eventMethods } from '../../stores/eventStores';
-// import { getDayByIndex } from 'src/components/calendar/MonthView.vue';
+import { defineExpose } from 'vue';
 
-// const event = () => {
-//     eventData.monthlyEvents[getDayByIndex(week, day).day]
-// }
+
+const wow = () => {
+  console.log(selectedDate.dateTime);
+}
+defineExpose({wow});
 </script>
 
 <template>
@@ -19,17 +19,22 @@ import { eventData, eventMethods } from '../../stores/eventStores';
         <div class="messageContainer">some motivational something lol</div>
         <div class="taskContainer">
             <div class="taskCircle"></div>
+            <select class="dropdown">
+              <option>1</option>
+              <option>1</option>
+              <option>1</option>
+            </select>
         </div>
-        <div class="barContainer">
+        <div class="barContainer" @click="wow()">
             <div class="dayVisualizer">
-                <div class="eventDivs"></div>
-                <!-- this will be called when the day container is clicked on. Using the day info passed, 
-                this will gather the events from eventStores and do a v-for for the events in the given day -->
             </div>
         </div>
     </div>
 </template>
-
+              <!-- <div v-for="(row, rowIndex) in eventsOfDayClicked.value" :key="rowIndex">
+                <div v-for="(event, eventIndex) in row" :key="eventIndex" class="eventDivs">
+                </div>
+              </div> -->
 
 <!-- example code -->
 <!-- <template>
@@ -98,7 +103,7 @@ import { eventData, eventMethods } from '../../stores/eventStores';
     grid-column: 2;
     border: 1px solid black;
     display: flex;
-    justify-content: center;
+    justify-content: space-around;
     align-items: center;
 }
 .barContainer {
@@ -112,11 +117,17 @@ import { eventData, eventMethods } from '../../stores/eventStores';
 }
 
 .taskCircle {
-    height: 50px;
-    width: 50px;
+    /* height: 70%; */
+    padding-top: 35%;
+    width: 35%;
     background-color: #bbb;
     border-radius: 50%;
     margin: 5px;
+}
+
+.dropdown{
+  width: auto;
+  height: auto;
 }
 
 .dayVisualizer {
@@ -127,6 +138,7 @@ import { eventData, eventMethods } from '../../stores/eventStores';
 }
 .eventDivs {
     width: 10%;
+    height: 100%;
     border: 1px solid orange;
 }
 </style>

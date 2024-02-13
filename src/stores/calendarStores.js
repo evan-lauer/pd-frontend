@@ -51,6 +51,11 @@ export const selectedDate = reactive({
     selectedDate.dateTime = new Date(
       date
     )
+  },
+  setDateToClicked: (day, month, year) => {
+    selectedDate.dateTime = new Date(selectedDate.dateTime.setDate(day));
+    selectedDate.dateTime = new Date(selectedDate.dateTime.setMonth(month));
+    selectedDate.dateTime = new Date(selectedDate.dateTime.setFullYear(year));
   }
 });
 
