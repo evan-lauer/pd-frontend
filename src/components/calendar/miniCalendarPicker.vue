@@ -177,7 +177,7 @@ const calendar = computed(() => {
 }
 
 .days .selected {
-  background-color: #3498db;
+  background-color: #58837a;
   color: white;
 }
 </style>
