@@ -76,7 +76,7 @@ watch(
 </template>
 <script>
 function updateDate() {
-  selectedDate.setToDate(document.getElementById('newDate').value);
+  selectedDate.setToDate(miniCalendarPicker.selectedDate);
 }
 </script>
 <style scoped>
