@@ -2,11 +2,16 @@
 TODO: have a circle that represents a certain tab in list and show the percentage of tasks completed-->
 
 <script setups>
-import { computed } from 'vue';
-import { Calendar } from 'calendar-base';
 import { selectedDate } from '../../stores/calendarStores';
 import userStore from 'src/stores/userStore';
 import { eventData, eventMethods } from '../../stores/eventStores';
+import { defineExpose } from 'vue';
+
+
+const wow = () => {
+  console.log(selectedDate.dateTime);
+}
+defineExpose({wow});
 </script>
 
 <template>
@@ -14,18 +19,22 @@ import { eventData, eventMethods } from '../../stores/eventStores';
         <div class="messageContainer">some motivational something lol</div>
         <div class="taskContainer">
             <div class="taskCircle"></div>
+            <select class="dropdown">
+              <option>1</option>
+              <option>1</option>
+              <option>1</option>
+            </select>
         </div>
-        <div class="barContainer" @click="console.log(selectedDate.dateTime)">
+        <div class="barContainer" @click="wow()">
             <div class="dayVisualizer">
-              <!-- <div v-for="(row, rowIndex) in eventsOfDayClicked.value" :key="rowIndex">
-                <div v-for="(event, eventIndex) in row" :key="eventIndex" class="eventDivs">
-                </div>
-              </div> -->
             </div>
         </div>
     </div>
 </template>
-
+              <!-- <div v-for="(row, rowIndex) in eventsOfDayClicked.value" :key="rowIndex">
+                <div v-for="(event, eventIndex) in row" :key="eventIndex" class="eventDivs">
+                </div>
+              </div> -->
 
 <!-- example code -->
 <!-- <template>
@@ -94,7 +103,7 @@ import { eventData, eventMethods } from '../../stores/eventStores';
     grid-column: 2;
     border: 1px solid black;
     display: flex;
-    justify-content: center;
+    justify-content: space-around;
     align-items: center;
 }
 .barContainer {
@@ -108,11 +117,17 @@ import { eventData, eventMethods } from '../../stores/eventStores';
 }
 
 .taskCircle {
-    height: 50px;
-    width: 50px;
+    /* height: 70%; */
+    padding-top: 35%;
+    width: 35%;
     background-color: #bbb;
     border-radius: 50%;
     margin: 5px;
+}
+
+.dropdown{
+  width: auto;
+  height: auto;
 }
 
 .dayVisualizer {
