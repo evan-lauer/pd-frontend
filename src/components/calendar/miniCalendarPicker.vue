@@ -1,9 +1,10 @@
+
 <template>
   <div class="date-picker">
     <div class="calendar-header">
-      <button @click="previousMonth">&lt;</button>
+      <button @click="previousMonth()">&lt;</button>
       <h2>{{ currentMonth }}</h2>
-      <button @click="nextMonth">&gt;</button>
+      <button @click="nextMonth()">&gt;</button>
     </div>
     <div class="calendar">
       <div class="weekdays">
@@ -37,12 +38,11 @@
 
 <script>
 import { ref, computed } from 'vue';
-
 export default {
   name: 'DatePicker',
   setup() {
     const currentDate = ref(new Date());
-    const selectedDate = ref(null);
+    const newDate = ref(null);
 
     const currentMonth = computed(() => {
       return currentDate.value.toLocaleString('default', { month: 'long', year: 'numeric' });
@@ -69,19 +69,30 @@ export default {
     };
 
     const isSelected = (date) => {
-      return date === selectedDate.value;
+      return date === newDate.value;
     };
 
     const selectDate = (date) => {
-      selectedDate.value = date;
+      newDate.value = date;
     };
 
     const previousMonth = () => {
-      currentDate.value.setMonth(currentDate.value.getMonth() - 1);
+      currentDate.value = new Date(
+        currentDate.value.setMonth(currentDate.value.getMonth() - 1)
+    );
     };
 
     const nextMonth = () => {
-      currentDate.value.setMonth(currentDate.value.getMonth() + 1);
+      const date = currentDate.value.getDate();
+      const newMonth = currentDate.value.getMonth() + 2;
+      const daysInNewMonth = new Date(currentDate.value.getFullYear(), newMonth, 0).getDate();
+
+      currentDate.value= new Date(
+        currentDate.value.setMonth(
+          currentDate.value.getMonth() + 1,
+          Math.min(daysInNewMonth, date)
+        )
+      );
     };
 
     const calendar = computed(() => {
@@ -115,7 +126,8 @@ export default {
       nextMonth,
       isToday,
       isSelected,
-      selectDate
+      selectDate,
+      newDate
     };
   }
 };
