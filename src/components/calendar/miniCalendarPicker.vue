@@ -5,7 +5,7 @@ import { ref, computed } from 'vue';
 import { selectedDate } from 'src/stores/calendarStores';
 
 const currentDate = ref(new Date());
-// const selectedDate = ref(null);
+const newDate = ref(null);
 
 const currentMonth = computed(() => {
   return currentDate.value.toLocaleString('default', { month: 'long', year: 'numeric' });
@@ -32,20 +32,33 @@ const isToday = (date) => {
 };
 
 const isSelected = (date) => {
-  return date === selectedDate.value;
+  return date === newDate.value;
 };
 
 const selectDate = (date) => {
-  selectedDate.value = date;
+  newDate.value = date;
+  selectedDate.setToDate(newDate.value); //sets to one day behind the actual selected date
+  selectedDate.incrementDay(); //stupid problems require stupid solutions
 };
 
 const previousMonth = () => {
-  currentDate.value.setMonth(currentDate.value.getMonth() - 1);
-};
+      currentDate.value = new Date(
+        currentDate.value.setMonth(currentDate.value.getMonth() - 1)
+    );
+    };
 
-const nextMonth = () => {
-  currentDate.value.setMonth(currentDate.value.getMonth() + 1);
-};
+    const nextMonth = () => {
+      const date = currentDate.value.getDate();
+      const newMonth = currentDate.value.getMonth() + 2;
+      const daysInNewMonth = new Date(currentDate.value.getFullYear(), newMonth, 0).getDate();
+
+      currentDate.value= new Date(
+        currentDate.value.setMonth(
+          currentDate.value.getMonth() + 1,
+          Math.min(daysInNewMonth, date)
+        )
+      );
+    };
 
 const calendar = computed(() => {
   const days = [];

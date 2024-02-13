@@ -3,8 +3,6 @@ import { watch } from 'vue';
 import { selectedDate } from 'src/stores/calendarStores';
 import userStore from 'src/stores/userStore';
 import { eventData, eventMethods } from '../../stores/eventStores';
-
-import SimpleButton from 'src/components/icons/SimpleButton.vue';
 import miniCalendarPicker from './miniCalendarPicker.vue';
 
 userStore.getEvents();
@@ -67,18 +65,9 @@ watch(
   </div>
   <div class="datePickerDiv">
     <miniCalendarPicker/>
-    <br />
-    <SimpleButton
-      inner-text="Submit"
-      @click="updateDate()"
-    />
   </div>
 </template>
-<script>
-function updateDate() {
-  selectedDate.setToDate(miniCalendarPicker.selectedDate);
-}
-</script>
+
 <style scoped>
 .dayHeader {
   text-align: center;
