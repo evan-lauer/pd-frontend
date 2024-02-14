@@ -36,7 +36,7 @@ watch(
         <div
           class="eventSymbol"
           @click="() => eventMethods.displayEvent(eventA)"
-          v-for="eventA of eventData.monthlyEvents[selectedDate.dateTime.getDay()]"
+          v-for="eventA of eventData.dailyEvents"
           :key="eventA"
         >
           {{ eventA.title }} <br />
@@ -64,7 +64,7 @@ watch(
     </div>
   </div>
   <div class="datePickerDiv">
-    <miniCalendarPicker/>
+    <miniCalendarPicker />
   </div>
 </template>
 

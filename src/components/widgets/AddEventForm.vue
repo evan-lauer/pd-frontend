@@ -3,6 +3,7 @@ import TimePicker from 'src/components/widgets/TimePicker.vue';
 import { selectedDate } from 'src/stores/calendarStores';
 import { ref } from 'vue';
 import { addEventForm } from '../../stores/addEventFormStores';
+import { newEventForm } from 'src/stores/formStores';
 
 // Fill this object with the original timestamp of the current selected time (truncated to nearest hour)
 const startTime = ref({
@@ -54,6 +55,8 @@ const endDate = ref(
 function submissionHandler() {
   addEventForm.isFormActive = false;
   addEventForm.isPrefilled = false;
+  newEventForm.putEvent();
+  newEventForm.reset();
 }
 </script>
 <template>

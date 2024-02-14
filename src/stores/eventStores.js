@@ -27,15 +27,15 @@ export const eventData = reactive({
     return [];
   }),
   weeklyEvents: {},
+  dailyEvents: [],
 
   reset: () => {
     eventData.monthlyEvents = Array.from(new Array(31), function () {
       return [];
     });
-    // eventData.weeklyEvents = Array.from(new Array(7), function () {
-    //   return [];
-    // });
+
     eventData.weeklyEvents = {};
+    eventData.dailyEvents = [];
   },
 
   // functions
@@ -57,8 +57,8 @@ export const eventData = reactive({
 
     return weekNumber;
   },
-
-  creatingDaysEventArray: () => {
+  
+  creatingMonthsEventArray: () => {
     eventData.reset();
     const month = selectedDate.dateTime.getMonth();
     const year = selectedDate.dateTime.getFullYear();
@@ -303,5 +303,22 @@ export const eventData = reactive({
       }
     }
     console.log('Weeks Events Array: ', eventData.weeklyEvents);
+  },
+  creatingDaysEventArray: () => {
+    eventData.reset();
+    const day = selectedDate.dateTime.getDate();
+    const month = selectedDate.dateTime.getMonth();
+    const year = selectedDate.dateTime.getFullYear();
+
+    for (const item of eventData.theEvents) {
+      const date = new Date(item['startTime']);
+      const eventDay = date.getDate();
+      const eventMonth = date.getMonth();
+      const eventYear = date.getFullYear();
+
+      if (day === eventDay && month === eventMonth && year === eventYear) {
+        eventData.dailyEvents.push[item];
+      }
+    }
   }
 });

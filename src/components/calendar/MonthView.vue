@@ -58,14 +58,14 @@ function prefilledEventForm(day, month, year) {
 }
 
 userStore.getEvents();
-eventData.creatingDaysEventArray();
+eventData.creatingMonthsEventArray();
 
 watch(
   () => selectedDate.dateTime.getMonth(),
   () => {
     // This ensures that the numsEventsArray is reset when the month is changed
     userStore.getEvents();
-    eventData.creatingDaysEventArray();
+    eventData.creatingMonthsEventArray();
   }
 );
 
