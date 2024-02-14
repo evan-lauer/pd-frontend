@@ -3,17 +3,19 @@ TODO: have a circle that represents a certain tab in list and show the percentag
 
 <script setup>
 import { selectedDate } from '../../stores/calendarStores';
-import { eventData, eventMethods } from '../../stores/eventStores';
+import { eventData } from '../../stores/eventStores';
 
-const getWidth = (startTime, endTime) => {
-  `${((endTime - startTime) / 24) * 100}%`
+const getWidth = (event) => {
+  const sTime = new Date(event.startTime);
+  const eTime = new Date(event.endTime)
+  return `${((eTime.getHours() - sTime.getHours()) / 24) * 100}%`
 }
 const currentDayTime = new Date();
 </script>
 
 <template>
     <div class="widgetContainer">
-        <div class="messageContainer">{{(currentDayTime.getHours())}}:{{(currentDayTime.getMinutes())}} Your next event is: </div>
+        <div class="messageContainer">{{(currentDayTime.getHours())}}:{{(currentDayTime.getMinutes())}} Your next event is __ at __ </div>
         <div class="taskContainer">
             <div class="taskCircle"></div>
             <select class="dropdown">
@@ -22,17 +24,22 @@ const currentDayTime = new Date();
               <option>1</option>
             </select>
         </div>
-        <div class="barContainer">
+        <div class="barContainer" >
             Tasks for {{ selectedDate.dateTime.toLocaleString('default', { month: 'long' }) }} {{selectedDate.dateTime.getDate()}} {{selectedDate.dateTime.getFullYear()}}
             <div class="dayVisualizer" v-if="eventData.monthlyEvents[selectedDate.dateTime] !== ''">
               <div v-for="events in eventData.monthlyEvents[selectedDate.dateTime.getDate()]"
               :key="events" class="eventDivs"
-              :style="getWidth(eventData.monthlyEvents[selectedDate.dateTime.getDate()])">
+              :style="{ width: getWidth(events) }"
+              >
               </div>
             </div>
         </div>
     </div>
 </template>
+
+<!-- @click="console.log(events.startTime, events.endTime)" this works-->
+              <!-- @click="getWidth(events)" -->
+              <!-- :style="{ width: getWidth(events) }" -->
 
 
 <!-- example code -->
@@ -143,9 +150,8 @@ const currentDayTime = new Date();
     background: transparent;
 }
 .eventDivs {
-    width: 20%;
-    height: 100%;
-    border: 2px solid orange;
+    height: 95%;
+    border: 1px solid orange;
     background-color: blue;
     z-index: 0;
 }

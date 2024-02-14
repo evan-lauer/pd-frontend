@@ -5,10 +5,9 @@ import { selectedTab } from 'src/stores/listStores';
 // TODO: implement some if-statement so if there are 10 tabs, we prevent this function to be executed
 // TODO: make the unselected tabs a bit shorter
 
-const handleEnterTab = (tabName) => {
-  //Have to disable this once we reach 10 tabs
-  listsData.addTab(tabName);
-  tabName = '';
+const handleEnterTab = (tabId) => {
+  const tabInput = document.getElementById(`tabName-${tabId}`)
+  tabInput.blur();
 }
 
 const changeSelectedTab = (tabId) => {
@@ -42,7 +41,7 @@ const makeReadOnly = (tabId) => {
     :id="'tabName-'+tabId"
     :class="selectedTab.id === tabId ? `tabName selected` : `tabName`"
     v-model="listsData.tabDict[tabId].label"
-    @keyup.enter="handleEnterTab(tabName)"
+    @keyup.enter="handleEnterTab(tabId)"
     @click="changeSelectedTab(tabId)"
     @dblclick="makeEditable(tabId)"
     @focusout="makeReadOnly(tabId)"
