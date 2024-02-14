@@ -2,6 +2,7 @@
 import TimePicker from 'src/components/widgets/TimePicker.vue';
 import { selectedDate } from 'src/stores/calendarStores';
 import { ref } from 'vue';
+import { addEventForm } from '../../stores/addEventFormStores';
 
 // Fill this object with the original timestamp of the current selected time (truncated to nearest hour)
 const startTime = ref({
@@ -12,6 +13,11 @@ const startTime = ref({
   minutes: 0,
   amOrPm: selectedDate.dateTime.getHours() >= 12 ? 'pm' : 'am'
 });
+const prefilledStartTime = ref({
+  hours: addEventForm.startDateTime.getHours,
+  minutes: addEventForm.startDateTime.getMinutes,
+  amOrPm: addEventForm.startDateTime.getHours() >= 12 ? 'pm' : 'am'
+});
 const oneHourAhead = new Date(
   new Date(selectedDate.dateTime).setTime(selectedDate.dateTime.getTime() + 60 * 60 * 1000)
 );
@@ -20,6 +26,12 @@ const endTime = ref({
   hours: oneHourAhead.getHours() > 12 ? oneHourAhead.getHours() - 12 : oneHourAhead.getHours(),
   minutes: 0,
   amOrPm: oneHourAhead.getHours() >= 12 ? 'pm' : 'am'
+});
+
+const prefilledEndTime = ref({
+  hours: addEventForm.endDateTime.getHours(),
+  minutes: addEventForm.endDateTime.getMinutes(),
+  amOrPm: addEventForm.endDateTime.getHours() >= 12 ? 'pm' : 'am'
 });
 
 const startDate = ref(
@@ -38,6 +50,11 @@ const endDate = ref(
     `-` +
     selectedDate.dateTime.getDate()
 );
+
+function submissionHandler() {
+  addEventForm.isFormActive = false;
+  addEventForm.isPrefilled = false;
+}
 </script>
 <template>
   <div class="formContainer">
@@ -55,7 +72,14 @@ const endDate = ref(
       </div>
       <div class="inputRow time">
         Start Time
-        <TimePicker :timestamp="startTime" />
+        <TimePicker
+          v-if="addEventForm.isPrefilled"
+          :timestamp="prefilledStartTime"
+        />
+        <TimePicker
+          v-else
+          :timestamp="startTime"
+        />
       </div>
       <div class="inputRow date">
         End Date
@@ -67,9 +91,22 @@ const endDate = ref(
       </div>
       <div class="inputRow time">
         End Time
-        <TimePicker :timestamp="endTime" />
+        <TimePicker
+          v-if="addEventForm.isPrefilled"
+          :timestamp="prefilledEndTime"
+        />
+        <TimePicker
+          v-else
+          :timestamp="endTime"
+        />
       </div>
     </div>
+    <button
+      class="submitButton"
+      @click="submissionHandler()"
+    >
+      Submit
+    </button>
   </div>
 </template>
 <style scoped>

@@ -5,12 +5,14 @@ import { selectedDate } from 'src/stores/calendarStores';
 import userStore from 'src/stores/userStore';
 import { eventData, eventMethods } from '../../stores/eventStores';
 import EventStar from 'src/components/calendar/events/EventStar.vue';
+import { addEventForm } from '../../stores/addEventFormStores';
+import { eventDetails } from 'src/stores/eventDetailsStores';
 
 const calendar = new Calendar({ siblingMonths: true, weekNumbers: true });
 
 const updateDayClicked = (day, month, year) => {
   selectedDate.setDateToClicked(day, month, year);
-}
+};
 
 const displayDays = computed(() => {
   return calendar.getCalendar(
@@ -36,6 +38,23 @@ function isToday(date) {
     date.month === today.getMonth() &&
     date.day === today.getDate()
   );
+}
+
+function prefilledEventForm(day, month, year) {
+  const currentTime = new Date();
+  const currentHour = currentTime.getHours();
+  const currentMinute = currentTime.getMinutes();
+
+  const laterHour = currentHour + 1; //Default endTime is one hour later than the current time.
+
+  eventDetails.isDetailsActive = false;
+  addEventForm.isPrefilled = true;
+  addEventForm.isFormActive = true;
+
+  addEventForm.startDateTime = new Date(year, month, day, currentHour, currentMinute);
+  addEventForm.endDateTime = new Date(year, month, day, laterHour, currentMinute);
+
+  console.log('Start Time: ', addEventForm.startDateTime, '\nEnd Time: ', addEventForm.endDateTime);
 }
 
 userStore.getEvents();
@@ -102,7 +121,10 @@ function renderWeekHeader(week, day) {
         >
           {{ getDayByIndex(week, day).day }}
         </div>
-        <div class="eventsContainer" v-if="getDayByIndex(week, day).month === selectedDate.dateTime.getMonth()">
+        <div
+          class="eventsContainer"
+          v-if="getDayByIndex(week, day).month === selectedDate.dateTime.getMonth()"
+        >
           <div
             class="eventSymbol"
             @click="() => eventMethods.displayEvent(eventA)"
@@ -112,9 +134,23 @@ function renderWeekHeader(week, day) {
             <EventStar />
           </div>
         </div>
-        <div :class="day === 1 ? `pseudoDay first` : `pseudoDay`"
-          @click="updateDayClicked(getDayByIndex(week, day).day, getDayByIndex(week, day).month, getDayByIndex(week, day).year)">
-        </div>
+        <div
+          :class="day === 1 ? `pseudoDay first` : `pseudoDay`"
+          @click="
+            updateDayClicked(
+              getDayByIndex(week, day).day,
+              getDayByIndex(week, day).month,
+              getDayByIndex(week, day).year
+            )
+          "
+          @dblclick="
+            prefilledEventForm(
+              getDayByIndex(week, day).day,
+              getDayByIndex(week, day).month,
+              getDayByIndex(week, day).year
+            )
+          "
+        ></div>
       </div>
     </div>
   </div>
