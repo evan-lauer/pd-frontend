@@ -304,6 +304,7 @@ export const eventData = reactive({
     }
     console.log('Weeks Events Array: ', eventData.weeklyEvents);
   },
+  
   creatingDaysEventArray: () => {
     eventData.reset();
     const day = selectedDate.dateTime.getDate();

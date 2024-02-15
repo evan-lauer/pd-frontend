@@ -47,12 +47,14 @@ function prefilledEventForm(day, month, year) {
 
   const laterHour = currentHour + 1; //Default endTime is one hour later than the current time.
 
+  addEventForm.isFormActive = false;
+  addEventForm.startDateTime = new Date(year, month, day, currentHour, currentMinute);
+  addEventForm.endDateTime = new Date(year, month, day, laterHour, currentMinute);
+
   eventDetails.isDetailsActive = false;
   addEventForm.isPrefilled = true;
   addEventForm.isFormActive = true;
-
-  addEventForm.startDateTime = new Date(year, month, day, currentHour, currentMinute);
-  addEventForm.endDateTime = new Date(year, month, day, laterHour, currentMinute);
+  console.log(addEventForm);
 
   console.log('Start Time: ', addEventForm.startDateTime, '\nEnd Time: ', addEventForm.endDateTime);
 }

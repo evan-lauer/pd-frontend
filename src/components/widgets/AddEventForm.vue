@@ -1,11 +1,39 @@
 <script setup>
 import TimePicker from 'src/components/widgets/TimePicker.vue';
 import { selectedDate } from 'src/stores/calendarStores';
-import { ref } from 'vue';
+import { ref, watch } from 'vue';
 import { addEventForm } from '../../stores/addEventFormStores';
 import { newEventForm } from 'src/stores/formStores';
 
 // Fill this object with the original timestamp of the current selected time (truncated to nearest hour)
+const prefilledStartTime = ref({
+  hours: addEventForm.startDateTime.getHours(),
+  minutes: addEventForm.startDateTime.getMinutes(),
+  amOrPm: addEventForm.startDateTime.getHours() >= 12 ? 'pm' : 'am'
+});
+
+const prefilledEndTime = ref({
+  hours: addEventForm.endDateTime.getHours(),
+  minutes: addEventForm.endDateTime.getMinutes(),
+  amOrPm: addEventForm.endDateTime.getHours() >= 12 ? 'pm' : 'am'
+});
+
+watch(
+  () => [addEventForm.startDateTime, addEventForm.endDateTime],
+  ([startDateTime, endDateTime]) => {
+    prefilledStartTime.value = {
+      hours: startDateTime.getHours(),
+      minutes: startDateTime.getMinutes(),
+      amOrPm: startDateTime.getHours() >= 12 ? 'pm' : 'am'
+    };
+    prefilledEndTime.value = {
+      hours: endDateTime.getHours(),
+      minutes: endDateTime.getMinutes(),
+      amOrPm: endDateTime.getHours() >= 12 ? 'pm' : 'am'
+    };
+  }
+);
+
 const startTime = ref({
   hours:
     selectedDate.dateTime.getHours() > 12
@@ -13,11 +41,6 @@ const startTime = ref({
       : selectedDate.dateTime.getHours(),
   minutes: 0,
   amOrPm: selectedDate.dateTime.getHours() >= 12 ? 'pm' : 'am'
-});
-const prefilledStartTime = ref({
-  hours: addEventForm.startDateTime.getHours,
-  minutes: addEventForm.startDateTime.getMinutes,
-  amOrPm: addEventForm.startDateTime.getHours() >= 12 ? 'pm' : 'am'
 });
 const oneHourAhead = new Date(
   new Date(selectedDate.dateTime).setTime(selectedDate.dateTime.getTime() + 60 * 60 * 1000)
@@ -27,12 +50,6 @@ const endTime = ref({
   hours: oneHourAhead.getHours() > 12 ? oneHourAhead.getHours() - 12 : oneHourAhead.getHours(),
   minutes: 0,
   amOrPm: oneHourAhead.getHours() >= 12 ? 'pm' : 'am'
-});
-
-const prefilledEndTime = ref({
-  hours: addEventForm.endDateTime.getHours(),
-  minutes: addEventForm.endDateTime.getMinutes(),
-  amOrPm: addEventForm.endDateTime.getHours() >= 12 ? 'pm' : 'am'
 });
 
 const startDate = ref(
