@@ -7,6 +7,7 @@ import { eventData, eventMethods } from '../../stores/eventStores';
 import EventStar from 'src/components/calendar/events/EventStar.vue';
 import { addEventForm } from '../../stores/addEventFormStores';
 import { eventDetails } from 'src/stores/eventDetailsStores';
+// import { upcomingTaskChecker } from '../widgets/VisualizerWidgets.vue';
 
 const calendar = new Calendar({ siblingMonths: true, weekNumbers: true });
 
@@ -143,7 +144,8 @@ function renderWeekHeader(week, day) {
               getDayByIndex(week, day).day,
               getDayByIndex(week, day).month,
               getDayByIndex(week, day).year
-            )
+            );
+            // upcomingTaskChecker();
           "
           @dblclick="
             prefilledEventForm(

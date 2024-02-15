@@ -7,25 +7,56 @@ import { eventData } from '../../stores/eventStores';
 
 const getWidth = (event) => {
   const sTime = new Date(event.startTime);
-  const eTime = new Date(event.endTime)
-  return `${((eTime.getHours() - sTime.getHours()) / 24) * 100}%`
+  const eTime = new Date(event.endTime);
+  return `${((eTime.getHours() - sTime.getHours()) / 24) * 100}%`;
 }
+
+function upcomingTaskChecker() {
+  let message = 'No upcoming events today!';
+
+  if (eventData.monthlyEvents[selectedDate.dateTime.getDate()].length > 0) {
+    console.log(eventData.monthlyEvents[selectedDate.dateTime.getDate()][0].title);
+
+    let nextTask = null;
+    let closestTimeDifference = Infinity;
+    let eventObject = null;
+
+    for (let i = 0; i < (eventData.monthlyEvents[selectedDate.dateTime.getDate()]).length; i++){
+      const dateObjectEvent = new Date(eventData.monthlyEvents[selectedDate.dateTime.getDate()][i].startTime)
+      const timeDifference = dateObjectEvent.getTime() - currentDayTime.getTime();
+
+      if (timeDifference > 0 && timeDifference < closestTimeDifference){
+        nextTask = dateObjectEvent;
+        eventObject = eventData.monthlyEvents[selectedDate.dateTime.getDate()][i];
+        closestTimeDifference = timeDifference;
+      }
+    if (timeDifference > 0) {
+      message = 'Your next task is' + eventObject.title + 'at' + nextTask.toLocaleTimeString([], {hour: '2-digit', minute: '2-digit'});
+    }
+  }}
+  return message;
+}
+
 const currentDayTime = new Date();
 </script>
 
 <template>
     <div class="widgetContainer">
-        <div class="messageContainer">{{(currentDayTime.getHours())}}:{{(currentDayTime.getMinutes())}} Your next event is __ at __ </div>
+        <div class="upcomingEventWidget">
+          It is currently {{(currentDayTime.toLocaleTimeString([], {hour: '2-digit', minute: '2-digit' }))}} 
+          <div class="upcomingEvent">  {{ upcomingTaskChecker() }} </div>
+        </div>
         <div class="taskContainer">
-            <div class="taskCircle"></div>
+            <div class="taskCircle" @click="console.log(upcomingTaskChecker());"></div>
             <select class="dropdown">
-              <option>1</option>
-              <option>1</option>
               <option>1</option>
             </select>
         </div>
         <div class="barContainer" >
-            Tasks for {{ selectedDate.dateTime.toLocaleString('default', { month: 'long' }) }} {{selectedDate.dateTime.getDate()}} {{selectedDate.dateTime.getFullYear()}}
+            Tasks for 
+            {{ selectedDate.dateTime.toLocaleString('default', { month: 'long' }) }} 
+            {{selectedDate.dateTime.getDate()}} 
+            {{selectedDate.dateTime.getFullYear()}}
             <div class="dayVisualizer" v-if="eventData.monthlyEvents[selectedDate.dateTime] !== ''">
               <div v-for="events in eventData.monthlyEvents[selectedDate.dateTime.getDate()]"
               :key="events" class="eventDivs"
@@ -37,78 +68,36 @@ const currentDayTime = new Date();
     </div>
 </template>
 
-<!-- @click="console.log(events.startTime, events.endTime)" this works-->
-              <!-- @click="getWidth(events)" -->
-              <!-- :style="{ width: getWidth(events) }" -->
-
-
-<!-- example code -->
-<!-- <template>
-    <div class="dayBar">
-      <div
-        v-for="(task, index) in tasks"
-        :key="index"
-        :style="{ left: getLeftOffset(task.startTime), width: getWidth(task.startTime, task.endTime) }"
-        class="taskBlock"
-      ></div>
-    </div>
-  </template>
-  
-  <script>
-  export default {
-    data() {
-      return {
-        tasks: [
-          { startTime: 8, endTime: 10 }, // Example tasks with start and end times in hours
-          { startTime: 12, endTime: 15 },
-          { startTime: 18, endTime: 20 }
-        ]
-      };
-    },
-    methods: {
-      getLeftOffset(startTime) {
-        return `${(startTime / 24) * 100}%`; // Convert start time to percentage for left offset
-      },
-      getWidth(startTime, endTime) {
-        return `${((endTime - startTime) / 24) * 100}%`; // Convert duration to percentage for width
-      }
-    }
-  };
-  </script>
-  
-  <style scoped>
-  .taskBlock {
-    position: absolute;
-    top: 0;
-    height: 100%;
-    background-color: #007bff; /* Example color for task blocks */
-  }
-  </style> -->
-
-
 <style scoped>
 .widgetContainer {
     height: 100%;
     display: grid;
     grid-template-columns: 1fr 1fr;
     grid-template-rows: 1fr 1fr;
-    gap: 4px 4px;
+    gap: 6px 6px;
     grid-auto-flow: row;
 }
 
-.messageContainer {
-    grid-row: 1; /* Each section will take equal space */
+.upcomingEventWidget {
+    grid-row: 1;
     grid-column: 1;
     border: 1px solid black;
+    border-radius: 5px;
     display: flex;
     justify-content: center;
     align-items: center;
     padding: 10px;
+    flex-direction: column;
+}
+
+.upcomingEvent {
+  text-align: center;
 }
 .taskContainer {
     grid-row: 1; /* Each section will take equal space */
     grid-column: 2;
     border: 1px solid black;
+    border-radius: 5px;
     display: flex;
     justify-content: space-around;
     align-items: center;
@@ -117,6 +106,7 @@ const currentDayTime = new Date();
     grid-row: 2;
     grid-column: span 2;
     border: 1px solid black;
+    border-radius: 5px;
     display: flex;
     justify-content: center;
     align-items: center;
