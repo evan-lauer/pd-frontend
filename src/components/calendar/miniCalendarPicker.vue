@@ -37,8 +37,7 @@ const isSelected = (date) => {
 
 const selectDate = (date) => {
   newDate.value = date;
-  selectedDate.setToDate(newDate.value); //sets to one day behind the actual selected date
-  selectedDate.incrementDay(); //stupid problems require stupid solutions
+  selectedDate.setToDate(newDate.value); 
 };
 
 const previousMonth = () => {
