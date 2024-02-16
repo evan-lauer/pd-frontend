@@ -1,6 +1,3 @@
-<!-- change eventData.monthlyEvents[selectedDate.dateTime.getDate()] to eventData.testEvents (hardcoded) to test 
-day container and upcoming tasks-->
-
 <script setup>
 import { selectedDate } from '../../stores/calendarStores';
 import { eventData } from '../../stores/eventStores';
@@ -10,6 +7,8 @@ const getWidth = (event) => {
   const eTime = new Date(event.endTime);
   return `${(((eTime.getHours()*60 + eTime.getMinutes()) - (sTime.getHours()*60 + sTime.getMinutes())) / 1440) * 100}%`;
 }
+
+const firstEventDiv = 0;
 
 const widgetsTestData = [
   {
@@ -26,6 +25,22 @@ const widgetsTestData = [
     eventId: '5TZIPTLMGs',
     startTime: '2024-02-16T21:00:00.000Z',
     title: 'event2',
+    userId: 'test-user'
+  },
+    {
+    description: '',
+    endTime: '2024-02-16T23:00:00.000Z',
+    eventId: '5TZIPTLMGs',
+    startTime: '2024-02-16T21:00:00.000Z',
+    title: 'event2',
+    userId: 'test-user'
+  },
+    {
+    description: '',
+    endTime: '2024-02-16T12:30:00.000Z',
+    eventId: '5TZIPTLMGs',
+    startTime: '2024-02-16T08:00:00.000Z',
+    title: 'event1',
     userId: 'test-user'
   },
 ]
@@ -80,11 +95,13 @@ const currentDayTime = new Date();
             {{ selectedDate.dateTime.getDate() }} 
             {{ selectedDate.dateTime.getFullYear() }}
             <div class="dayVisualizer" v-if="widgetsTestData !== ''">
-              <div v-for="events in widgetsTestData"
-              :key="events" class="eventDivs"
+              <div v-for="(events, index) in widgetsTestData"
+              :key="index"
+              :class="index === 0 ? 'firstEventDiv' : 'eventDivs'"
               :style="{ width: getWidth(events) }"
               >
               <div class="eventNamePopup">{{ events.title }}</div>
+              <div class="triangle"></div>
               </div>
             </div>
           </div>
@@ -120,7 +137,7 @@ const currentDayTime = new Date();
   text-align: center;
 }
 .taskContainer {
-    grid-row: 1; /* Each section will take equal space */
+    grid-row: 1;
     grid-column: 2;
     border: 1px solid black;
     border-radius: 5px;
@@ -165,31 +182,76 @@ const currentDayTime = new Date();
 }
 .eventDivs {
   position: relative;
-    height: 95%;
-    border: 1px solid orange;
-    background-color: blue;
+    height: 100;
+    border: 0.5px solid black;
+    border-top: 0px transparent;
+    border-bottom: 0px transparent;
+    background-color: green;
     overflow: visible;
 }
 .eventDivs:hover {
-  background-color: lightblue;
+  background-color: lightgreen;
 }
+
+.firstEventDiv {
+  position: relative;
+  height: 100;
+  border: 0.5px solid black;
+  border-top: 0px transparent;
+  border-bottom: 0px transparent;
+  background-color: green;
+  overflow: visible;
+  border-radius: 10px 0px 0px 10px;
+}
+.firstEventDiv:hover {
+  background-color: lightgreen;
+}
+
+.firstEventDiv:hover > .eventNamePopup {
+  display: flex;
+}
+
+.firstEventDiv:hover > .triangle {
+  position: absolute;
+  top: 0px;
+  left: 45%;
+  z-index: 1;
+  width: 0;
+  height: 0;
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  border-top: 5px solid red;
+  transform: translateY(-150%);
+}
+
+
 .eventNamePopup {
   position: absolute;
   top: -30px;
   left: 50%;
   transform: translateX(-50%);
+  border-radius: 5px;
   display: none;
+  font-size: small;
+  background-color: red;
+  padding: 4px;
   z-index: 1;
 }
 
 .eventDivs:hover > .eventNamePopup {
   display: flex;
-  border-color: black;
-  border-radius: 5px;
-  width: auto;
+}
+
+.eventDivs:hover > .triangle {
+  position: absolute;
+  top: 0px;
+  left: 45%;
   z-index: 1;
-  font-size: small;
-  background-color: pink;
-  padding: 4px;
+  width: 0;
+  height: 0;
+  border-left: 5px solid transparent; /* Adjust the width of the triangle */
+  border-right: 5px solid transparent; /* Adjust the width of the triangle */
+  border-top: 5px solid red; /* Adjust the height and color of the triangle */
+  transform: translateY(-150%);
 }
 </style>
