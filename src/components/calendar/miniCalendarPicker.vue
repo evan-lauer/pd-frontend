@@ -37,7 +37,8 @@ const isSelected = (date) => {
 
 const selectDate = (date) => {
   newDate.value = date;
-  selectedDate.setToDate(newDate.value); 
+    selectedDate.setToDate(newDate.value); 
+  selectedDate.setHours();
 };
 
 const previousMonth = () => {
