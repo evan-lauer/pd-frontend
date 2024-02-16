@@ -5,6 +5,7 @@ defineProps({
     hour: Number,
     minute: Number,
     amOrPm: String
+    // change to accept Date object instead
   }
 });
 

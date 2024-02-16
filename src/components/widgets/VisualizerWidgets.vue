@@ -30,9 +30,9 @@ function upcomingTaskChecker() {
         eventObject = eventData.monthlyEvents[selectedDate.dateTime.getDate()][i];
         closestTimeDifference = timeDifference;
       }
-    if (timeDifference > 0) {
-      message = 'Your next task is' + eventObject.title + 'at' + nextTask.toLocaleTimeString([], {hour: '2-digit', minute: '2-digit'});
-    }
+      if (timeDifference > 0) {
+        message = 'Your next task is' + eventObject.title + 'at' + nextTask.toLocaleTimeString([], {hour: '2-digit', minute: '2-digit'});
+      }
   }}
   return message;
 }

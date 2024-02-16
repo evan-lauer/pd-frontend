@@ -6,42 +6,42 @@ import { addEventForm } from '../../stores/addEventFormStores';
 import { newEventForm } from 'src/stores/formStores';
 
 // Fill this object with the original timestamp of the current selected time (truncated to nearest hour)
-const prefilledStartTime = ref({
-  hours: addEventForm.startDateTime.getHours(),
-  minutes: addEventForm.startDateTime.getMinutes(),
-  amOrPm: addEventForm.startDateTime.getHours() >= 12 ? 'pm' : 'am'
-});
+// const prefilledStartTime = ref({
+//   hours: addEventForm.startDateTime.getHours(),
+//   minutes: addEventForm.startDateTime.getMinutes(),
+//   amOrPm: addEventForm.startDateTime.getHours() >= 12 ? 'pm' : 'am'
+// });
 
-const prefilledEndTime = ref({
-  hours: addEventForm.endDateTime.getHours(),
-  minutes: addEventForm.endDateTime.getMinutes(),
-  amOrPm: addEventForm.endDateTime.getHours() >= 12 ? 'pm' : 'am'
-});
+// const prefilledEndTime = ref({
+//   hours: addEventForm.endDateTime.getHours(),
+//   minutes: addEventForm.endDateTime.getMinutes(),
+//   amOrPm: addEventForm.endDateTime.getHours() >= 12 ? 'pm' : 'am'
+// });
 
-watch(
-  () => [addEventForm.startDateTime, addEventForm.endDateTime],
-  ([startDateTime, endDateTime]) => {
-    prefilledStartTime.value = {
-      hours: startDateTime.getHours(),
-      minutes: startDateTime.getMinutes(),
-      amOrPm: startDateTime.getHours() >= 12 ? 'pm' : 'am'
-    };
-    prefilledEndTime.value = {
-      hours: endDateTime.getHours(),
-      minutes: endDateTime.getMinutes(),
-      amOrPm: endDateTime.getHours() >= 12 ? 'pm' : 'am'
-    };
-  }
-);
+// watch(
+//   () => [addEventForm.startDateTime, addEventForm.endDateTime],
+//   ([startDateTime, endDateTime]) => {
+//     prefilledStartTime.value = {
+//       hours: startDateTime.getHours(),
+//       minutes: startDateTime.getMinutes(),
+//       amOrPm: startDateTime.getHours() >= 12 ? 'pm' : 'am'
+//     };
+//     prefilledEndTime.value = {
+//       hours: endDateTime.getHours(),
+//       minutes: endDateTime.getMinutes(),
+//       amOrPm: endDateTime.getHours() >= 12 ? 'pm' : 'am'
+//     };
+//   }
+// );
 
-const startTime = ref({
-  hours:
-    selectedDate.dateTime.getHours() > 12
-      ? selectedDate.dateTime.getHours() - 12
-      : selectedDate.dateTime.getHours(),
-  minutes: 0,
-  amOrPm: selectedDate.dateTime.getHours() >= 12 ? 'pm' : 'am'
-});
+// // const startTime = ref({
+// //   hours:
+// //     selectedDate.dateTime.getHours() > 12
+// //       ? selectedDate.dateTime.getHours() - 12
+// //       : selectedDate.dateTime.getHours(),
+// //   minutes: 0,
+// //   amOrPm: selectedDate.dateTime.getHours() >= 12 ? 'pm' : 'am'
+// // });
 const oneHourAhead = new Date(
   new Date(selectedDate.dateTime).setTime(selectedDate.dateTime.getTime() + 60 * 60 * 1000)
 );
@@ -87,18 +87,13 @@ function submissionHandler() {
         <input
           class="datePicker start"
           type="date"
-          v-bind:value="startDate"
+          v-bind:value="addEventForm.startDateTime"
         />
       </div>
       <div class="inputRow time">
         Start Time
         <TimePicker
-          v-if="addEventForm.isPrefilled"
-          :timestamp="prefilledStartTime"
-        />
-        <TimePicker
-          v-else
-          :timestamp="startTime"
+          :timestamp="addEventForm.startDateTime"
         />
       </div>
       <div class="inputRow date">
@@ -106,7 +101,7 @@ function submissionHandler() {
         <input
           class="datePicker end"
           type="date"
-          v-bind:value="endDate"
+          v-bind:value="addEventForm.endDateTime"
         />
       </div>
       <div class="inputRow time">
@@ -117,7 +112,7 @@ function submissionHandler() {
         />
         <TimePicker
           v-else
-          :timestamp="endTime"
+          :timestamp="addEventForm.endDateTime"
         />
       </div>
     </div>
