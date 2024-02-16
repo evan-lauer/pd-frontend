@@ -5,12 +5,14 @@ defineProps({
     hour: Number,
     minute: Number,
     amOrPm: String
+    // change to accept Date object instead
   }
 });
 
 const selectedField = ref('none');
 // When the input changes we will emit a "time-change" event with arguments hours, minutes, amOrPm
 </script>
+
 <template>
   <div class="timePickerContainer">
     <div

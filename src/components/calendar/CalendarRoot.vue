@@ -34,7 +34,8 @@ function openEventForm() {
     <DatePicker />
     <div class="rightJustifiedInputs">
       <ModePicker />
-      <CreateEventButton @click="openEventForm()" />
+      <CreateEventButton @click="openEventForm()" /> 
+      <!-- set the time for the form being rendered in above line -->
       <!-- <CreateEventButton @click="() => eventData.addEvent(5)" />  -->
     </div>
   </div>

@@ -4,9 +4,16 @@ import { Calendar } from 'calendar-base';
 import { selectedDate } from 'src/stores/calendarStores';
 import userStore from 'src/stores/userStore';
 import { eventData, eventMethods } from '../../stores/eventStores';
-import EventStar from './events/EventStar.vue';
+import EventStar from 'src/components/calendar/events/EventStar.vue';
+import { addEventForm } from '../../stores/addEventFormStores';
+import { eventDetails } from 'src/stores/eventDetailsStores';
+// import { upcomingTaskChecker } from '../widgets/VisualizerWidgets.vue';
 
 const calendar = new Calendar({ siblingMonths: true, weekNumbers: true });
+
+const updateDayClicked = (day, month, year) => {
+  selectedDate.setDateToClicked(day, month, year);
+};
 
 const displayDays = computed(() => {
   return calendar.getCalendar(
@@ -34,15 +41,34 @@ function isToday(date) {
   );
 }
 
+function prefilledEventForm(day, month, year) {
+  const currentTime = new Date();
+  const currentHour = currentTime.getHours();
+  const currentMinute = currentTime.getMinutes();
+
+  const laterHour = currentHour + 1; //Default endTime is one hour later than the current time.
+
+  addEventForm.isFormActive = false;
+  addEventForm.startDateTime = new Date(year, month, day, currentHour, currentMinute);
+  addEventForm.endDateTime = new Date(year, month, day, laterHour, currentMinute);
+
+  eventDetails.isDetailsActive = false;
+  addEventForm.isPrefilled = true;
+  addEventForm.isFormActive = true;
+  console.log(addEventForm);
+
+  console.log('Start Time: ', addEventForm.startDateTime, '\nEnd Time: ', addEventForm.endDateTime);
+}
+
 userStore.getEvents();
-eventData.creatingDaysEventArray();
+eventData.creatingMonthsEventArray();
 
 watch(
   () => selectedDate.dateTime.getMonth(),
   () => {
     // This ensures that the numsEventsArray is reset when the month is changed
     userStore.getEvents();
-    eventData.creatingDaysEventArray();
+    eventData.creatingMonthsEventArray();
   }
 );
 
@@ -98,12 +124,14 @@ function renderWeekHeader(week, day) {
         >
           {{ getDayByIndex(week, day).day }}
         </div>
-        <div class="eventsContainer">
+        <div
+          class="eventsContainer"
+          v-if="getDayByIndex(week, day).month === selectedDate.dateTime.getMonth()"
+        >
           <div
             class="eventSymbol"
             @click="() => eventMethods.displayEvent(eventA)"
             v-for="eventA of eventData.monthlyEvents[getDayByIndex(week, day).day]"
-            v-if="getDayByIndex(week, day).month === selectedDate.dateTime.getMonth()"
             :key="eventA"
           >
             <EventStar />
@@ -112,15 +140,21 @@ function renderWeekHeader(week, day) {
         <div
           :class="day === 1 ? `pseudoDay first` : `pseudoDay`"
           @click="
-            console.log(
-              getDayByIndex(week, day).month,
+            updateDayClicked(
               getDayByIndex(week, day).day,
+              getDayByIndex(week, day).month,
+              getDayByIndex(week, day).year
+            )
+            // upcomingTaskChecker();
+          "
+          @dblclick="
+            prefilledEventForm(
+              getDayByIndex(week, day).day,
+              getDayByIndex(week, day).month,
               getDayByIndex(week, day).year
             )
           "
-        >
-          <!-- Will make this clickable, pass the year, month, date to VisualizerWidgets. -->
-        </div>
+        ></div>
       </div>
     </div>
   </div>

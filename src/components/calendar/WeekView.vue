@@ -108,14 +108,20 @@ watch(
 function calculate_height(startTime, endTime) {
   const start_date = new Date(startTime);
   const end_date = new Date(endTime);
-  const height = (end_date.getHours() - start_date.getHours()) * 47;
+  const height = (end_date.getHours() - start_date.getHours()) * 48;
   return height + 'px';
 }
 // event container top component
 function calculate_top(startTime) {
   const date = new Date(startTime);
-  const top_percent = 24 + (date.getHours() * 48)
+  const top_percent = 24 + (date.getHours() * 51)
   return top_percent + "px";
+}
+
+function formatTimes(startTime, endTime) {
+  const start = new Date(startTime);
+  const end = new Date(endTime);
+  return start.getHours() + ':' + (start.getMinutes() < 10 ? '0' : '') + start.getMinutes() + '-' + end.getHours() + ':' + (end.getMinutes() < 10 ? '0' : '') + end.getMinutes();
 }
 </script>
 
@@ -171,14 +177,10 @@ function calculate_top(startTime) {
         >
           <div
             v-if="eventA.startTime !== eventA.endTime">
-            <EventStar />
+            <!-- <EventStar /> -->
+            <div class="eventDesc">{{ eventA.title }}</div>
+            <div class="eventDesc">{{ formatTimes(eventA.startTime, eventA.endTime) }}</div>
           </div>
-          <!-- <div
-            v-if="day === 1"
-            class="times"
-          >
-            {{ i }}:00
-          </div> -->
         </div>
       </div>
       <div
@@ -256,5 +258,12 @@ function calculate_top(startTime) {
   background-color:gray;
   position:absolute;
   z-index:1;
+}
+
+.eventDesc {
+  font-size: 10px;
+  padding: 5px;
+  width: 80%;
+  overflow: hidden;
 }
 </style>
