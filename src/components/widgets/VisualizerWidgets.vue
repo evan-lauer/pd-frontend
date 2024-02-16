@@ -8,13 +8,13 @@ import { eventData } from '../../stores/eventStores';
 const getWidth = (event) => {
   const sTime = new Date(event.startTime);
   const eTime = new Date(event.endTime);
-  return `${((eTime.getHours() - sTime.getHours()) / 24) * 100}%`;
+  return `${(((eTime.getHours()*60 + eTime.getMinutes()) - (sTime.getHours()*60 + sTime.getMinutes())) / 1440) * 100}%`;
 }
 
 const widgetsTestData = [
   {
     description: '',
-    endTime: '2024-02-16T12:00:00.000Z',
+    endTime: '2024-02-16T12:30:00.000Z',
     eventId: '5TZIPTLMGs',
     startTime: '2024-02-16T08:00:00.000Z',
     title: 'event1',
@@ -69,7 +69,7 @@ const currentDayTime = new Date();
           <div class="upcomingEvent">  {{ upcomingEventChecker() }} </div>
         </div>
         <div class="taskContainer">
-            <div class="taskCircle" @click="console.log(upcomingEventChecker());"></div>
+            <div class="taskCircle"></div>
             <select class="dropdown">
               <option>1</option>
             </select>
@@ -77,18 +77,22 @@ const currentDayTime = new Date();
         <div class="barContainer" >
             Tasks for 
             {{ selectedDate.dateTime.toLocaleString('default', { month: 'long' }) }} 
-            {{selectedDate.dateTime.getDate()}} 
-            {{selectedDate.dateTime.getFullYear()}}
-            <div class="dayVisualizer" v-if="eventData.monthlyEvents[selectedDate.dateTime] !== ''">
-              <div v-for="events in eventData.monthlyEvents[selectedDate.dateTime.getDate()]"
+            {{ selectedDate.dateTime.getDate() }} 
+            {{ selectedDate.dateTime.getFullYear() }}
+            <div class="dayVisualizer" v-if="widgetsTestData !== ''">
+              <div v-for="events in widgetsTestData"
               :key="events" class="eventDivs"
               :style="{ width: getWidth(events) }"
               >
+              <div class="eventNamePopup">{{ events.title }}</div>
               </div>
             </div>
-        </div>
+          </div>
     </div>
 </template>
+
+<!-- <div class="dayVisualizer" v-if="eventData.monthlyEvents[selectedDate.dateTime] !== ''">
+  <div v-for="events in eventData.monthlyEvents[selectedDate.dateTime.getDate()]" -->
 
 <style scoped>
 .widgetContainer {
@@ -146,12 +150,10 @@ const currentDayTime = new Date();
     border-radius: 50%;
     margin: 5px;
 }
-
 .dropdown{
   width: auto;
   height: auto;
 }
-
 .dayVisualizer {
     height: 20px;
     width: 90%;
@@ -162,9 +164,32 @@ const currentDayTime = new Date();
     background: transparent;
 }
 .eventDivs {
+  position: relative;
     height: 95%;
     border: 1px solid orange;
     background-color: blue;
-    z-index: 0;
+    overflow: visible;
+}
+.eventDivs:hover {
+  background-color: lightblue;
+}
+.eventNamePopup {
+  position: absolute; /* Position the popup absolutely */
+  top: -30px; /* Adjust top position to position it above the eventDivs */
+  left: 50%; /* Position it in the middle horizontally */
+  transform: translateX(-50%); /* Center it horizontally */
+  display: none;
+  z-index: 1;
+}
+
+.eventDivs:hover > .eventNamePopup {
+  display: flex;
+  border-color: black;
+  border-radius: 5px;
+  width: auto;
+  z-index: 1;
+  font-size: small;
+  background-color: pink;
+  padding: 4px;
 }
 </style>
