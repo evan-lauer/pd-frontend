@@ -174,10 +174,10 @@ const currentDayTime = new Date();
   background-color: lightblue;
 }
 .eventNamePopup {
-  position: absolute; /* Position the popup absolutely */
-  top: -30px; /* Adjust top position to position it above the eventDivs */
-  left: 50%; /* Position it in the middle horizontally */
-  transform: translateX(-50%); /* Center it horizontally */
+  position: absolute;
+  top: -30px;
+  left: 50%;
+  transform: translateX(-50%);
   display: none;
   z-index: 1;
 }
