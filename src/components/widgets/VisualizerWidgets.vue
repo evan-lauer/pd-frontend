@@ -1,5 +1,5 @@
-<!-- TODO: Have a bar that represents a day (24 hours) and fill up the corresponding portions with the tasks scheduled.
-TODO: have a circle that represents a certain tab in list and show the percentage of tasks completed-->
+<!-- change eventData.monthlyEvents[selectedDate.dateTime.getDate()] to eventData.testEvents (hardcoded) to test 
+day container and upcoming tasks-->
 
 <script setup>
 import { selectedDate } from '../../stores/calendarStores';
@@ -11,29 +11,52 @@ const getWidth = (event) => {
   return `${((eTime.getHours() - sTime.getHours()) / 24) * 100}%`;
 }
 
-function upcomingTaskChecker() {
+const widgetsTestData = [
+  {
+    description: '',
+    endTime: '2024-02-16T12:00:00.000Z',
+    eventId: '5TZIPTLMGs',
+    startTime: '2024-02-16T08:00:00.000Z',
+    title: 'event1',
+    userId: 'test-user'
+  },
+  {
+    description: '',
+    endTime: '2024-02-16T23:00:00.000Z',
+    eventId: '5TZIPTLMGs',
+    startTime: '2024-02-16T21:00:00.000Z',
+    title: 'event2',
+    userId: 'test-user'
+  },
+]
+
+function upcomingEventChecker() { 
+  // Checks for any upcoming events 
   let message = 'No upcoming events today!';
+  const dateOptions = {
+      timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+      hour: '2-digit',
+      minute: '2-digit'
+  }
 
-  if (eventData.monthlyEvents[selectedDate.dateTime.getDate()].length > 0) {
-    console.log(eventData.monthlyEvents[selectedDate.dateTime.getDate()][0].title);
-
+  if (eventData.monthlyEvents[currentDayTime.getDate()].length > 0) {
     let nextTask = null;
-    let closestTimeDifference = Infinity;
     let eventObject = null;
+    let closestTimeDifference = Infinity;
 
-    for (let i = 0; i < (eventData.monthlyEvents[selectedDate.dateTime.getDate()]).length; i++){
-      const dateObjectEvent = new Date(eventData.monthlyEvents[selectedDate.dateTime.getDate()][i].startTime)
-      const timeDifference = dateObjectEvent.getTime() - currentDayTime.getTime();
+    for (let i = 0; i < eventData.monthlyEvents[currentDayTime.getDate()].length; i++){
+      const dateObjectOfEvent = new Date(eventData.monthlyEvents[currentDayTime.getDate()][i].startTime);
+      const timeDifference = dateObjectOfEvent.getTime() - currentDayTime.getTime();
 
       if (timeDifference > 0 && timeDifference < closestTimeDifference){
-        nextTask = dateObjectEvent;
-        eventObject = eventData.monthlyEvents[selectedDate.dateTime.getDate()][i];
+        nextTask = dateObjectOfEvent;
+        eventObject = eventData.monthlyEvents[currentDayTime.getDate()][i];
         closestTimeDifference = timeDifference;
       }
-      if (timeDifference > 0) {
-        message = 'Your next task is' + eventObject.title + 'at' + nextTask.toLocaleTimeString([], {hour: '2-digit', minute: '2-digit'});
+      if (eventObject && nextTask) {
+        message = 'Your next task is ' + eventObject.title + ' at ' + nextTask.toLocaleTimeString(undefined, dateOptions);
       }
-  }}
+    }}
   return message;
 }
 
@@ -43,11 +66,10 @@ const currentDayTime = new Date();
 <template>
     <div class="widgetContainer">
         <div class="upcomingEventWidget">
-          It is currently {{(currentDayTime.toLocaleTimeString([], {hour: '2-digit', minute: '2-digit' }))}} 
-          <div class="upcomingEvent">  {{ upcomingTaskChecker() }} </div>
+          <div class="upcomingEvent">  {{ upcomingEventChecker() }} </div>
         </div>
         <div class="taskContainer">
-            <div class="taskCircle" @click="console.log(upcomingTaskChecker());"></div>
+            <div class="taskCircle" @click="console.log(upcomingEventChecker());"></div>
             <select class="dropdown">
               <option>1</option>
             </select>
