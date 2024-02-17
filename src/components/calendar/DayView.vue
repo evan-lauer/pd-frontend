@@ -114,7 +114,7 @@ watch(
 }
 .eventsContainer {
   border-radius: 7px;
-  background-color: rgb(101, 39, 94);
+  background-color: gray;
   position: relative;
   z-index: 1;
   top: 20%;

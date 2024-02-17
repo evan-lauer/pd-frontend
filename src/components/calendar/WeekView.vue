@@ -102,7 +102,7 @@ watch(
   }
 );
 
-// calculations need some fixing (like the top one probably)
+// calculations need some fixing
 
 // event container height component
 function calculate_height(startTime, endTime) {
