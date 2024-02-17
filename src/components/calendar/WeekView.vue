@@ -167,7 +167,6 @@ function formatTimes(startTime, endTime) {
         </div>
       </div>
       <div>
-        <!-- known bug: event container doesn't move with scrolling right now -->
         <div
           class="eventSymbol eventsContainer"
           :style="{height:calculate_height(eventA.startTime, eventA.endTime), top:calculate_top(eventA.startTime)}"
