@@ -49,6 +49,7 @@ const selectedField = ref('none');
   width: 80px;
   display: flex;
   gap: 5px;
+  margin-left: 10px;
 }
 
 .field {

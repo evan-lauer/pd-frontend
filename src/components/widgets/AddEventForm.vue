@@ -4,6 +4,8 @@ import { selectedDate } from 'src/stores/calendarStores';
 import { ref, watch } from 'vue';
 import { addEventForm } from '../../stores/addEventFormStores';
 import { newEventForm } from 'src/stores/formStores';
+import SimpleButton from 'src/components/icons/SimpleButton.vue';
+
 
 // Fill this object with the original timestamp of the current selected time (truncated to nearest hour)
 // const prefilledStartTime = ref({
@@ -80,13 +82,10 @@ function submissionHandler() {
 <template>
   <div class="formContainer">
     <div class="inputRow">
-      <input class="textInput" placeholder="Add Event Title"/>
+      <input class="eventNameInput" placeholder="Add Event Title"/>
     </div>
+
     <div class="inputRow">
-      <input class="textInput" placeholder="Add Event Description" />
-    </div>
-    <div class="inputRow">
-      <!-- <label for="startDate">Start Date</label> -->
       <p class="dateLabel">Start Date</p>
       <input
         id="startDate"
@@ -99,7 +98,6 @@ function submissionHandler() {
       />
     </div>
     <div class="inputRow">
-      <!-- <label for="endDate">End Date</label> -->
       <p class="dateLabel">End Date</p>
       <input
         id="endDate"
@@ -116,20 +114,22 @@ function submissionHandler() {
         :timestamp="addEventForm.endDateTime"
       />
     </div>
-  <button
-    class="submitButton"
-    @click="submissionHandler()"
-  >
-    Submit
-  </button>
-</div>
+    <div class="inputRow">
+      <input class="descriptionInput" placeholder="Add Event Description" />
+    </div>
+  <div class="saveButtonRow">
+    <SimpleButton
+      inner-text="Submit"
+      @click="submissionHandler()"
+     />
+  </div>
+</div>  
 
 </template>
 
 <style scoped>
 .formTitleHeader {
   font-size: large;
-  /* margin: 2px; */
   display: flex;
   justify-content: center;
 }
@@ -143,15 +143,38 @@ function submissionHandler() {
   gap: 5px;
   padding: 2px;
 }
-.textInput {
+.eventNameInput {
   height: 25px;
   width: 100%;
+  border: 1px solid transparent;
+  font-size: large;
+}
+.eventNameInput::placeholder{
+  font-size: large;
+}
+.eventNameInput:focus {
+  border-bottom: 1px solid var(--primary-default);
+  outline: none;
+}
+
+.descriptionInput {
+  height: 25px;
+  width: 100%;
+  border: 1px solid transparent;
+  font-size: small;
+}
+.descriptionInput:focus {
+  border-bottom: 1px solid var(--primary-default);
+  outline: none;
+}
+.descriptionInput::placeholder {
+  font-size: small;
 }
 .inputRow {
   display: flex;
-  justify-content: space-between;
   align-items: center;
   max-width: 100%;
+  justify-content: flex-start;
 }
 .datePicker {
   width: 110px;
@@ -160,5 +183,15 @@ function submissionHandler() {
   width: 20%;
   height: auto;
   max-height: 10px;
+}
+.saveButtonRow {
+  display: flex;
+  justify-content: flex-end;
+}
+.saveButton {
+  display: flex;
+  margin: 4px;
+  width: 50px;
+  justify-content: center;
 }
 </style>

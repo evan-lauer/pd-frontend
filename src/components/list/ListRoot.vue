@@ -20,7 +20,7 @@ import TabBar from 'src/components/list/TabBar.vue';
   flex-wrap: wrap;
   height: auto;
   vertical-align: left;
-  padding: 10px;
+  padding: 10px 10px 0 10px;
   overflow: hidden;
   align-items: flex-end;
   border-bottom: 2px solid #d17d5b;

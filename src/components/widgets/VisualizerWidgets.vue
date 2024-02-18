@@ -139,7 +139,7 @@ const currentDayTime = new Date();
 .upcomingEventWidget {
     grid-row: 1;
     grid-column: 1;
-    border: 2px solid green;
+    border: 2px solid var(--primary-default);
     border-radius: 5px;
     display: flex;
     justify-content: center;
@@ -163,7 +163,7 @@ const currentDayTime = new Date();
 .barContainer {
     grid-row: 2;
     grid-column: span 2;
-    border: 2px solid green;
+    border: 2px solid var(--primary-default);
     border-radius: 5px;
     display: flex;
     justify-content: center;
@@ -202,7 +202,7 @@ const currentDayTime = new Date();
   border: 0.5px solid black;
   border-top: 0px transparent;
   border-bottom: 0px transparent;
-  background-color: green;
+  background-color: var(--primary-default);
   overflow: visible;
 }
 .eventDivs:hover {
@@ -215,7 +215,7 @@ const currentDayTime = new Date();
   border: 0.5px solid black;
   border-top: 0px transparent;
   border-bottom: 0px transparent;
-  background-color: green;
+  background-color: var(--primary-default);
   overflow: visible;
   border-radius: 9px 0px 0px 9px;
 }

@@ -71,7 +71,7 @@ const makeReadOnly = (tabId) => {
 .tabContainer {
   display: flex;
   border-radius: 10px 10px 0px 0px;
-  border: 1px solid #d17d5b;
+  border: 2px solid #d17d5b;
   border-bottom: transparent;
   height: auto;
   width: 15%;
@@ -95,6 +95,8 @@ const makeReadOnly = (tabId) => {
   text-align: center;
   padding: 2px 10px;
   overflow: auto;
+  font-size: large;
+
 }
 .tabName.selected {
   font-weight: bold;
