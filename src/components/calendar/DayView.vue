@@ -105,10 +105,6 @@ function formatTimes(startTime, endTime) {
   border-bottom: var(--calendar-border-grey) 1px solid;
   max-height: min-content;
 }
-
-.hourContainer.first {
-  border-top: var(--calendar-border-grey) 1px solid;
-}
 .halfHourContainer {
   height: 50%;
   position: flex;
@@ -117,6 +113,8 @@ function formatTimes(startTime, endTime) {
   position: relative;
   height: 0%;
   z-index: 1;
+  top:5%;
+  left:1%;
 }
 .halfHourContainer.first {
   height: 50%;
@@ -124,6 +122,7 @@ function formatTimes(startTime, endTime) {
 }
 .contentDiv {
   overflow-y: scroll;
+  overflow-x:hidden;
   height: 95.5%;
   width: 70%;
   float: left;
@@ -131,6 +130,8 @@ function formatTimes(startTime, endTime) {
 }
 .datePickerDiv {
   float: center;
+  min-width:100%;
+  min-height:100%;
 }
 .eventsContainer {
   border-radius: 7px;
