@@ -9,7 +9,6 @@
  -->
 
 <script setup>
-import { dateSelectionForm } from 'src/stores/formStores';
 import { addEventForm } from 'src/stores/addEventFormStores';
 import { viewMode } from 'src/stores/calendarStores';
 
@@ -20,10 +19,15 @@ import DayView from 'src/components/calendar/DayView.vue';
 import DatePicker from 'src/components/calendar/datePickers/DatePicker.vue';
 import CreateEventButton from 'src/components/calendar/CreateEventButton.vue';
 import CreateEventOverlay from 'src/components/calendar/CreateEventOverlay.vue';
-import { eventData } from 'src/stores/eventStores.js';
-import { eventDetails } from '../../stores/eventDetailsStores';
+import { eventDetails } from 'src/stores/eventDetailsStores';
 
 function openEventForm() {
+  const startDateTime = new Date();
+  startDateTime.setMinutes(0);
+  startDateTime.setSeconds(0);
+  const endDateTime = new Date(startDateTime.getTime() + 60 * 60 * 1000);
+  addEventForm.startDateTime = startDateTime;
+  addEventForm.endDateTime = endDateTime;
   addEventForm.isFormActive = !addEventForm.isFormActive;
   eventDetails.isDetailsActive = false;
 }
@@ -34,7 +38,7 @@ function openEventForm() {
     <DatePicker />
     <div class="rightJustifiedInputs">
       <ModePicker />
-      <CreateEventButton @click="openEventForm()" /> 
+      <CreateEventButton @click="openEventForm()" />
       <!-- set the time for the form being rendered in above line -->
       <!-- <CreateEventButton @click="() => eventData.addEvent(5)" />  -->
     </div>

@@ -3,11 +3,9 @@ import { computed, watch } from 'vue';
 import { Calendar } from 'calendar-base';
 import { selectedDate } from 'src/stores/calendarStores';
 import userStore from 'src/stores/userStore';
-import { eventData, eventMethods } from '../../stores/eventStores';
+import { eventData, eventMethods } from 'src/stores/eventStores';
 import EventStar from 'src/components/calendar/events/EventStar.vue';
-import { addEventForm } from '../../stores/addEventFormStores';
-import { eventDetails } from 'src/stores/eventDetailsStores';
-// import { upcomingTaskChecker } from '../widgets/VisualizerWidgets.vue';
+import { addEventForm } from 'src/stores/addEventFormStores';
 
 const calendar = new Calendar({ siblingMonths: true, weekNumbers: true });
 
@@ -41,23 +39,18 @@ function isToday(date) {
   );
 }
 
-function prefilledEventForm(day, month, year) {
-  const currentTime = new Date();
-  const currentHour = currentTime.getHours();
-  const currentMinute = currentTime.getMinutes();
-
-  const laterHour = currentHour + 1; //Default endTime is one hour later than the current time.
-
-  addEventForm.isFormActive = false;
-  addEventForm.startDateTime = new Date(year, month, day, currentHour, currentMinute);
-  addEventForm.endDateTime = new Date(year, month, day, laterHour, currentMinute);
-
-  eventDetails.isDetailsActive = false;
-  addEventForm.isPrefilled = true;
+function prefilledEventForm(weekIndex, dayIndex) {
+  const clickedDate = getDayByIndex(weekIndex, dayIndex);
+  const startDateTime = new Date();
+  startDateTime.setDate(clickedDate.day);
+  startDateTime.setMonth(clickedDate.month);
+  startDateTime.setFullYear(clickedDate.year);
+  startDateTime.setMinutes(0);
+  startDateTime.setSeconds(0);
+  const endDateTime = new Date(startDateTime.getTime() + 60 * 60 * 1000);
+  addEventForm.startDateTime = startDateTime;
+  addEventForm.endDateTime = endDateTime;
   addEventForm.isFormActive = true;
-  console.log(addEventForm);
-
-  console.log('Start Time: ', addEventForm.startDateTime, '\nEnd Time: ', addEventForm.endDateTime);
 }
 
 userStore.getEvents();
@@ -144,15 +137,13 @@ function renderWeekHeader(week, day) {
               getDayByIndex(week, day).day,
               getDayByIndex(week, day).month,
               getDayByIndex(week, day).year
-            );
+            )
             // upcomingTaskChecker();
           "
           @dblclick="
-            prefilledEventForm(
-              getDayByIndex(week, day).day,
-              getDayByIndex(week, day).month,
-              getDayByIndex(week, day).year
-            )
+            () => {
+              prefilledEventForm(week, day);
+            }
           "
         ></div>
       </div>
