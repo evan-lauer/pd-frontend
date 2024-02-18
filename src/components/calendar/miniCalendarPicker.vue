@@ -36,9 +36,15 @@ const isSelected = (date) => {
 };
 
 const selectDate = (date) => {
-  newDate.value = date;
+  if(date==""){
+    //user is clicking empty div, do nothing
+  }
+  else{
+    newDate.value = date;
     selectedDate.setToDate(newDate.value); 
-  selectedDate.setHours();
+    selectedDate.setHours();
+  }
+
 };
 
 const previousMonth = () => {
