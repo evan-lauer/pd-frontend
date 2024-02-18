@@ -23,7 +23,7 @@ import TabBar from 'src/components/list/TabBar.vue';
   padding: 10px;
   overflow: hidden;
   align-items: flex-end;
-  border: 1px solid #d17d5b;
+  border-bottom: 2px solid #d17d5b;
   border-radius: 8px 8px 0 0;
 }
 

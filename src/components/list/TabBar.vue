@@ -71,7 +71,7 @@ const makeReadOnly = (tabId) => {
 .tabContainer {
   display: flex;
   border-radius: 10px 10px 0px 0px;
-  border: 1px solid black;
+  border: 1px solid #d17d5b;
   border-bottom: transparent;
   height: auto;
   width: 15%;
