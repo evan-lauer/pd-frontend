@@ -8,7 +8,23 @@ const getWidth = (event) => {
   return `${(((eTime.getHours()*60 + eTime.getMinutes()) - (sTime.getHours()*60 + sTime.getMinutes())) / 1440) * 100}%`;
 }
 
-const firstEventDiv = 0;
+const eventLength = (event) => {
+  let string = ''
+  const sTime = new Date(event.startTime);
+  const eTime = new Date(event.endTime);
+  const durationMS = eTime.getTime() - sTime.getTime();
+  const durationM = (durationMS / 1000) / 60;
+  const hours = Math.floor(durationM / 60);
+  const minutes = Math.floor(durationM % 60);
+
+  if (minutes > 0){
+    string = hours + ' hrs ' + minutes + ' mins';
+  }
+  else {
+    string = hours + ' hrs';
+  }
+  return string;
+}
 
 const widgetsTestData = [
   {
@@ -90,7 +106,7 @@ const currentDayTime = new Date();
             </select>
         </div>
         <div class="barContainer" >
-            Tasks for 
+            Events on 
             {{ selectedDate.dateTime.toLocaleString('default', { month: 'long' }) }} 
             {{ selectedDate.dateTime.getDate() }} 
             {{ selectedDate.dateTime.getFullYear() }}
@@ -100,8 +116,7 @@ const currentDayTime = new Date();
               :class="index === 0 ? 'firstEventDiv' : 'eventDivs'"
               :style="{ width: getWidth(events) }"
               >
-              <div class="eventNamePopup">{{ events.title }}</div>
-              <div class="triangle"></div>
+              <div class="eventNamePopup">{{ events.title }}<br>{{ eventLength(events) }}</div>
               </div>
             </div>
           </div>
@@ -124,7 +139,7 @@ const currentDayTime = new Date();
 .upcomingEventWidget {
     grid-row: 1;
     grid-column: 1;
-    border: 1px solid black;
+    border: 2px solid green;
     border-radius: 5px;
     display: flex;
     justify-content: center;
@@ -139,7 +154,7 @@ const currentDayTime = new Date();
 .taskContainer {
     grid-row: 1;
     grid-column: 2;
-    border: 1px solid black;
+    border: 2px solid #DD825F;
     border-radius: 5px;
     display: flex;
     justify-content: space-around;
@@ -148,7 +163,7 @@ const currentDayTime = new Date();
 .barContainer {
     grid-row: 2;
     grid-column: span 2;
-    border: 1px solid black;
+    border: 2px solid green;
     border-radius: 5px;
     display: flex;
     justify-content: center;
@@ -157,13 +172,13 @@ const currentDayTime = new Date();
     padding: 10px 0px;
     gap: 10px;
     font-size: medium;
+    text-align: center;
 }
 
 .taskCircle {
-    /* height: 70%; */
     padding-top: 35%;
     width: 35%;
-    background-color: #bbb;
+    background-color: #DD825F;
     border-radius: 50%;
     margin: 5px;
 }
@@ -179,15 +194,16 @@ const currentDayTime = new Date();
     display: flex;
     flex-direction: row;
     background: transparent;
+    text-align: center;
 }
 .eventDivs {
   position: relative;
-    height: 100;
-    border: 0.5px solid black;
-    border-top: 0px transparent;
-    border-bottom: 0px transparent;
-    background-color: green;
-    overflow: visible;
+  height: 100;
+  border: 0.5px solid black;
+  border-top: 0px transparent;
+  border-bottom: 0px transparent;
+  background-color: green;
+  overflow: visible;
 }
 .eventDivs:hover {
   background-color: lightgreen;
@@ -201,7 +217,7 @@ const currentDayTime = new Date();
   border-bottom: 0px transparent;
   background-color: green;
   overflow: visible;
-  border-radius: 10px 0px 0px 10px;
+  border-radius: 9px 0px 0px 9px;
 }
 .firstEventDiv:hover {
   background-color: lightgreen;
@@ -211,47 +227,23 @@ const currentDayTime = new Date();
   display: flex;
 }
 
-.firstEventDiv:hover > .triangle {
-  position: absolute;
-  top: 0px;
-  left: 45%;
-  z-index: 1;
-  width: 0;
-  height: 0;
-  border-left: 5px solid transparent;
-  border-right: 5px solid transparent;
-  border-top: 5px solid red;
-  transform: translateY(-150%);
-}
-
-
 .eventNamePopup {
+  display: none;
   position: absolute;
-  top: -30px;
+  bottom: 25px;
   left: 50%;
+  min-width: 100px;
   transform: translateX(-50%);
   border-radius: 5px;
-  display: none;
   font-size: small;
-  background-color: red;
+  background-color: gray;
   padding: 4px;
   z-index: 1;
+  justify-content: center; /* Center horizontally */
+  align-items: center; /* Center vertically */
 }
 
 .eventDivs:hover > .eventNamePopup {
   display: flex;
-}
-
-.eventDivs:hover > .triangle {
-  position: absolute;
-  top: 0px;
-  left: 45%;
-  z-index: 1;
-  width: 0;
-  height: 0;
-  border-left: 5px solid transparent; /* Adjust the width of the triangle */
-  border-right: 5px solid transparent; /* Adjust the width of the triangle */
-  border-top: 5px solid red; /* Adjust the height and color of the triangle */
-  transform: translateY(-150%);
 }
 </style>

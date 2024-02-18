@@ -226,5 +226,6 @@ function renderWeekHeader(week, day) {
 .dayHeader {
   position: absolute;
   top: -20px;
+  font-size: 1.2vw;
 }
 </style>

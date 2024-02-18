@@ -113,7 +113,6 @@ const makeReadOnly = (tabId) => {
   display: flex;
   align-items: right;
   border-radius: 20px;
-  background-color: white;
   border: 1px solid transparent;
   font-size: small;
   margin: 4px;
