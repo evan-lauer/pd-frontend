@@ -3,6 +3,8 @@
 <script setup>
 import { ref, computed } from 'vue';
 import { selectedDate } from 'src/stores/calendarStores';
+import LeftChevron from '../icons/LeftChevron.vue';
+import RightChevron from '../icons/RightChevron.vue';
 
 const currentDate = ref(new Date());
 const newDate = ref(null);
@@ -36,9 +38,15 @@ const isSelected = (date) => {
 };
 
 const selectDate = (date) => {
-  newDate.value = date;
+  if(date==""){
+    //user is clicking empty div, do nothing
+  }
+  else{
+    newDate.value = date;
     selectedDate.setToDate(newDate.value); 
-  selectedDate.setHours();
+    selectedDate.setHours();
+  }
+
 };
 
 const previousMonth = () => {
@@ -87,9 +95,9 @@ const calendar = computed(() => {
 <template>
   <div class="date-picker">
     <div class="calendar-header">
-      <button @click="previousMonth">&lt;</button>
+      <LeftChevron @click="previousMonth"/>
       <h2>{{ currentMonth }}</h2>
-      <button @click="nextMonth">&gt;</button>
+      <RightChevron @click="nextMonth"/>
     </div>
     <div class="calendar">
       <div class="weekdays">
@@ -124,12 +132,14 @@ const calendar = computed(() => {
 <style>
 .date-picker {
   font-family: Arial, sans-serif;
+  min-width: 100%;
+  min-height:100%;
 }
 
 .calendar-header {
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: space-around;
 }
 
 .calendar-header button {
