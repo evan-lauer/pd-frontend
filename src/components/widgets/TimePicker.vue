@@ -23,6 +23,7 @@ const selectedField = ref('none');
         {{ timestamp.hours < 10 ? `0` + timestamp.hours : timestamp.hours }}
       </p>
     </div>
+    :
     <div
       :class="selectedField === 'minutes' ? `selected minutes field` : `minutes field`"
       @click="selectedField = 'minutes'"
@@ -31,6 +32,7 @@ const selectedField = ref('none');
         {{ timestamp.minutes < 10 ? `0` + timestamp.minutes : timestamp.minutes }}
       </p>
     </div>
+    :
     <div
       :class="selectedField === 'amOrPm' ? `selected amOrPm field` : `amOrPm field`"
       @click="selectedField = 'amOrPm'"

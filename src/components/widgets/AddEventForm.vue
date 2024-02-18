@@ -76,75 +76,89 @@ function submissionHandler() {
   newEventForm.reset();
 }
 </script>
+
 <template>
   <div class="formContainer">
-    <h1 class="formTitleHeader">Create Event</h1>
-    <input class="titleInput" />
-    <input class="descriptionInput" />
-    <div class="datePickerPanel">
-      <div class="inputRow date">
-        Start Date
-        <input
-          class="datePicker start"
-          type="date"
-          v-bind:value="addEventForm.startDateTime"
-        />
-      </div>
-      <div class="inputRow time">
-        Start Time
-        <TimePicker
-          :timestamp="addEventForm.startDateTime"
-        />
-      </div>
-      <div class="inputRow date">
-        End Date
-        <input
-          class="datePicker end"
-          type="date"
-          v-bind:value="addEventForm.endDateTime"
-        />
-      </div>
-      <div class="inputRow time">
-        End Time
-        <TimePicker
-          v-if="addEventForm.isPrefilled"
-          :timestamp="prefilledEndTime"
-        />
-        <TimePicker
-          v-else
-          :timestamp="addEventForm.endDateTime"
-        />
-      </div>
+    <div class="inputRow">
+      <input class="textInput" placeholder="Add Event Title"/>
     </div>
-    <button
-      class="submitButton"
-      @click="submissionHandler()"
-    >
-      Submit
-    </button>
-  </div>
+    <div class="inputRow">
+      <input class="textInput" placeholder="Add Event Description" />
+    </div>
+    <div class="inputRow">
+      <!-- <label for="startDate">Start Date</label> -->
+      <p class="dateLabel">Start Date</p>
+      <input
+        id="startDate"
+        class="datePicker"
+        type="date"
+        v-bind:value="addEventForm.startDateTime"
+      />
+      <TimePicker
+        :timestamp="addEventForm.startDateTime"
+      />
+    </div>
+    <div class="inputRow">
+      <!-- <label for="endDate">End Date</label> -->
+      <p class="dateLabel">End Date</p>
+      <input
+        id="endDate"
+        class="datePicker"
+        type="date"
+        v-bind:value="addEventForm.endDateTime"
+      />
+      <TimePicker
+        v-if="addEventForm.isPrefilled"
+        :timestamp="prefilledEndTime"
+      />
+      <TimePicker
+        v-else
+        :timestamp="addEventForm.endDateTime"
+      />
+    </div>
+  <button
+    class="submitButton"
+    @click="submissionHandler()"
+  >
+    Submit
+  </button>
+</div>
+
 </template>
+
 <style scoped>
 .formTitleHeader {
-  font-size: 24px;
+  font-size: large;
+  /* margin: 2px; */
+  display: flex;
+  justify-content: center;
 }
 .formContainer {
   height: 100%;
   width: 100%;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
+  align-items: stretch;
+  justify-content: space-evenly;
   gap: 5px;
+  padding: 2px;
 }
-
-.datePickerPanel {
-  display: flex;
-  flex-direction: column;
-  gap: 5px;
+.textInput {
+  height: 25px;
+  width: 100%;
 }
 .inputRow {
   display: flex;
-  gap: 8px;
+  justify-content: space-between;
+  align-items: center;
+  max-width: 100%;
+}
+.datePicker {
+  width: 110px;
+}
+.dateLabel {
+  width: 20%;
+  height: auto;
+  max-height: 10px;
 }
 </style>
