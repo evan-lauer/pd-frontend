@@ -139,7 +139,7 @@ const calendar = computed(() => {
 .calendar-header {
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: space-around;
 }
 
 .calendar-header button {
