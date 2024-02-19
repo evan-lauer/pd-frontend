@@ -38,11 +38,13 @@ const handleItemDelete = (itemId, event) => {
     v-for="item in listsData.tabDict[selectedTab.id].items"
     :key="item.id"
   >
-    <input
-      class="checkbox"
-      type="checkbox"
-      v-model="item.checked"
-    />
+    <div class="checkboxContainer">
+      <input
+        type="checkbox"
+        class="checkbox"
+        v-model="item.checked"
+      />
+    </div>
     <textarea
       :id="'textArea-' + item.id"
       class="itemName"
@@ -84,16 +86,40 @@ const handleItemDelete = (itemId, event) => {
   flex-wrap: wrap;
   vertical-align: center;
   width: 100%;
+  align-items: center;
 }
-
-.checkbox {
+.checkboxContainer {
   display: flex;
   width: auto;
   height: auto;
 }
-.checkbox:hover {
-  cursor: pointer;
+/* .checkbox {
+  appearance: none;
+  margin: 0;
+  font: inherit;
+  width: 15px;
+  height: 15px;
+  border: 2px solid #DD825F;
+  border-radius: 0.15em;
+  transform: translateY(-0.075em);
 }
+
+input[type="checkbox"] {
+  display: grid;
+  place-content: center;
+}
+input[type="checkbox"]::before {
+  content: "";
+  width: 15px;
+  height: 15px;
+  transform: scale(0);
+  transition: 120ms transform ease-in-out;
+  clip-path: polygon(14% 44%, 0 65%, 50% 100%, 100% 16%, 80% 0%, 43% 62%);
+
+}
+input[type="checkbox"]:checked::after {
+  transform: scale(1);
+} */
 
 /* change font of itemName */
 .itemName {
@@ -108,6 +134,7 @@ const handleItemDelete = (itemId, event) => {
   padding: 10px;
   margin: 5px;
   outline: none;
+  font-family: Arial;
 }
 .itemName:focus {
   border: 1px solid black;

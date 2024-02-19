@@ -1,3 +1,5 @@
+<!-- make the margin on the left bigger and shift the icons to the right -->
+
 <script setup>
 import TimePicker from 'src/components/widgets/TimePicker.vue';
 import { addEventForm } from 'src/stores/addEventFormStores';
@@ -57,22 +59,19 @@ function rebuildDateObject(dateObject, dateString) {
       />
       <div class="dateLabel">Start Date</div>
       <input
-        class="datePicker start"
+        class="datePicker"
         :class="{ error: isValidTimePeriod }"
         type="date"
         :value="startDateString"
         @input="
           (event) => {
             addEventForm.startDateTime = rebuildDateObject(
-              addEventForm.startDateTime,
-              event.target.value
+            addEventForm.startDateTime,
+            event.target.value
             );
           }
         "
       />
-    </div>
-    <div class="inputRow time">
-      Start Time
       <TimePicker
         :timestamp="addEventForm.startDateTime"
         :class="{ error: isValidTimePeriod }"
@@ -81,7 +80,7 @@ function rebuildDateObject(dateObject, dateString) {
             addEventForm.startDateTime = newTimestamp;
           }
         "
-      />
+        />
     </div>
     <div class="inputRow">
       <div class="dateLabel">End Date</div>
@@ -99,9 +98,6 @@ function rebuildDateObject(dateObject, dateString) {
           }
         "
       />
-    </div>
-    <div class="inputRow time">
-      End Time
       <TimePicker
         :timestamp="addEventForm.endDateTime"
         :class="{ error: isValidTimePeriod }"
@@ -138,7 +134,7 @@ function rebuildDateObject(dateObject, dateString) {
   width: 95%;
   display: flex;
   gap: 5px;
-  margin: 0 0 0 20px;
+  margin: 0 0 0 30px;
   flex-direction: column;
   justify-content: space-evenly;
   align-items: stretch;
@@ -147,13 +143,13 @@ function rebuildDateObject(dateObject, dateString) {
   height: 15px;
   width: 15px;
   position: absolute;
-  left: 25px;
+  left: 30px;
 }
 .descriptionIcon {
   height: 15px;
   width: 15px;
   position: absolute;
-  left: 25px;
+  left: 30px;
 }
 .eventNameInput {
   height: 25px;

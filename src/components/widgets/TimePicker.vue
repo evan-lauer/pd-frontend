@@ -279,13 +279,13 @@ li {
 
 .amOrPm.dropdown {
   position: relative;
-  bottom: 52px;
+  bottom: 60px;
 }
 
 .hours.dropdown,
 .minutes.dropdown {
   position: relative;
-  bottom: 212px;
+  bottom: 265px;
 }
 
 .dropdown {
@@ -298,10 +298,12 @@ li {
   -webkit-box-shadow: 2px 5px 12px 3px rgba(0, 0, 0, 0.2);
   -moz-box-shadow: 2px 5px 12px 3px rgba(0, 0, 0, 0.2);
   box-shadow: 2px 5px 12px 3px rgba(0, 0, 0, 0.2);
+  gap: 5px;
 }
 
 .dropdown > li {
   z-index: 500;
+
 }
 
 .timePickerContainer {
@@ -310,13 +312,16 @@ li {
   display: flex;
   gap: 5px;
   margin-left: 10px;
+  background-color: lightgray;
+  border-radius: 4px;
+  justify-content: center;
 }
-
 .field {
   height: 100%;
   width: 100%;
-  border: 1px solid black;
   border-radius: 4px;
+  border: 0px solid transparent;
+
 }
 
 .field:hover {
