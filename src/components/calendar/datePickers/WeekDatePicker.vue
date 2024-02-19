@@ -1,21 +1,21 @@
 <script setup>
 import { selectedDate } from 'src/stores/calendarStores';
-import LeftChevron from '../../icons/LeftChevron.vue';
-import RightChevron from '../../icons/RightChevron.vue';
+import LeftChevron from 'src/components/icons/LeftChevron.vue';
+import RightChevron from 'src/components/icons/RightChevron.vue';
 import SimpleButton from 'src/components/icons/SimpleButton.vue';
 </script>
 
 <template>
   <div class="datePickerFormat">
-  <div class="monthDropdown">
-    <h1 class="monthHeader">
-      {{ selectedDate.dateTime.toLocaleString('default', { month: 'long' }) }}
-    </h1>
-    <h1 class="yearHeader">{{ selectedDate.dateTime.getFullYear() }}</h1>
-  </div>
-  <div class="buttons">
+    <div class="monthDropdown">
+      <h1 class="monthHeader">
+        {{ selectedDate.dateTime.toLocaleString('default', { month: 'long' }) }}
+      </h1>
+      <h1 class="yearHeader">{{ selectedDate.dateTime.getFullYear() }}</h1>
+    </div>
+    <div class="buttons">
       <LeftChevron @click="() => selectedDate.decrementWeek()" />
-      <SimpleButton 
+      <SimpleButton
         inner-text="Today"
         @click="() => selectedDate.setToToday()"
       />

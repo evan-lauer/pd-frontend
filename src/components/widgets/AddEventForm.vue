@@ -1,150 +1,215 @@
 <script setup>
 import TimePicker from 'src/components/widgets/TimePicker.vue';
-import { selectedDate } from 'src/stores/calendarStores';
-import { ref, watch } from 'vue';
-import { addEventForm } from '../../stores/addEventFormStores';
+import { addEventForm } from 'src/stores/addEventFormStores';
 import { newEventForm } from 'src/stores/formStores';
-
-// Fill this object with the original timestamp of the current selected time (truncated to nearest hour)
-// const prefilledStartTime = ref({
-//   hours: addEventForm.startDateTime.getHours(),
-//   minutes: addEventForm.startDateTime.getMinutes(),
-//   amOrPm: addEventForm.startDateTime.getHours() >= 12 ? 'pm' : 'am'
-// });
-
-// const prefilledEndTime = ref({
-//   hours: addEventForm.endDateTime.getHours(),
-//   minutes: addEventForm.endDateTime.getMinutes(),
-//   amOrPm: addEventForm.endDateTime.getHours() >= 12 ? 'pm' : 'am'
-// });
-
-// watch(
-//   () => [addEventForm.startDateTime, addEventForm.endDateTime],
-//   ([startDateTime, endDateTime]) => {
-//     prefilledStartTime.value = {
-//       hours: startDateTime.getHours(),
-//       minutes: startDateTime.getMinutes(),
-//       amOrPm: startDateTime.getHours() >= 12 ? 'pm' : 'am'
-//     };
-//     prefilledEndTime.value = {
-//       hours: endDateTime.getHours(),
-//       minutes: endDateTime.getMinutes(),
-//       amOrPm: endDateTime.getHours() >= 12 ? 'pm' : 'am'
-//     };
-//   }
-// );
-
-// // const startTime = ref({
-// //   hours:
-// //     selectedDate.dateTime.getHours() > 12
-// //       ? selectedDate.dateTime.getHours() - 12
-// //       : selectedDate.dateTime.getHours(),
-// //   minutes: 0,
-// //   amOrPm: selectedDate.dateTime.getHours() >= 12 ? 'pm' : 'am'
-// // });
-const oneHourAhead = new Date(
-  new Date(selectedDate.dateTime).setTime(selectedDate.dateTime.getTime() + 60 * 60 * 1000)
-);
-// Fill this object with a timestamp one hour ahead of selected time (truncated to nearest hour)
-const endTime = ref({
-  hours: oneHourAhead.getHours() > 12 ? oneHourAhead.getHours() - 12 : oneHourAhead.getHours(),
-  minutes: 0,
-  amOrPm: oneHourAhead.getHours() >= 12 ? 'pm' : 'am'
-});
-
-const startDate = ref(
-  selectedDate.dateTime.getFullYear() +
-    `-` +
-    selectedDate.dateTime.getMonth() +
-    1 +
-    `-` +
-    selectedDate.dateTime.getDate()
-);
-const endDate = ref(
-  selectedDate.dateTime.getFullYear() +
-    `-` +
-    selectedDate.dateTime.getMonth() +
-    1 +
-    `-` +
-    selectedDate.dateTime.getDate()
-);
+import SimpleButton from 'src/components/icons/SimpleButton.vue';
+import { computed } from 'vue';
 
 function submissionHandler() {
   addEventForm.isFormActive = false;
-  addEventForm.isPrefilled = false;
   newEventForm.putEvent();
   newEventForm.reset();
 }
-</script>
-<template>
-  <div class="formContainer">
-    <h1 class="formTitleHeader">Create Event</h1>
-    <input class="titleInput" />
-    <input class="descriptionInput" />
-    <div class="datePickerPanel">
-      <div class="inputRow date">
-        Start Date
-        <input
-          class="datePicker start"
-          type="date"
-          v-bind:value="addEventForm.startDateTime"
-        />
-      </div>
-      <div class="inputRow time">
-        Start Time
-        <TimePicker
-          :timestamp="addEventForm.startDateTime"
-        />
-      </div>
-      <div class="inputRow date">
-        End Date
-        <input
-          class="datePicker end"
-          type="date"
-          v-bind:value="addEventForm.endDateTime"
-        />
-      </div>
-      <div class="inputRow time">
-        End Time
-        <TimePicker
-          v-if="addEventForm.isPrefilled"
-          :timestamp="prefilledEndTime"
-        />
-        <TimePicker
-          v-else
-          :timestamp="addEventForm.endDateTime"
-        />
-      </div>
-    </div>
-    <button
-      class="submitButton"
-      @click="submissionHandler()"
-    >
-      Submit
-    </button>
-  </div>
-</template>
-<style scoped>
-.formTitleHeader {
-  font-size: 24px;
-}
-.formContainer {
-  height: 100%;
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 5px;
+
+// Date inputs require the value to be formatted as yyyy-mm-dd
+// but our start and end dates are JS Date objects
+// so these computed values will sync with the store.
+// To update the computed value, we just update the store.
+//
+// This converts the date object to yyyy-mm-dd
+function getISOString(dateObject) {
+  const offset = dateObject.getTimezoneOffset();
+  dateObject = new Date(dateObject.getTime() - offset * 60 * 1000);
+  return dateObject.toISOString().split('T')[0];
 }
 
-.datePickerPanel {
+const startDateString = computed(() => getISOString(addEventForm.startDateTime));
+const endDateString = computed(() => getISOString(addEventForm.endDateTime));
+// This is true if the start timestamp comes before the end.
+// If this is false, we can't allow the user to submit the form.
+const isValidTimePeriod = computed(() => {
+  return addEventForm.startDateTime > addEventForm.endDateTime;
+});
+
+function rebuildDateObject(dateObject, dateString) {
+  const dateComponents = dateString.split('-');
+  const newDate = new Date(dateObject);
+  newDate.setFullYear(dateComponents[0]);
+  newDate.setMonth(dateComponents[1] - 1);
+  newDate.setDate(dateComponents[2]);
+  return newDate;
+}
+</script>
+
+<template>
+  <div class="formContainer">
+    <div class="inputRow">
+      <input
+        class="eventNameInput"
+        placeholder="Add Event Title"
+      />
+    </div>
+    <div class="inputRow">
+      <img
+        src="src/components/icons/clock9.svg"
+        class="clockIcon"
+        alt="Time Icon"
+      />
+      <div class="dateLabel">Start Date</div>
+      <input
+        class="datePicker start"
+        :class="{ error: isValidTimePeriod }"
+        type="date"
+        :value="startDateString"
+        @input="
+          (event) => {
+            addEventForm.startDateTime = rebuildDateObject(
+              addEventForm.startDateTime,
+              event.target.value
+            );
+          }
+        "
+      />
+    </div>
+    <div class="inputRow time">
+      Start Time
+      <TimePicker
+        :timestamp="addEventForm.startDateTime"
+        :class="{ error: isValidTimePeriod }"
+        @timestamp-change="
+          (newTimestamp) => {
+            addEventForm.startDateTime = newTimestamp;
+          }
+        "
+      />
+    </div>
+    <div class="inputRow">
+      <div class="dateLabel">End Date</div>
+      <input
+        class="datePicker end"
+        :class="{ error: isValidTimePeriod }"
+        type="date"
+        :value="endDateString"
+        @input="
+          (event) => {
+            addEventForm.endDateTime = rebuildDateObject(
+              addEventForm.endDateTime,
+              event.target.value
+            );
+          }
+        "
+      />
+    </div>
+    <div class="inputRow time">
+      End Time
+      <TimePicker
+        :timestamp="addEventForm.endDateTime"
+        :class="{ error: isValidTimePeriod }"
+        @timestamp-change="
+          (newTimestamp) => {
+            addEventForm.endDateTime = newTimestamp;
+          }
+        "
+      />
+    </div>
+    <div class="inputRow">
+      <img
+        src="src/components/icons/description.svg"
+        class="descriptionIcon"
+        alt="Description Icon"
+      />
+      <input
+        class="descriptionInput"
+        placeholder="Add Event Description"
+      />
+    </div>
+    <div class="saveButtonRow">
+      <SimpleButton
+        inner-text="Save"
+        @click="submissionHandler()"
+      />
+    </div>
+  </div>
+</template>
+
+<style scoped>
+.formContainer {
+  height: 100%;
+  width: 95%;
   display: flex;
-  flex-direction: column;
   gap: 5px;
+  margin: 0 0 0 20px;
+  flex-direction: column;
+  justify-content: space-evenly;
+  align-items: stretch;
+}
+.clockIcon {
+  height: 15px;
+  width: 15px;
+  position: absolute;
+  left: 25px;
+}
+.descriptionIcon {
+  height: 15px;
+  width: 15px;
+  position: absolute;
+  left: 25px;
+}
+.eventNameInput {
+  height: 25px;
+  width: 100%;
+  border: 1px solid transparent;
+  font-size: large;
+}
+.eventNameInput::placeholder {
+  font-size: large;
+}
+.eventNameInput:focus {
+  border-bottom: 1px solid var(--primary-default);
+  outline: none;
+}
+
+.descriptionInput {
+  height: 25px;
+  width: 100%;
+  border: 1px solid transparent;
+  font-size: small;
+}
+.descriptionInput:focus {
+  border-bottom: 1px solid var(--primary-default);
+  outline: none;
+}
+.descriptionInput::placeholder {
+  font-size: small;
 }
 .inputRow {
   display: flex;
-  gap: 8px;
+  align-items: center;
+  max-width: 100%;
+  justify-content: flex-start;
+}
+.datePicker {
+  width: 110px;
+}
+.dateLabel {
+  display: flex;
+  width: 20%;
+  height: auto;
+  max-height: 10px;
+  align-items: center;
+}
+.saveButtonRow {
+  display: flex;
+  justify-content: flex-end;
+}
+.saveButton {
+  display: flex;
+  margin: 4px;
+  width: 50px;
+  justify-content: center;
+}
+
+.error {
+  border: 1px solid red;
 }
 </style>

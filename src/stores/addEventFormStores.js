@@ -1,10 +1,9 @@
 import { reactive } from 'vue';
 
 export const addEventForm = reactive({
-  isFormActive: false,
-  isPrefilled: false,
+  isFormActive: true,
   title: '',
   description: '',
-  startDateTime: Date,
-  endDateTime: Date
+  startDateTime: new Date(),
+  endDateTime: new Date()
 });

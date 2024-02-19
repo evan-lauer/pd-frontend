@@ -2,8 +2,8 @@
 import { watch } from 'vue';
 import { selectedDate } from 'src/stores/calendarStores';
 import userStore from 'src/stores/userStore';
-import { eventData, eventMethods } from '../../stores/eventStores';
-import miniCalendarPicker from './miniCalendarPicker.vue';
+import { eventData, eventMethods } from 'src/stores/eventStores';
+import miniCalendarPicker from 'src/components/calendar/miniCalendarPicker.vue';
 
 userStore.getEvents();
 eventData.creatingDaysEventArray();
@@ -15,6 +15,37 @@ watch(
     eventData.creatingDaysEventArray();
   }
 );
+
+// for event containers, functions from week view; all hard coded for now, numbers may differ
+// depending on heights of hour containers
+function calculate_height(startTime, endTime) {
+  const start_date = new Date(startTime);
+  const end_date = new Date(endTime);
+  const height = (end_date.getHours() - start_date.getHours()) * 48;
+  return height + 'px';
+}
+
+function calculate_top(startTime) {
+  const date = new Date(startTime);
+  const top_percent = 24 + date.getHours() * 51;
+  return top_percent + 'px';
+}
+
+function formatTimes(startTime, endTime) {
+  const start = new Date(startTime);
+  const end = new Date(endTime);
+  return (
+    start.getHours() +
+    ':' +
+    (start.getMinutes() < 10 ? '0' : '') +
+    start.getMinutes() +
+    '-' +
+    end.getHours() +
+    ':' +
+    (end.getMinutes() < 10 ? '0' : '') +
+    end.getMinutes()
+  );
+}
 </script>
 
 <template>
@@ -32,17 +63,20 @@ watch(
       :key="day"
       :class="day === 1 ? `dayContainer first` : `dayContainer`"
     >
-      <div class="eventsContainer">
-        <div
-          class="eventSymbol"
-          @click="() => eventMethods.displayEvent(eventA)"
-          v-for="eventA of eventData.dailyEvents"
-          :key="eventA"
-        >
-          {{ eventA.title }} <br />
-          {{ eventA.description }} <br />
-          {{ eventA.startTime }} <br />
-          {{ eventA.endTime }} <br />
+      <div
+        class="eventSymbol eventsContainer"
+        :style="{
+          height: calculate_height(eventA.startTime, eventA.endTime),
+          top: calculate_top(eventA.startTime)
+        }"
+        @click="() => eventMethods.displayEvent(eventA)"
+        v-for="eventA of eventData.dailyEvents"
+        :key="eventA"
+      >
+        <div class="testingStuff">The Start Time is {{ eventA.startTime }}</div>
+        <div v-if="eventA.startTime !== eventA.endTime">
+          <div class="eventDesc">{{ eventA.title }}</div>
+          <div class="eventDesc">{{ formatTimes(eventA.startTime, eventA.endTime) }}</div>
         </div>
       </div>
       <div
@@ -85,10 +119,6 @@ watch(
   border-bottom: var(--calendar-border-grey) 1px solid;
   max-height: min-content;
 }
-
-.hourContainer.first {
-  border-top: var(--calendar-border-grey) 1px solid;
-}
 .halfHourContainer {
   height: 50%;
   position: flex;
@@ -97,6 +127,8 @@ watch(
   position: relative;
   height: 0%;
   z-index: 1;
+  top: 5%;
+  left: 1%;
 }
 .halfHourContainer.first {
   height: 50%;
@@ -104,6 +136,7 @@ watch(
 }
 .contentDiv {
   overflow-y: scroll;
+  overflow-x: hidden;
   height: 95.5%;
   width: 70%;
   float: left;
@@ -111,12 +144,20 @@ watch(
 }
 .datePickerDiv {
   float: center;
+  min-width: 100%;
+  min-height: 100%;
 }
 .eventsContainer {
   border-radius: 7px;
-  background-color: rgb(101, 39, 94);
-  position: relative;
+  background-color: gray;
+  position: absolute;
   z-index: 1;
-  top: 20%;
+}
+
+.eventDesc {
+  font-size: 10px;
+  padding: 5px;
+  width: 80%;
+  overflow: hidden;
 }
 </style>

@@ -20,11 +20,11 @@ import TabBar from 'src/components/list/TabBar.vue';
   flex-wrap: wrap;
   height: auto;
   vertical-align: left;
-  padding: 10px;
+  padding: 10px 10px 0 10px;
   overflow: hidden;
   align-items: flex-end;
-  background-color: rgb(255, 194, 194);
-  border-bottom: 2px solid rgb(244, 192, 192);
+  border-bottom: 2px solid #d17d5b;
+  border-radius: 8px 8px 0 0;
 }
 
 .lists {

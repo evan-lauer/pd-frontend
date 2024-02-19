@@ -1,7 +1,7 @@
 <script setup>
 import { selectedDate } from 'src/stores/calendarStores';
-import LeftChevron from '../../icons/LeftChevron.vue';
-import RightChevron from '../../icons/RightChevron.vue';
+import LeftChevron from 'src/components/icons/LeftChevron.vue';
+import RightChevron from 'src/components/icons/RightChevron.vue';
 import SimpleButton from 'src/components/icons/SimpleButton.vue';
 </script>
 
@@ -9,37 +9,36 @@ import SimpleButton from 'src/components/icons/SimpleButton.vue';
   <div class="monthDropdown">
     <LeftChevron @click="() => selectedDate.decrementDay()" />
     <h1 class="monthHeader">
-      {{ selectedDate.dateTime.toLocaleString('default', { month: 'long' }) }} {{ selectedDate.dateTime.getDate() }}
+      {{ selectedDate.dateTime.toLocaleString('default', { month: 'long' }) }}
+      {{ selectedDate.dateTime.getDate() }}
     </h1>
     <RightChevron @click="() => selectedDate.incrementDay()" />
-    <h1 class="yearHeader"> {{ selectedDate.dateTime.getFullYear() }}</h1>
-    
-  </div>
+    <br />
+    <h1 class="yearHeader">{{ selectedDate.dateTime.getFullYear() }}</h1>
     <div class="buttons">
-
-  <SimpleButton 
-    inner-text="Today"
-    @click="() => selectedDate.setToToday()"
-  />
-
+      <SimpleButton
+        inner-text="Today"
+        @click="() => selectedDate.setToToday()"
+      />
+    </div>
   </div>
-  <!-- TODO: these buttons are not functional right now
-    and not in line with the month and year headers -->
-
 </template>
 
 <style scoped>
 .monthHeader {
-  font-size: 32px;
+  font-size: 36px;
   font-weight: 700;
   margin: 0;
-  width: 200px;
+
+  width: 400px;
   text-align: center;
 }
 
 .yearHeader {
   font-size: 24px;
   font-weight: normal;
+  justify-content: center;
+  padding-left: 20px;
 }
 
 .monthDropdown {
@@ -53,11 +52,8 @@ import SimpleButton from 'src/components/icons/SimpleButton.vue';
   display: flex;
   flex-direction: row;
   width: 80%;
-  justify-content: center;
+  justify-content: left;
   align-items: center;
-}
-
-.monthDropdown > div {
-  background-color: gray;
+  padding-left: 20px;
 }
 </style>

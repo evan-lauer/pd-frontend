@@ -3,6 +3,8 @@
 <script setup>
 import { ref, computed } from 'vue';
 import { selectedDate } from 'src/stores/calendarStores';
+import LeftChevron from 'src/components/icons/LeftChevron.vue';
+import RightChevron from 'src/components/icons/RightChevron.vue';
 
 const currentDate = ref(new Date());
 const newDate = ref(null);
@@ -36,29 +38,28 @@ const isSelected = (date) => {
 };
 
 const selectDate = (date) => {
-  newDate.value = date;
-    selectedDate.setToDate(newDate.value); 
-  selectedDate.setHours();
+  if (date == '') {
+    //user is clicking empty div, do nothing
+  } else {
+    newDate.value = date;
+    selectedDate.setToDate(newDate.value);
+    selectedDate.setHours();
+  }
 };
 
 const previousMonth = () => {
-      currentDate.value = new Date(
-        currentDate.value.setMonth(currentDate.value.getMonth() - 1)
-    );
-    };
+  currentDate.value = new Date(currentDate.value.setMonth(currentDate.value.getMonth() - 1));
+};
 
-    const nextMonth = () => {
-      const date = currentDate.value.getDate();
-      const newMonth = currentDate.value.getMonth() + 2;
-      const daysInNewMonth = new Date(currentDate.value.getFullYear(), newMonth, 0).getDate();
+const nextMonth = () => {
+  const date = currentDate.value.getDate();
+  const newMonth = currentDate.value.getMonth() + 2;
+  const daysInNewMonth = new Date(currentDate.value.getFullYear(), newMonth, 0).getDate();
 
-      currentDate.value= new Date(
-        currentDate.value.setMonth(
-          currentDate.value.getMonth() + 1,
-          Math.min(daysInNewMonth, date)
-        )
-      );
-    };
+  currentDate.value = new Date(
+    currentDate.value.setMonth(currentDate.value.getMonth() + 1, Math.min(daysInNewMonth, date))
+  );
+};
 
 const calendar = computed(() => {
   const days = [];
@@ -87,9 +88,9 @@ const calendar = computed(() => {
 <template>
   <div class="date-picker">
     <div class="calendar-header">
-      <button @click="previousMonth">&lt;</button>
+      <LeftChevron @click="previousMonth" />
       <h2>{{ currentMonth }}</h2>
-      <button @click="nextMonth">&gt;</button>
+      <RightChevron @click="nextMonth" />
     </div>
     <div class="calendar">
       <div class="weekdays">
@@ -124,12 +125,14 @@ const calendar = computed(() => {
 <style>
 .date-picker {
   font-family: Arial, sans-serif;
+  min-width: 100%;
+  min-height: 100%;
 }
 
 .calendar-header {
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: space-around;
 }
 
 .calendar-header button {

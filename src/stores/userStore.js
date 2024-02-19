@@ -19,14 +19,13 @@ const userStore = reactive({
     const res = await axios.request(options);
     if (res.data) {
       this.events = res.data;
-      console.log(res.data);
+      // console.log(res.data);
     } else {
-      console.log(res);
+      // console.log(res);
     }
   },
   async getLists() {
     //Get all of the users lists from the database
-    
   }
 });
 

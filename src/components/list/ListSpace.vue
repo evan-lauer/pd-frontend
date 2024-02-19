@@ -84,7 +84,6 @@ const handleItemDelete = (itemId, event) => {
   flex-wrap: wrap;
   vertical-align: center;
   width: 100%;
-  border-bottom: 1px solid rgb(0, 162, 255);
 }
 
 .checkbox {
@@ -101,7 +100,7 @@ const handleItemDelete = (itemId, event) => {
   display: flex;
   height: 20%;
   width: 85%;
-  font-size: 14px;
+  font-size: medium;
   border: 1px solid transparent;
 
   resize: vertical;
