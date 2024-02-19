@@ -1,7 +1,7 @@
 <!-- The view for displaying events in the widget space after a specific -->
 <!-- event has been clicked -->
 <script setup>
-import { eventDetails } from '../../stores/eventDetailsStores';
+import { eventDetails } from 'src/stores/eventDetailsStores';
 </script>
 
 <template>

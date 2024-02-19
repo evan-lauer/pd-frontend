@@ -9,11 +9,11 @@
 <script setup>
 import CalendarRoot from 'src/components/calendar/CalendarRoot.vue';
 import ListRoot from 'src/components/list/ListRoot.vue';
-import WidgetsRoot from '../components/widgets/WidgetsRoot.vue';
+import WidgetsRoot from 'src/components/widgets/WidgetsRoot.vue';
 import { eventData } from 'src/stores/eventStores.js';
 
 const userEvents = eventData.userEvents();
-console.log(userEvents);
+// console.log(userEvents);
 </script>
 
 <template>

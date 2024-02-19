@@ -2,8 +2,8 @@
 import { watch } from 'vue';
 import { selectedDate } from 'src/stores/calendarStores';
 import userStore from 'src/stores/userStore';
-import { eventData, eventMethods } from '../../stores/eventStores';
-import miniCalendarPicker from './miniCalendarPicker.vue';
+import { eventData, eventMethods } from 'src/stores/eventStores';
+import miniCalendarPicker from 'src/components/calendar/miniCalendarPicker.vue';
 
 userStore.getEvents();
 eventData.creatingDaysEventArray();
