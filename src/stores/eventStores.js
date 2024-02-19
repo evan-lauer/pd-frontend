@@ -1,5 +1,5 @@
-import { addEventForm } from './addEventFormStores';
-import { eventDetails } from './eventDetailsStores';
+import { addEventForm } from 'src/stores/addEventFormStores';
+import { eventDetails } from 'src/stores/eventDetailsStores';
 // import ShortUniqueId from "short-unique-id";
 import { reactive } from 'vue';
 import { selectedDate } from 'src/stores/calendarStores';
@@ -46,7 +46,7 @@ export const eventData = reactive({
   userEvents: async () => {
     await userStore.getEvents();
     eventData.theEvents = userStore.events;
-    console.log(eventData.theEvents);
+    // console.log(eventData.theEvents);
     return eventData.theEvents;
   },
 
@@ -57,7 +57,7 @@ export const eventData = reactive({
 
     return weekNumber;
   },
-  
+
   creatingMonthsEventArray: () => {
     eventData.reset();
     const month = selectedDate.dateTime.getMonth();
@@ -88,9 +88,9 @@ export const eventData = reactive({
     // code written with assumption that this will be changed to be the first day of the week
     // once it's changed, the below code should be:
     // const endDate = selectedDate.dateTime + 6
-    const endDate = selectedDate.dateTime
-    const startDate = new Date(endDate)
-    startDate.setDate(startDate.getDate() - 7)
+    const endDate = selectedDate.dateTime;
+    const startDate = new Date(endDate);
+    startDate.setDate(startDate.getDate() - 7);
     const testEvents = [
       {
         description: 'hi',
@@ -293,7 +293,6 @@ export const eventData = reactive({
       const eventDate = date.getDate();
 
       // const eventWeekNumber = eventData.getWeekOutOfYear(date, year);
-      console.log("start", startDate, "event", date, "end", endDate)
       if (startDate <= date && date <= endDate) {
         const eventDay = date.getDay();
         if (!(eventDate in eventData.weeklyEvents)) {
@@ -304,7 +303,7 @@ export const eventData = reactive({
     }
     console.log('Weeks Events Array: ', eventData.weeklyEvents);
   },
-  
+
   creatingDaysEventArray: () => {
     eventData.reset();
     const day = selectedDate.dateTime.getDate();

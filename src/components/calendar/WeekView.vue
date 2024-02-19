@@ -3,8 +3,8 @@ import { ref, watch } from 'vue';
 import { Calendar } from 'calendar-base';
 import userStore from 'src/stores/userStore';
 import { selectedDate } from 'src/stores/calendarStores';
-import { eventData, eventMethods } from '../../stores/eventStores';
-import EventStar from './events/EventStar.vue';
+import { eventData, eventMethods } from 'src/stores/eventStores';
+import EventStar from 'src/components/calendar/events/EventStar.vue';
 
 const calendar = new Calendar({ siblingMonths: true, weekNumbers: true });
 
@@ -114,14 +114,24 @@ function calculate_height(startTime, endTime) {
 // event container top component
 function calculate_top(startTime) {
   const date = new Date(startTime);
-  const top_percent = 24 + (date.getHours() * 51)
-  return top_percent + "px";
+  const top_percent = 24 + date.getHours() * 51;
+  return top_percent + 'px';
 }
 
 function formatTimes(startTime, endTime) {
   const start = new Date(startTime);
   const end = new Date(endTime);
-  return start.getHours() + ':' + (start.getMinutes() < 10 ? '0' : '') + start.getMinutes() + '-' + end.getHours() + ':' + (end.getMinutes() < 10 ? '0' : '') + end.getMinutes();
+  return (
+    start.getHours() +
+    ':' +
+    (start.getMinutes() < 10 ? '0' : '') +
+    start.getMinutes() +
+    '-' +
+    end.getHours() +
+    ':' +
+    (end.getMinutes() < 10 ? '0' : '') +
+    end.getMinutes()
+  );
 }
 </script>
 
@@ -159,8 +169,7 @@ function formatTimes(startTime, endTime) {
           v-for="eventA of eventData.weeklyEvents[getDays()[day - 1].day]"
           :key="eventA"
         >
-          <div
-            v-if="eventA.startTime === eventA.endTime">
+          <div v-if="eventA.startTime === eventA.endTime">
             {{ console.log('starttime', eventA.startTime) }}
             <EventStar />
           </div>
@@ -169,13 +178,15 @@ function formatTimes(startTime, endTime) {
       <div>
         <div
           class="eventSymbol eventsContainer"
-          :style="{height:calculate_height(eventA.startTime, eventA.endTime), top:calculate_top(eventA.startTime)}"
+          :style="{
+            height: calculate_height(eventA.startTime, eventA.endTime),
+            top: calculate_top(eventA.startTime)
+          }"
           @click="() => eventMethods.displayEvent(eventA)"
           v-for="eventA of eventData.weeklyEvents[getDays()[day - 1].day]"
           :key="eventA"
         >
-          <div
-            v-if="eventA.startTime !== eventA.endTime">
+          <div v-if="eventA.startTime !== eventA.endTime">
             <!-- <EventStar /> -->
             <div class="eventDesc">{{ eventA.title }}</div>
             <div class="eventDesc">{{ formatTimes(eventA.startTime, eventA.endTime) }}</div>
@@ -188,7 +199,12 @@ function formatTimes(startTime, endTime) {
         :key="n"
         :class="i === 0 ? `hourContainer first` : `hourContainer`"
       >
-        <div v-if="day === 1" class="timeStyle">{{ i }}:00</div>
+        <div
+          v-if="day === 1"
+          class="timeStyle"
+        >
+          {{ i }}:00
+        </div>
       </div>
     </div>
   </div>
@@ -251,12 +267,12 @@ function formatTimes(startTime, endTime) {
   font-size: 13px;
 }
 
-.eventsContainer{
+.eventsContainer {
   width: 14%;
-  border-radius:7px;
-  background-color:gray;
-  position:absolute;
-  z-index:1;
+  border-radius: 7px;
+  background-color: gray;
+  position: absolute;
+  z-index: 1;
 }
 
 .eventDesc {

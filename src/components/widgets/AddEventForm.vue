@@ -1,13 +1,43 @@
 <script setup>
 import TimePicker from 'src/components/widgets/TimePicker.vue';
-import { addEventForm } from '../../stores/addEventFormStores';
+import { addEventForm } from 'src/stores/addEventFormStores';
 import { newEventForm } from 'src/stores/formStores';
 import SimpleButton from 'src/components/icons/SimpleButton.vue';
+import { computed } from 'vue';
 
 function submissionHandler() {
   addEventForm.isFormActive = false;
   newEventForm.putEvent();
   newEventForm.reset();
+}
+
+// Date inputs require the value to be formatted as yyyy-mm-dd
+// but our start and end dates are JS Date objects
+// so these computed values will sync with the store.
+// To update the computed value, we just update the store.
+//
+// This converts the date object to yyyy-mm-dd
+function getISOString(dateObject) {
+  const offset = dateObject.getTimezoneOffset();
+  dateObject = new Date(dateObject.getTime() - offset * 60 * 1000);
+  return dateObject.toISOString().split('T')[0];
+}
+
+const startDateString = computed(() => getISOString(addEventForm.startDateTime));
+const endDateString = computed(() => getISOString(addEventForm.endDateTime));
+// This is true if the start timestamp comes before the end.
+// If this is false, we can't allow the user to submit the form.
+const isValidTimePeriod = computed(() => {
+  return addEventForm.startDateTime > addEventForm.endDateTime;
+});
+
+function rebuildDateObject(dateObject, dateString) {
+  const dateComponents = dateString.split('-');
+  const newDate = new Date(dateObject);
+  newDate.setFullYear(dateComponents[0]);
+  newDate.setMonth(dateComponents[1] - 1);
+  newDate.setDate(dateComponents[2]);
+  return newDate;
 }
 </script>
 
@@ -21,49 +51,60 @@ function submissionHandler() {
         Start Date
         <input
           class="datePicker start"
+          :class="{ error: isValidTimePeriod }"
           type="date"
-          :value="addEventForm.startDateTime"
+          :value="startDateString"
+          @input="
+            (event) => {
+              addEventForm.startDateTime = rebuildDateObject(
+                addEventForm.startDateTime,
+                event.target.value
+              );
+            }
+          "
         />
       </div>
       <div class="inputRow time">
         Start Time
-        <TimePicker :timestamp="addEventForm.startDateTime" />
+        <TimePicker
+          :timestamp="addEventForm.startDateTime"
+          :class="{ error: isValidTimePeriod }"
+          @timestamp-change="
+            (newTimestamp) => {
+              addEventForm.startDateTime = newTimestamp;
+            }
+          "
+        />
       </div>
       <div class="inputRow date">
         End Date
         <input
           class="datePicker end"
+          :class="{ error: isValidTimePeriod }"
           type="date"
-          :value="addEventForm.endDateTime"
+          :value="endDateString"
+          @input="
+            (event) => {
+              addEventForm.endDateTime = rebuildDateObject(
+                addEventForm.endDateTime,
+                event.target.value
+              );
+            }
+          "
         />
       </div>
       <div class="inputRow time">
         End Time
-        <TimePicker :timestamp="addEventForm.endDateTime" />
+        <TimePicker
+          :timestamp="addEventForm.endDateTime"
+          :class="{ error: isValidTimePeriod }"
+          @timestamp-change="
+            (newTimestamp) => {
+              addEventForm.endDateTime = newTimestamp;
+            }
+          "
+        />
       </div>
-    </div>
-    <div class="inputRow">
-      <p class="dateLabel">End Date</p>
-      <input
-        id="endDate"
-        class="datePicker"
-        type="date"
-        v-bind:value="addEventForm.endDateTime"
-      />
-      <TimePicker
-        v-if="addEventForm.isPrefilled"
-        :timestamp="prefilledEndTime"
-      />
-      <TimePicker
-        v-else
-        :timestamp="addEventForm.endDateTime"
-      />
-    </div>
-    <div class="inputRow">
-      <input
-        class="descriptionInput"
-        placeholder="Add Event Description"
-      />
     </div>
     <div class="saveButtonRow">
       <SimpleButton
@@ -140,5 +181,9 @@ function submissionHandler() {
   margin: 4px;
   width: 50px;
   justify-content: center;
+}
+
+.error {
+  border: 1px solid red;
 }
 </style>

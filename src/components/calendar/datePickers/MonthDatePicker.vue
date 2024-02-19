@@ -1,7 +1,7 @@
 <script setup>
 import { selectedDate } from 'src/stores/calendarStores';
-import LeftChevron from '../../icons/LeftChevron.vue';
-import RightChevron from '../../icons/RightChevron.vue';
+import LeftChevron from 'src/components/icons/LeftChevron.vue';
+import RightChevron from 'src/components/icons/RightChevron.vue';
 </script>
 
 <template>
