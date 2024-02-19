@@ -27,14 +27,24 @@ function calculate_height(startTime, endTime) {
 
 function calculate_top(startTime) {
   const date = new Date(startTime);
-  const top_percent = 24 + (date.getHours() * 51)
-  return top_percent + "px";
+  const top_percent = 24 + date.getHours() * 51;
+  return top_percent + 'px';
 }
 
 function formatTimes(startTime, endTime) {
   const start = new Date(startTime);
   const end = new Date(endTime);
-  return start.getHours() + ':' + (start.getMinutes() < 10 ? '0' : '') + start.getMinutes() + '-' + end.getHours() + ':' + (end.getMinutes() < 10 ? '0' : '') + end.getMinutes();
+  return (
+    start.getHours() +
+    ':' +
+    (start.getMinutes() < 10 ? '0' : '') +
+    start.getMinutes() +
+    '-' +
+    end.getHours() +
+    ':' +
+    (end.getMinutes() < 10 ? '0' : '') +
+    end.getMinutes()
+  );
 }
 </script>
 
@@ -53,18 +63,22 @@ function formatTimes(startTime, endTime) {
       :key="day"
       :class="day === 1 ? `dayContainer first` : `dayContainer`"
     >
-        <div
-          class="eventSymbol eventsContainer"
-          :style="{height:calculate_height(eventA.startTime, eventA.endTime), top:calculate_top(eventA.startTime)}"
-          @click="() => eventMethods.displayEvent(eventA)"
-          v-for="eventA of eventData.dailyEvents"
-          :key="eventA"
-        >
-          <div v-if="eventA.startTime !== eventA.endTime">
-            <div class="eventDesc">{{ eventA.title }}</div>
-            <div class="eventDesc">{{ formatTimes(eventA.startTime, eventA.endTime) }}</div>
-          </div>
+      <div
+        class="eventSymbol eventsContainer"
+        :style="{
+          height: calculate_height(eventA.startTime, eventA.endTime),
+          top: calculate_top(eventA.startTime)
+        }"
+        @click="() => eventMethods.displayEvent(eventA)"
+        v-for="eventA of eventData.dailyEvents"
+        :key="eventA"
+      >
+        <div class="testingStuff">The Start Time is {{ eventA.startTime }}</div>
+        <div v-if="eventA.startTime !== eventA.endTime">
+          <div class="eventDesc">{{ eventA.title }}</div>
+          <div class="eventDesc">{{ formatTimes(eventA.startTime, eventA.endTime) }}</div>
         </div>
+      </div>
       <div
         class="hourContainer"
         v-for="hour in 24"
@@ -113,8 +127,8 @@ function formatTimes(startTime, endTime) {
   position: relative;
   height: 0%;
   z-index: 1;
-  top:5%;
-  left:1%;
+  top: 5%;
+  left: 1%;
 }
 .halfHourContainer.first {
   height: 50%;
@@ -122,7 +136,7 @@ function formatTimes(startTime, endTime) {
 }
 .contentDiv {
   overflow-y: scroll;
-  overflow-x:hidden;
+  overflow-x: hidden;
   height: 95.5%;
   width: 70%;
   float: left;
@@ -130,8 +144,8 @@ function formatTimes(startTime, endTime) {
 }
 .datePickerDiv {
   float: center;
-  min-width:100%;
-  min-height:100%;
+  min-width: 100%;
+  min-height: 100%;
 }
 .eventsContainer {
   border-radius: 7px;

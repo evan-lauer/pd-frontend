@@ -21,6 +21,200 @@ export const eventMethods = reactive({
 });
 
 export const eventData = reactive({
+  testEvents: [
+    {
+      description: 'hi',
+      endTime: '2024-01-21T06:00:00.000Z',
+      eventId: '5TZIPTLMGs',
+      startTime: '2024-01-21T06:00:00.000Z',
+      title: 'New Event',
+      userId: 'test-user'
+    },
+    // this event has different start and end time, for testing purposes
+    {
+      description: 'hi',
+      endTime: '2024-01-29T11:00:00.000Z',
+      eventId: '5TZIPTLMGs',
+      startTime: '2024-01-29T09:00:00.000Z',
+      title: 'New Event',
+      userId: 'test-user'
+    },
+    {
+      description: 'hi',
+      endTime: '2024-01-30T06:00:00.000Z',
+      eventId: '5TZIPTLMGs',
+      startTime: '2024-01-30T06:00:00.000Z',
+      title: 'New Event',
+      userId: 'test-user'
+    },
+    {
+      description: 'bai',
+      endTime: '2024-01-23T06:00:00.000Z',
+      eventId: '7qvWWpcvci',
+      startTime: '2024-01-23T07:00:00.000Z',
+      title: 'New Event',
+      userId: 'test-user'
+    },
+    {
+      description: 'bai',
+      endTime: '2024-01-24T06:00:00.000Z',
+      eventId: '7qvWWpcvci',
+      startTime: '2024-01-24T06:00:00.000Z',
+      title: 'New Event',
+      userId: 'test-user'
+    },
+    {
+      description: 'bai',
+      endTime: '2024-01-25T06:00:00.000Z',
+      eventId: '7qvWWpcvci',
+      startTime: '2024-01-25T06:00:00.000Z',
+      title: 'New Event',
+      userId: 'test-user'
+    },
+    {
+      description: 'bai',
+      endTime: '2024-01-26T06:00:00.000Z',
+      eventId: '7qvWWpcvci',
+      startTime: '2024-01-26T06:00:00.000Z',
+      title: 'New Event',
+      userId: 'test-user'
+    },
+    {
+      description: 'bai',
+      endTime: '2024-01-27T06:00:00.000Z',
+      eventId: '7qvWWpcvci',
+      startTime: '2024-01-27T06:00:00.000Z',
+      title: 'New Event',
+      userId: 'test-user'
+    },
+    {
+      description: 'bai',
+      endTime: '2024-01-21T06:00:00.000Z',
+      eventId: '7qvWWpcvci',
+      startTime: '2024-01-21T06:00:00.000Z',
+      title: 'New Event',
+      userId: 'test-user'
+    },
+    {
+      description: '',
+      endTime: null,
+      eventId: 'FIpjf9vWeZ',
+      startTime: null,
+      title: 'New Event',
+      userId: 'test-user'
+    },
+    {
+      description: 'r',
+      endTime: '2024-01-23T06:00:00.000Z',
+      eventId: 'HCnl1yCtLO',
+      startTime: '2024-01-23T06:00:00.000Z',
+      title: 'New Event',
+      userId: 'test-user'
+    },
+    {
+      description: 'test',
+      endTime: '2023-11-07T06:00:00.000Z',
+      eventId: 'J2RkBKMz3K',
+      startTime: '2023-11-07T06:00:00.000Z',
+      title: 'test',
+      userId: 'test-user'
+    },
+    {
+      description: 'ASD',
+      endTime: '2023-10-07T05:00:00.000Z',
+      eventId: 'HvsVV7PIpQ',
+      startTime: '2023-10-07T05:00:00.000Z',
+      title: 'New Event',
+      userId: 'test-user'
+    },
+    {
+      description: 'asdf',
+      endTime: '2023-11-07T06:00:00.000Z',
+      eventId: 'NOM2dIlOSw',
+      startTime: '2023-11-07T06:00:00.000Z',
+      title: 'New Event',
+      userId: 'test-user'
+    },
+    {
+      description: 'ww',
+      endTime: '2024-02-02T06:00:00.000Z',
+      startTime: '2024-01-02T06:00:00.000Z',
+      title: 'New Event',
+      userId: 'test-user'
+    },
+    {
+      description: '',
+      endTime: null,
+      eventId: 'Q92gAlRNXx',
+      startTime: null,
+      title: 'New Event',
+      userId: 'test-user'
+    },
+    {
+      description: 'Description',
+      endTime: '2023-11-07T06:00:00.000Z',
+      eventId: 'ZSxQnr4p7p',
+      startTime: '2023-11-07T06:00:00.000Z',
+      title: 'Comps Meeting',
+      userId: 'test-user'
+    },
+    {
+      description: 'hi',
+      endTime: '2024-01-22T06:00:00.000Z',
+      eventId: 'bhD2CoM2s0',
+      startTime: '2024-01-22T06:00:00.000Z',
+      title: 'New Event',
+      userId: 'test-user'
+    },
+    {
+      description: '',
+      endTime: null,
+      eventId: 'd8bvWmzIW5',
+      startTime: null,
+      title: 'New Event',
+      userId: 'test-user'
+    },
+    {
+      description: 'hi',
+      endTime: null,
+      eventId: 'eDaIScKvwF',
+      startTime: null,
+      title: 'New Event',
+      userId: 'test-user'
+    },
+    {
+      description: 'asdfasdf',
+      endTime: '2023-11-07T06:00:00.000Z',
+      eventId: 'eV1BauzYwU',
+      startTime: '2023-11-07T06:00:00.000Z',
+      title: 'New Event',
+      userId: 'test-user'
+    },
+    {
+      description: 'description',
+      endTime: '2023-11-07T06:00:00.000Z',
+      eventId: 'mi3EWP31mj',
+      startTime: '2023-11-07T06:00:00.000Z',
+      title: 'event title',
+      userId: 'test-user'
+    },
+    {
+      description: '',
+      endTime: '2024-01-23T06:00:00.000Z',
+      eventId: 'nhvWylIjV0',
+      startTime: '2024-01-23T06:00:00.000Z',
+      title: 'New Event',
+      userId: 'test-user'
+    },
+    {
+      description: 'for a day in time',
+      endTime: '2024-01-31T06:00:00.000Z',
+      eventId: 'uiaXiv2LGH',
+      startTime: '2024-01-31T06:00:00.000Z',
+      title: 'This is an event',
+      userId: 'test-user'
+    }
+  ],
   eventIds: [],
   theEvents: [],
   monthlyEvents: Array.from(new Array(31), function () {
@@ -38,10 +232,6 @@ export const eventData = reactive({
     eventData.dailyEvents = [];
   },
 
-  // functions
-  addEvent: (day) => {
-    eventData.monthlyEvents[day]++;
-  },
 
   userEvents: async () => {
     await userStore.getEvents();
@@ -311,13 +501,17 @@ export const eventData = reactive({
     const month = selectedDate.dateTime.getMonth();
     const year = selectedDate.dateTime.getFullYear();
 
-    for (const item of eventData.theEvents) {
+    for (const item of eventData.testEvents) {
       const date = new Date(item['startTime']);
       const eventDay = date.getDate();
       const eventMonth = date.getMonth();
       const eventYear = date.getFullYear();
 
       if (day === eventDay && month === eventMonth && year === eventYear) {
+        console.log("Day events array; event: ", item);
+        if (item.startTime != item.endTime) {
+          console.log("End and start are not equal");
+        }
         eventData.dailyEvents.push[item];
       }
     }

@@ -7,8 +7,8 @@ import { eventDetails } from '../../stores/eventDetailsStores';
 <template>
   <div class="eventDisplayContainer">
     <div class="eventDisplayHeader">
+      <div class="eventTag">The Tag</div>
       <div class="eventTitle">Title: {{ eventDetails.title }}</div>
-      <div class="eventDescription">Description: {{ eventDetails.description }}</div>
     </div>
     <div class="eventTimes">
       <div class="eventStart">
@@ -26,6 +26,7 @@ import { eventDetails } from '../../stores/eventDetailsStores';
         </div>
       </div>
     </div>
+    <div class="eventDescription">Description: {{ eventDetails.description }}</div>
   </div>
 </template>
 
@@ -44,6 +45,7 @@ import { eventDetails } from '../../stores/eventDetailsStores';
 }
 .eventTitle {
   font-weight: bold;
+  font-size: large;
 }
 .eventDescription {
   font-style: italic;
