@@ -43,72 +43,89 @@ function rebuildDateObject(dateObject, dateString) {
 
 <template>
   <div class="formContainer">
-    <h1 class="formTitleHeader">Create Event</h1>
-    <input class="titleInput" />
-    <input class="descriptionInput" />
-    <div class="datePickerPanel">
-      <div class="inputRow date">
-        Start Date
-        <input
-          class="datePicker start"
-          :class="{ error: isValidTimePeriod }"
-          type="date"
-          :value="startDateString"
-          @input="
-            (event) => {
-              addEventForm.startDateTime = rebuildDateObject(
-                addEventForm.startDateTime,
-                event.target.value
-              );
-            }
-          "
-        />
-      </div>
-      <div class="inputRow time">
-        Start Time
-        <TimePicker
-          :timestamp="addEventForm.startDateTime"
-          :class="{ error: isValidTimePeriod }"
-          @timestamp-change="
-            (newTimestamp) => {
-              addEventForm.startDateTime = newTimestamp;
-            }
-          "
-        />
-      </div>
-      <div class="inputRow date">
-        End Date
-        <input
-          class="datePicker end"
-          :class="{ error: isValidTimePeriod }"
-          type="date"
-          :value="endDateString"
-          @input="
-            (event) => {
-              addEventForm.endDateTime = rebuildDateObject(
-                addEventForm.endDateTime,
-                event.target.value
-              );
-            }
-          "
-        />
-      </div>
-      <div class="inputRow time">
-        End Time
-        <TimePicker
-          :timestamp="addEventForm.endDateTime"
-          :class="{ error: isValidTimePeriod }"
-          @timestamp-change="
-            (newTimestamp) => {
-              addEventForm.endDateTime = newTimestamp;
-            }
-          "
-        />
-      </div>
+    <div class="inputRow">
+      <input
+        class="eventNameInput"
+        placeholder="Add Event Title"
+      />
+    </div>
+    <div class="inputRow">
+      <img
+        src="src/components/icons/clock9.svg"
+        class="clockIcon"
+        alt="Time Icon"
+      />
+      <div class="dateLabel">Start Date</div>
+      <input
+        class="datePicker start"
+        :class="{ error: isValidTimePeriod }"
+        type="date"
+        :value="startDateString"
+        @input="
+          (event) => {
+            addEventForm.startDateTime = rebuildDateObject(
+              addEventForm.startDateTime,
+              event.target.value
+            );
+          }
+        "
+      />
+    </div>
+    <div class="inputRow time">
+      Start Time
+      <TimePicker
+        :timestamp="addEventForm.startDateTime"
+        :class="{ error: isValidTimePeriod }"
+        @timestamp-change="
+          (newTimestamp) => {
+            addEventForm.startDateTime = newTimestamp;
+          }
+        "
+      />
+    </div>
+    <div class="inputRow">
+      <div class="dateLabel">End Date</div>
+      <input
+        class="datePicker end"
+        :class="{ error: isValidTimePeriod }"
+        type="date"
+        :value="endDateString"
+        @input="
+          (event) => {
+            addEventForm.endDateTime = rebuildDateObject(
+              addEventForm.endDateTime,
+              event.target.value
+            );
+          }
+        "
+      />
+    </div>
+    <div class="inputRow time">
+      End Time
+      <TimePicker
+        :timestamp="addEventForm.endDateTime"
+        :class="{ error: isValidTimePeriod }"
+        @timestamp-change="
+          (newTimestamp) => {
+            addEventForm.endDateTime = newTimestamp;
+          }
+        "
+      />
+    </div>
+    <div class="inputRow">
+      <img
+        src="src/components/icons/description.svg"
+        class="descriptionIcon"
+        alt="Description Icon"
+      />
+      <input
+        class="descriptionInput"
+        placeholder="Add Event Description"
+      />
     </div>
     <div class="saveButtonRow">
       <SimpleButton
-        inner-text="Submit"
+        inner-text="Save"
         @click="submissionHandler()"
       />
     </div>
@@ -116,20 +133,27 @@ function rebuildDateObject(dateObject, dateString) {
 </template>
 
 <style scoped>
-.formTitleHeader {
-  font-size: large;
-  display: flex;
-  justify-content: center;
-}
 .formContainer {
   height: 100%;
-  width: 100%;
+  width: 95%;
   display: flex;
-  flex-direction: column;
-  align-items: stretch;
-  justify-content: space-evenly;
   gap: 5px;
-  padding: 2px;
+  margin: 0 0 0 20px;
+  flex-direction: column;
+  justify-content: space-evenly;
+  align-items: stretch;
+}
+.clockIcon {
+  height: 15px;
+  width: 15px;
+  position: absolute;
+  left: 25px;
+}
+.descriptionIcon {
+  height: 15px;
+  width: 15px;
+  position: absolute;
+  left: 25px;
 }
 .eventNameInput {
   height: 25px;
@@ -168,9 +192,11 @@ function rebuildDateObject(dateObject, dateString) {
   width: 110px;
 }
 .dateLabel {
+  display: flex;
   width: 20%;
   height: auto;
   max-height: 10px;
+  align-items: center;
 }
 .saveButtonRow {
   display: flex;
