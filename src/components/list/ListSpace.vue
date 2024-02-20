@@ -1,5 +1,5 @@
 <script setup>
-import { selectedTab, listsData } from 'src/stores/listStores';
+import { selectedTab, listsData, listsData_ } from 'src/stores/listStores';
 
 const handleEnterList = (itemId) => {
   const itemName = '';

@@ -56,7 +56,7 @@ export const listsData_ = reactive({
     // For each element, add it to the appropriate list (or
     // create it if it doesn't exist yet)
     dataArray.forEach((item) => {
-      if (item.listId in newTabs && item.itemId !== '-1') {
+      if (item.listId in newTabs && item.itemContent) {
         // Add item to existing list
         newTabs[item.listId].items.push({
           itemId: item.itemId,
@@ -70,7 +70,7 @@ export const listsData_ = reactive({
           timestamp: item.timestamp,
           items: []
         };
-        if (item.itemId !== '-1') {
+        if (item.itemContent) {
           newTabs[item.listId].items.push({
             itemId: item.itemId,
             itemContent: item.itemContent,
