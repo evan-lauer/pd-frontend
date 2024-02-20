@@ -232,7 +232,6 @@ export const eventData = reactive({
     eventData.dailyEvents = [];
   },
 
-
   userEvents: async () => {
     await userStore.getEvents();
     eventData.theEvents = userStore.events;
@@ -507,11 +506,11 @@ export const eventData = reactive({
       const eventYear = date.getFullYear();
 
       if (day === eventDay && month === eventMonth && year === eventYear) {
-        console.log("Day events array; event: ", item);
+        console.log('Day events array; event: ', item);
         if (item.startTime != item.endTime) {
-          console.log("End and start are not equal");
+          console.log('End and start are not equal');
         }
-        eventData.dailyEvents.push[item];
+        eventData.dailyEvents.push(item);
       }
     }
   }

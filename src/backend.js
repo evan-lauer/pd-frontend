@@ -5,9 +5,36 @@ const TEST_USER_ID = `test-user`;
 
 // Calendar backend functions:
 
-// export const putCalendarEvent = () => {
-//   // Going to fill this one out once the event form is finalized
-// };
+export const putCalendarEvent = async (
+  eventId,
+  startTime,
+  endTime,
+  eventTitle,
+  eventDescription
+) => {
+  const options = {
+    method: 'PUT',
+    url: `${API_ENDPOINT}/CalendarEvents`,
+    headers: {
+      'content-type': 'application/json'
+    },
+    data: {
+      userId: TEST_USER_ID,
+      eventId: eventId,
+      startTime: startTime,
+      endTime: endTime,
+      title: eventTitle,
+      description: eventDescription
+    }
+  };
+  const res = await axios.request(options);
+  if (res.data) {
+    // console.log(res.data);
+  } else {
+    console.log(res);
+  }
+  return eventId;
+};
 
 // TODO: Test all of these functions
 

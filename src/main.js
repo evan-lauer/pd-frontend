@@ -12,9 +12,10 @@ import App from 'src/App.vue';
 import { createApp } from 'vue';
 import { listsData_ } from './stores/listStores';
 import router from 'src/router';
-
+import userStore from 'src/stores/userStore';
 
 // Use plugin with optional defaults
+await userStore.getEvents();
 
 const app = createApp(App);
 

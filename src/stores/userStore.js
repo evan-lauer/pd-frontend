@@ -21,7 +21,7 @@ const userStore = reactive({
       this.events = res.data;
       // console.log(res.data);
     } else {
-      // console.log(res);
+      console.log(res);
     }
   },
   async getLists() {

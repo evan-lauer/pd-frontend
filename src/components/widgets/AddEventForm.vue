@@ -3,14 +3,12 @@
 <script setup>
 import TimePicker from 'src/components/widgets/TimePicker.vue';
 import { addEventForm } from 'src/stores/addEventFormStores';
-import { newEventForm } from 'src/stores/formStores';
 import SimpleButton from 'src/components/icons/SimpleButton.vue';
 import { computed } from 'vue';
 
 function submissionHandler() {
   addEventForm.isFormActive = false;
-  newEventForm.putEvent();
-  newEventForm.reset();
+  addEventForm.putEvent();
 }
 
 // Date inputs require the value to be formatted as yyyy-mm-dd
@@ -66,8 +64,8 @@ function rebuildDateObject(dateObject, dateString) {
         @input="
           (event) => {
             addEventForm.startDateTime = rebuildDateObject(
-            addEventForm.startDateTime,
-            event.target.value
+              addEventForm.startDateTime,
+              event.target.value
             );
           }
         "
@@ -80,7 +78,7 @@ function rebuildDateObject(dateObject, dateString) {
             addEventForm.startDateTime = newTimestamp;
           }
         "
-        />
+      />
     </div>
     <div class="inputRow">
       <div class="dateLabel">End Date</div>
