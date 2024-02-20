@@ -41,10 +41,11 @@ This will print "do homework"
 
 export const listsData_ = reactive({
   tabs: {},
-
+  tabIdArray: [],
   // This gets all the lists and items from the database
   // and formats the data for using as a dictionary
   fetchTabs: async () => {
+    let newTabIdArray = [];
     const newTabs = {};
     const dataArray = await getListItemsByUserId();
 
@@ -64,35 +65,44 @@ export const listsData_ = reactive({
           timestamp: item.timestamp
         });
       } else {
+        newTabIdArray.push(item.listId);
         // Create new list
         newTabs[item.listId] = {
           listTitle: item.listTitle,
+          extraItemId: item.itemId, // This is a dumb bandaid... Ugh...
           timestamp: item.timestamp,
           items: []
         };
         if (item.itemContent) {
-          newTabs[item.listId].items.push({
-            itemId: item.itemId,
-            itemContent: item.itemContent,
-            timestamp: item.timestamp
-          });
+          // This really should not happen. If it does we have a potential problem
+          throw new Error('Error, why was the item created before the list?');
+          // newTabs[item.listId].items.push({
+          //   itemId: item.itemId,
+          //   itemContent: item.itemContent,
+          //   timestamp: item.timestamp
+          // });
         }
       }
     });
-    console.log(newTabs);
+    console.log('Hi team :) I added test tabs to the database');
+    console.log('This is what the tabs look like when they get put into the listStore: ', newTabs);
     listsData_.tabs = newTabs;
+    listsData_.tabIdArray = newTabIdArray;
   },
 
   // Add a new list to the store, and push it to the database
   createList: async (listTitle) => {
     const listId = uid.rnd();
+    const extraItemId = uid.rnd();
     const timestamp = Date.now();
     listsData_.tabs[listId] = {
       listTitle: listTitle,
+      extraItemId: extraItemId,
       items: [],
       timestamp: timestamp
     };
-    return await createList(listId, listTitle, timestamp);
+    listsData_.tabIdArray.push(listId);
+    return await createList(listId, listTitle, extraItemId, timestamp);
   },
 
   // Add a new list item to the store, and push it to the database
@@ -109,6 +119,7 @@ export const listsData_ = reactive({
 
   // Delete a list from the store, and delete it from the database
   deleteList: async (listId) => {
+    listsData_.tabIdArray = listsData_.tabIdArray.filter((id) => id !== listId);
     delete listsData_.tabs[listId];
     return await deleteList(listId);
   },
@@ -123,9 +134,11 @@ export const listsData_ = reactive({
   },
 
   updateListTitle: async (listId, newTitle) => {
+    console.log('calling update');
     const timestamp = listsData_.tabs[listId].timestamp;
+    const extraItemId = listsData_.tabs[listId].extraItemId;
     listsData_.tabs[listId].listTitle = newTitle;
-    return await updateListsEntry(listId, newTitle, '-1', '', timestamp);
+    return await updateListsEntry(listId, newTitle, extraItemId, undefined, timestamp);
   },
   updateListItemContent: async (listId, itemId, newItemContent) => {
     const listTitle = listsData_.tabs[listId].listTitle;
@@ -196,5 +209,5 @@ export const listsData = reactive({
 });
 
 export const selectedTab = reactive({
-  id: '0'
+  id: undefined
 });

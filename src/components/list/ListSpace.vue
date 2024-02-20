@@ -35,24 +35,23 @@ const handleItemDelete = (itemId, event) => {
 <template>
   <div
     class="individualItem"
-    v-for="item in listsData.tabDict[selectedTab.id].items"
-    :key="item.id"
+    v-for="item in listsData_.tabs[selectedTab.id].items"
+    :key="item.itemId"
   >
     <div class="checkboxContainer">
       <input
         type="checkbox"
         class="checkbox"
-        v-model="item.checked"
       />
+      <!-- TODO: Handle the checkbox with the stores -->
     </div>
     <textarea
-      :id="'textArea-' + item.id"
+      :id="'textArea-' + item.itemId"
       class="itemName"
-      v-model="item.label"
-      @keyup.enter="handleEnterList(item.id)"
+      v-model="item.itemContent"
+      @keyup.enter="handleEnterList(item.itemId)"
       @keydown.enter.prevent
-      @keydown="handleItemDelete(item.id, $event)"
-      :style="{ 'text-decoration': item.checked ? 'line-through' : 'none' }"
+      @keydown="handleItemDelete(item.itemId, $event)"
     ></textarea>
   </div>
 

@@ -1,6 +1,7 @@
 <script setup>
 import ListSpace from 'src/components/list/ListSpace.vue';
 import TabBar from 'src/components/list/TabBar.vue';
+import { selectedTab } from '../../stores/listStores';
 </script>
 
 <template>
@@ -8,7 +9,7 @@ import TabBar from 'src/components/list/TabBar.vue';
     <TabBar />
   </div>
   <div class="lists">
-    <ListSpace />
+    <ListSpace v-if="selectedTab.id !== undefined" />
   </div>
 </template>
 

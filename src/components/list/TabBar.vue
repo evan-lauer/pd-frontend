@@ -1,6 +1,6 @@
 <script setup>
-import { listsData } from 'src/stores/listStores';
-import { selectedTab } from 'src/stores/listStores';
+import { listsData, listsData_, selectedTab } from 'src/stores/listStores';
+import debounce from 'src/util/debounce';
 
 // TODO: implement some if-statement so if there are 10 tabs, we prevent this function to be executed
 // TODO: make the unselected tabs a bit shorter
@@ -12,6 +12,7 @@ const handleEnterTab = (tabId) => {
 };
 
 const changeSelectedTab = (tabId) => {
+  // break this for the moment
   selectedTab.id = tabId;
 };
 
@@ -32,18 +33,25 @@ const makeReadOnly = (tabId) => {
     tabName.style.cursor = 'pointer';
   }
 };
+
+const debouncedUpdateTitle = debounce(listsData_.updateListTitle, 1000);
 </script>
 
 <template>
   <div
     :class="selectedTab.id === tabId ? `tabContainer selected` : `tabContainer`"
-    v-for="tabId in listsData.tabIds"
+    v-for="tabId in listsData_.tabIdArray"
     :key="tabId"
   >
     <input
       :id="'tabName-' + tabId"
       :class="selectedTab.id === tabId ? `tabName selected` : `tabName`"
-      v-model="listsData.tabDict[tabId].label"
+      :value="listsData_.tabs[tabId].listTitle"
+      @input="
+        (event) => {
+          debouncedUpdateTitle(tabId, event.target.value);
+        }
+      "
       @keyup.enter="handleEnterTab(tabId)"
       @click="changeSelectedTab(tabId)"
       @dblclick="makeEditable(tabId)"
@@ -52,9 +60,22 @@ const makeReadOnly = (tabId) => {
     />
     <button
       :class="selectedTab.id === tabId ? `deleteButton focus` : `deleteButton`"
-      @click="listsData.deleteTab(selectedTab.id)"
+      @click="
+        () => {
+          listsData_.deleteList(selectedTab.id);
+
+          // TODO: Change this so it bumps to the next tab rather
+          // than the first tab
+          if (listsData_.tabIdArray.length > 0) {
+            selectedTab.id = listsData_.tabIdArray[0];
+          } else {
+            selectedTab.id = undefined;
+          }
+        }
+      "
     >
       ×
+      <!-- TODO: Apply this delete button to DB lists -->
     </button>
   </div>
 
@@ -63,8 +84,7 @@ const makeReadOnly = (tabId) => {
       class="tabAddButton"
       @click="
         () => {
-          listsData.addTab(tabName);
-          tabName = '';
+          listsData_.createList('');
         }
       "
     >
