@@ -303,7 +303,6 @@ li {
 
 .dropdown > li {
   z-index: 500;
-
 }
 
 .timePickerContainer {
@@ -321,7 +320,6 @@ li {
   width: 100%;
   border-radius: 4px;
   border: 0px solid transparent;
-
 }
 
 .field:hover {

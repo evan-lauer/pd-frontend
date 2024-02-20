@@ -117,6 +117,7 @@ function renderWeekHeader(week, day) {
         >
           {{ getDayByIndex(week, day).day }}
         </div>
+
         <div
           class="eventsContainer"
           v-if="getDayByIndex(week, day).month === selectedDate.dateTime.getMonth()"
@@ -130,6 +131,7 @@ function renderWeekHeader(week, day) {
             <EventStar />
           </div>
         </div>
+
         <div
           :class="day === 1 ? `pseudoDay first` : `pseudoDay`"
           @click="

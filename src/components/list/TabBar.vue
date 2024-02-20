@@ -6,48 +6,56 @@ import { selectedTab } from 'src/stores/listStores';
 // TODO: make the unselected tabs a bit shorter
 
 const handleEnterTab = (tabId) => {
-  const tabInput = document.getElementById(`tabName-${tabId}`)
+  // This function defocuses the tab name input field
+  const tabInput = document.getElementById(`tabName-${tabId}`);
   tabInput.blur();
-}
+};
 
 const changeSelectedTab = (tabId) => {
   selectedTab.id = tabId;
-}
+};
 
 const makeEditable = (tabId) => {
-  const tabName = document.getElementById(`tabName-${tabId}`)
+  const tabName = document.getElementById(`tabName-${tabId}`);
   if (tabName) {
     tabName.readOnly = false;
-    tabName.style.borderColor = "green";
-    tabName.style.cursor = "text";
+    tabName.style.borderColor = 'green';
+    tabName.style.cursor = 'text';
   }
-}
+};
 
 const makeReadOnly = (tabId) => {
-  const tabName = document.getElementById(`tabName-${tabId}`)
+  const tabName = document.getElementById(`tabName-${tabId}`);
   if (tabName) {
     tabName.readOnly = true;
-    tabName.style.borderColor = "transparent";
-    tabName.style.cursor = "pointer";
+    tabName.style.borderColor = 'transparent';
+    tabName.style.cursor = 'pointer';
   }
-}
+};
 </script>
 
 <template>
   <div
     :class="selectedTab.id === tabId ? `tabContainer selected` : `tabContainer`"
-    v-for="tabId in listsData.tabIds" :key="tabId">
+    v-for="tabId in listsData.tabIds"
+    :key="tabId"
+  >
     <input
-    :id="'tabName-'+tabId"
-    :class="selectedTab.id === tabId ? `tabName selected` : `tabName`"
-    v-model="listsData.tabDict[tabId].label"
-    @keyup.enter="handleEnterTab(tabId)"
-    @click="changeSelectedTab(tabId)"
-    @dblclick="makeEditable(tabId)"
-    @focusout="makeReadOnly(tabId)"
-    readonly>
-    <button :class="selectedTab.id === tabId ? `deleteButton focus` : `deleteButton`"
-    @click="listsData.deleteTab(selectedTab.id)">×</button>
+      :id="'tabName-' + tabId"
+      :class="selectedTab.id === tabId ? `tabName selected` : `tabName`"
+      v-model="listsData.tabDict[tabId].label"
+      @keyup.enter="handleEnterTab(tabId)"
+      @click="changeSelectedTab(tabId)"
+      @dblclick="makeEditable(tabId)"
+      @focusout="makeReadOnly(tabId)"
+      readonly
+    />
+    <button
+      :class="selectedTab.id === tabId ? `deleteButton focus` : `deleteButton`"
+      @click="listsData.deleteTab(selectedTab.id)"
+    >
+      ×
+    </button>
   </div>
 
   <div v-if="listsData.tabIds.length < 10">
@@ -66,12 +74,11 @@ const makeReadOnly = (tabId) => {
 </template>
 
 <style scoped>
-
 /* tabContainer doesn't change height... why? Wanna make it shorter  */
 .tabContainer {
   display: flex;
   border-radius: 10px 10px 0px 0px;
-  border: 2px solid #DD825F;
+  border: 2px solid #dd825f;
   border-bottom: transparent;
   height: auto;
   width: 15%;
@@ -96,7 +103,6 @@ const makeReadOnly = (tabId) => {
   padding: 2px 10px;
   overflow: auto;
   font-size: large;
-
 }
 .tabName.selected {
   font-weight: bold;
