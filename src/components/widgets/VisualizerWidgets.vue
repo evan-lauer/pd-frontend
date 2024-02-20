@@ -1,8 +1,14 @@
 <script setup>
 import { selectedDate } from 'src/stores/calendarStores';
 import { eventData } from 'src/stores/eventStores';
+import { listsData_ } from 'src/stores/listStores';
+// import { GChart } from 'vue-google-charts';
+
+
+const currentDayTime = new Date();
 
 const getWidth = (event) => {
+  // Calculates the width of the div that represents an event in the day visualizer widget
   const sTime = new Date(event.startTime);
   const eTime = new Date(event.endTime);
   return `${
@@ -12,7 +18,9 @@ const getWidth = (event) => {
   }%`;
 };
 
-const eventLength = (event) => {
+const eventDuration = (event) => {
+  // Calculates the duration of each event scheduled on the selectedDate
+  // Populates the popup when eventDiv hovered
   let string = '';
   const sTime = new Date(event.startTime);
   const eTime = new Date(event.endTime);
@@ -29,43 +37,8 @@ const eventLength = (event) => {
   return string;
 };
 
-const widgetsTestData = [
-  {
-    description: '',
-    endTime: '2024-02-16T12:30:00.000Z',
-    eventId: '5TZIPTLMGs',
-    startTime: '2024-02-16T08:00:00.000Z',
-    title: 'event1',
-    userId: 'test-user'
-  },
-  {
-    description: '',
-    endTime: '2024-02-16T23:00:00.000Z',
-    eventId: '5TZIPTLMGs',
-    startTime: '2024-02-16T21:00:00.000Z',
-    title: 'event2',
-    userId: 'test-user'
-  },
-  {
-    description: '',
-    endTime: '2024-02-16T23:00:00.000Z',
-    eventId: '5TZIPTLMGs',
-    startTime: '2024-02-16T21:00:00.000Z',
-    title: 'event2',
-    userId: 'test-user'
-  },
-  {
-    description: '',
-    endTime: '2024-02-16T12:30:00.000Z',
-    eventId: '5TZIPTLMGs',
-    startTime: '2024-02-16T08:00:00.000Z',
-    title: 'event1',
-    userId: 'test-user'
-  }
-];
-
 function upcomingEventChecker() {
-  // Checks for any upcoming events
+  // Checks for upcoming events on the current day
   let message = 'No upcoming events today!';
   const dateOptions = {
     timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone,
@@ -101,7 +74,6 @@ function upcomingEventChecker() {
   return message;
 }
 
-const currentDayTime = new Date();
 </script>
 
 <template>
@@ -110,9 +82,12 @@ const currentDayTime = new Date();
       <div class="upcomingEvent">{{ upcomingEventChecker() }}</div>
     </div>
     <div class="taskContainer">
-      <div class="taskCircle"></div>
+      <div class="taskCircle" @click="console.log(listsData_.tabs)"></div>
       <select class="dropdown">
-        <option>1</option>
+        <option
+          v-for="list in listsData_.tabs"
+          :key="list"
+        >{{ list.listTitle }}</option>
       </select>
     </div>
     <div class="barContainer">
@@ -122,23 +97,23 @@ const currentDayTime = new Date();
       {{ selectedDate.dateTime.getFullYear() }}
       <div
         class="dayVisualizer"
-        v-if="widgetsTestData !== ''"
+        v-if="eventData.monthlyEvents[selectedDate.dateTime] !== ''"
       >
         <div
-          v-for="(events, index) in widgetsTestData"
-          :key="index"
-          :class="index === 0 ? 'firstEventDiv' : 'eventDivs'"
-          :style="{ width: getWidth(events) }"
+          v-for="(events, index) in eventData.monthlyEvents[selectedDate.dateTime.getDate()]"
+            :key="index"
+            :class="index === 0 ? 'firstEventDiv' : 'eventDivs'"
+            :style="{ width: getWidth(events) }"
         >
-          <div class="eventNamePopup">{{ events.title }}<br />{{ eventLength(events) }}</div>
+          <div class="eventNamePopup">{{ events.title }}<br />{{ eventDuration(events) }}</div>
         </div>
       </div>
     </div>
   </div>
 </template>
 
-<!-- <div class="dayVisualizer" v-if="eventData.monthlyEvents[selectedDate.dateTime] !== ''">
-  <div v-for="events in eventData.monthlyEvents[selectedDate.dateTime.getDate()]" -->
+<!-- <pie-chart :data="[['Blueberry', 44], ['Strawberry', 23]]"></pie-chart> -->
+
 
 <style scoped>
 .widgetContainer {
@@ -199,6 +174,8 @@ const currentDayTime = new Date();
 .dropdown {
   width: auto;
   height: auto;
+  padding: 2px;
+  margin: 4px;
 }
 .dayVisualizer {
   height: 20px;
