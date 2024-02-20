@@ -47,6 +47,11 @@ function rebuildDateObject(dateObject, dateString) {
       <input
         class="eventNameInput"
         placeholder="Add Event Title"
+        @change="
+          (event) => {
+            addEventForm.title = event.target.value;
+          }
+        "
       />
     </div>
     <div class="inputRow">
@@ -115,6 +120,11 @@ function rebuildDateObject(dateObject, dateString) {
       <input
         class="descriptionInput"
         placeholder="Add Event Description"
+        @change="
+          (event) => {
+            addEventForm.description = event.target.value;
+          }
+        "
       />
     </div>
     <div class="saveButtonRow">

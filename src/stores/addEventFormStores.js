@@ -12,6 +12,7 @@ export const addEventForm = reactive({
   startDateTime: new Date(),
   endDateTime: new Date(),
   putEvent: async () => {
+    console.log('blah blah: ', addEventForm.title);
     await putCalendarEvent(
       uid.rnd(),
       addEventForm.startDateTime,
