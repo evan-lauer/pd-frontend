@@ -2,8 +2,51 @@
 import { selectedDate } from 'src/stores/calendarStores';
 import { eventData } from 'src/stores/eventStores';
 import { listsData_ } from 'src/stores/listStores';
-// import { GChart } from 'vue-google-charts';
+import { GChart } from 'vue-google-charts';
 
+
+// figure out how to make the percentages show up
+const changeSelectedTab = (tabId) => {
+
+}
+const chartType = 'PieChart';
+const calcCompleteTask = () => {
+  const completeTasks = 2;
+  return completeTasks;
+}
+const calcIncompleteTask = () => {
+  const imcompleteTasks = 1;
+  return imcompleteTasks;
+}
+const chartData = [
+  ['Task Name', 'Items'],
+  ['Complete', calcCompleteTask()],
+  ['Incomplete', calcIncompleteTask()],
+];
+const chartOptions = {
+  legend: 'none',
+  slices: {
+    0: {color: '#dd825f'},
+    1: {color: 'grey'}
+  },
+  chartArea: {
+    left: 0,
+    right: 0,
+    top: 0,
+    bottom: 0,
+    width: '100%',
+    height: '85%',
+    backgroundColor: 'red',
+  },
+  forceIFrame: true,
+  pieSliceText: 'percentage',
+  sliceVisibilityThreshold: 0,
+  height: 75,
+  width: 85,
+  fontSize: 8,
+  backgroundColor: 'transparent',
+  enableInteractivity: false,  
+};
 
 const currentDayTime = new Date();
 
@@ -82,7 +125,13 @@ function upcomingEventChecker() {
       <div class="upcomingEvent">{{ upcomingEventChecker() }}</div>
     </div>
     <div class="taskContainer">
-      <div class="taskCircle" @click="console.log(listsData_.tabs)"></div>
+      <div class="pieChart">
+        <GChart
+        :type="chartType"
+        :data="chartData"
+        :options="chartOptions"
+        />
+      </div>
       <select class="dropdown">
         <option
           v-for="list in listsData_.tabs"
@@ -111,9 +160,6 @@ function upcomingEventChecker() {
     </div>
   </div>
 </template>
-
-<!-- <pie-chart :data="[['Blueberry', 44], ['Strawberry', 23]]"></pie-chart> -->
-
 
 <style scoped>
 .widgetContainer {
@@ -148,6 +194,7 @@ function upcomingEventChecker() {
   display: flex;
   justify-content: space-around;
   align-items: center;
+  padding: 5px;
 }
 .barContainer {
   grid-row: 2;
@@ -163,13 +210,8 @@ function upcomingEventChecker() {
   font-size: medium;
   text-align: center;
 }
-
-.taskCircle {
-  padding-top: 35%;
-  width: 35%;
-  background-color: #dd825f;
-  border-radius: 50%;
-  margin: 5px;
+.pieChart {
+  display: flex;
 }
 .dropdown {
   width: auto;
