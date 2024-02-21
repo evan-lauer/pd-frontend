@@ -4,30 +4,27 @@ import { eventData } from 'src/stores/eventStores';
 import { listsData_ } from 'src/stores/listStores';
 import { GChart } from 'vue-google-charts';
 
-
 // figure out how to make the percentages show up
-const changeSelectedTab = (tabId) => {
-
-}
+const changeSelectedTab = (tabId) => {};
 const chartType = 'PieChart';
 const calcCompleteTask = () => {
   const completeTasks = 2;
   return completeTasks;
-}
+};
 const calcIncompleteTask = () => {
   const imcompleteTasks = 1;
   return imcompleteTasks;
-}
+};
 const chartData = [
   ['Task Name', 'Items'],
   ['Complete', calcCompleteTask()],
-  ['Incomplete', calcIncompleteTask()],
+  ['Incomplete', calcIncompleteTask()]
 ];
 const chartOptions = {
   legend: 'none',
   slices: {
-    0: {color: '#dd825f'},
-    1: {color: 'grey'}
+    0: { color: '#dd825f' },
+    1: { color: 'grey' }
   },
   chartArea: {
     left: 0,
@@ -36,7 +33,7 @@ const chartOptions = {
     bottom: 0,
     width: '100%',
     height: '85%',
-    backgroundColor: 'red',
+    backgroundColor: 'red'
   },
   forceIFrame: true,
   pieSliceText: 'percentage',
@@ -45,7 +42,7 @@ const chartOptions = {
   width: 85,
   fontSize: 8,
   backgroundColor: 'transparent',
-  enableInteractivity: false,  
+  enableInteractivity: false
 };
 
 const currentDayTime = new Date();
@@ -116,27 +113,31 @@ function upcomingEventChecker() {
   }
   return message;
 }
-
 </script>
 
 <template>
   <div class="widgetContainer">
     <div class="upcomingEventWidget">
-      <div class="upcomingEvent">{{ upcomingEventChecker() }}</div>
+      <div class="upcomingEvent">
+        <span class="material-symbols-outlined"> event_upcoming </span>
+        {{ upcomingEventChecker() }}
+      </div>
     </div>
     <div class="taskContainer">
       <div class="pieChart">
         <GChart
-        :type="chartType"
-        :data="chartData"
-        :options="chartOptions"
+          :type="chartType"
+          :data="chartData"
+          :options="chartOptions"
         />
       </div>
       <select class="dropdown">
         <option
           v-for="list in listsData_.tabs"
           :key="list"
-        >{{ list.listTitle }}</option>
+        >
+          {{ list.listTitle }}
+        </option>
       </select>
     </div>
     <div class="barContainer">
@@ -150,9 +151,9 @@ function upcomingEventChecker() {
       >
         <div
           v-for="(events, index) in eventData.monthlyEvents[selectedDate.dateTime.getDate()]"
-            :key="index"
-            :class="index === 0 ? 'firstEventDiv' : 'eventDivs'"
-            :style="{ width: getWidth(events) }"
+          :key="index"
+          :class="index === 0 ? 'firstEventDiv' : 'eventDivs'"
+          :style="{ width: getWidth(events) }"
         >
           <div class="eventNamePopup">{{ events.title }}<br />{{ eventDuration(events) }}</div>
         </div>

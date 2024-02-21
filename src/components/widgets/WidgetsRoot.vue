@@ -4,6 +4,7 @@ import AddEventForm from 'src/components/widgets/AddEventForm.vue';
 import EventDetails from 'src/components/widgets/EventDetails.vue';
 import { eventDetails } from 'src/stores/eventDetailsStores';
 import VisualizerWidgets from 'src/components/widgets/VisualizerWidgets.vue';
+import CalendarIcon from '../icons/CalendarIcon.vue';
 </script>
 
 <template>
@@ -23,6 +24,9 @@ import VisualizerWidgets from 'src/components/widgets/VisualizerWidgets.vue';
   height: auto;
   font-size: small;
   padding: 10px;
+}
+.leftPanel {
+  display: flex;
 }
 /* .test {
   width: 50%;

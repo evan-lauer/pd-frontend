@@ -7,52 +7,89 @@ import { eventDetails } from 'src/stores/eventDetailsStores';
 <template>
   <div class="eventDisplayContainer">
     <div class="eventDisplayHeader">
-      <div class="eventTag">The Tag</div>
-      <div class="eventTitle">Title: {{ eventDetails.title }}</div>
+      <span class="material-symbols-outlined"> calendar_month </span>
+      <div class="eventTitle">{{ eventDetails.title }}</div>
     </div>
-    <div class="eventTimes">
-      <div class="eventStart">
-        Start Time:
-        <div class="theTime">
-          {{ eventDetails.startDateTime.toDateString() }} at
-          {{ eventDetails.startDateTime.toTimeString() }}
+    <div class="eventDateRange">
+      <span class="material-symbols-outlined"> schedule </span>
+      <div class="eventTimes">
+        <div class="eventStart">
+          Start Time:
+          <div class="theTime">
+            {{ eventDetails.startDateTime.toDateString() }} at
+            {{ eventDetails.startDateTime.toTimeString() }}
+          </div>
+        </div>
+        <div class="eventEnd">
+          End Time:
+          <div class="theTime">
+            {{ eventDetails.endDateTime.toDateString() }} at
+            {{ eventDetails.endDateTime.toTimeString() }}
+          </div>
         </div>
       </div>
-      <div class="eventEnd">
-        End Time:
-        <div class="theTime">
-          {{ eventDetails.endDateTime.toDateString() }} at
-          {{ eventDetails.endDateTime.toTimeString() }}
-        </div>
+    </div>
+    <div class="eventDescription">
+      <span class="material-symbols-outlined"> description </span>
+      <div class="eventNotes">
+        {{ eventDetails.description }}
       </div>
     </div>
-    <div class="eventDescription">Description: {{ eventDetails.description }}</div>
   </div>
 </template>
 
 <style>
+.material-icons {
+  font-family: 'Material Icons';
+}
+
 .eventDisplayContainer {
   display: flex;
   flex-wrap: nowrap;
   flex-direction: column;
-  justify-content: space-evenly;
+  justify-content: flex-start;
 }
 .eventDisplayHeader {
   display: flex;
   flex-wrap: nowrap;
-  justify-content: space-between;
-  flex-direction: column;
+  justify-content: flex-start;
+  flex-direction: row;
+  margin-top: 10px;
+  padding-bottom: 20px;
 }
 .eventTitle {
   font-weight: bold;
   font-size: large;
+  padding-left: 10px;
 }
 .eventDescription {
+  display: flex;
+  flex-direction: row;
   font-style: italic;
+  justify-content: flex-start;
 }
-.eventTimes {
+.eventNotes {
+  padding-left: 10px;
+}
+
+.eventDateRange {
+  display: flex;
+  flex-direction: row;
   font-weight: bold;
+  justify-content: flex-start;
+  padding-bottom: 20px;
 }
+
+.eventTimes {
+  display: flex;
+  flex-direction: column;
+  padding-left: 10px;
+}
+
+.eventStart {
+  padding-bottom: 5px;
+}
+
 .theTime {
   font-weight: normal;
 }
