@@ -119,7 +119,12 @@ function upcomingEventChecker() {
   <div class="widgetContainer">
     <div class="upcomingEventWidget">
       <div class="upcomingEvent">
-        <span class="material-symbols-outlined"> event_upcoming </span>
+        <span
+          class="material-symbols-outlined"
+          style="color: #344f49"
+        >
+          event_upcoming
+        </span>
         {{ upcomingEventChecker() }}
       </div>
     </div>

@@ -7,11 +7,21 @@ import { eventDetails } from 'src/stores/eventDetailsStores';
 <template>
   <div class="eventDisplayContainer">
     <div class="eventDisplayHeader">
-      <span class="material-symbols-outlined"> calendar_month </span>
+      <span
+        class="material-symbols-outlined"
+        style="color: #344f49"
+      >
+        calendar_month
+      </span>
       <div class="eventTitle">{{ eventDetails.title }}</div>
     </div>
     <div class="eventDateRange">
-      <span class="material-symbols-outlined"> schedule </span>
+      <span
+        class="material-symbols-outlined"
+        style="color: #344f49"
+      >
+        schedule
+      </span>
       <div class="eventTimes">
         <div class="eventStart">
           Start Time:
@@ -30,7 +40,12 @@ import { eventDetails } from 'src/stores/eventDetailsStores';
       </div>
     </div>
     <div class="eventDescription">
-      <span class="material-symbols-outlined"> description </span>
+      <span
+        class="material-symbols-outlined"
+        style="color: #344f49"
+      >
+        description
+      </span>
       <div class="eventNotes">
         {{ eventDetails.description }}
       </div>
@@ -48,6 +63,9 @@ import { eventDetails } from 'src/stores/eventDetailsStores';
   flex-wrap: nowrap;
   flex-direction: column;
   justify-content: flex-start;
+  border: 2px solid var(--primary-default);
+  border-radius: 5px;
+  padding: 5px;
 }
 .eventDisplayHeader {
   display: flex;
