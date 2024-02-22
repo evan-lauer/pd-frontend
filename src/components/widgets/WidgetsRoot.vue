@@ -4,7 +4,6 @@ import AddEventForm from 'src/components/widgets/AddEventForm.vue';
 import EventDetails from 'src/components/widgets/EventDetails.vue';
 import { eventDetails } from 'src/stores/eventDetailsStores';
 import VisualizerWidgets from 'src/components/widgets/VisualizerWidgets.vue';
-import CalendarIcon from '../icons/CalendarIcon.vue';
 </script>
 
 <template>
