@@ -299,6 +299,30 @@ export const eventData = reactive({
         userId: 'test-user'
       },
       {
+        description: 'testing overlapping events',
+        endTime: '2024-02-22T12:00:00.000Z',
+        eventId: '5TZIPTLMGs',
+        startTime: '2024-02-22T10:00:00.000Z',
+        title: 'event 2',
+        userId: 'test-user'
+      },
+      {
+        description: 'testing overlapping events',
+        endTime: '2024-02-22T11:00:00.000Z',
+        eventId: '5TZIPTLMGs',
+        startTime: '2024-02-22T09:00:00.000Z',
+        title: 'event 1',
+        userId: 'test-user'
+      },
+      {
+        description: 'testing overlapping events',
+        endTime: '2024-02-22T18:00:00.000Z',
+        eventId: '5TZIPTLMGs',
+        startTime: '2024-02-22T15:00:00.000Z',
+        title: 'event 3',
+        userId: 'test-user'
+      },
+      {
         description: 'hi',
         endTime: '2024-01-30T06:00:00.000Z',
         eventId: '5TZIPTLMGs',
