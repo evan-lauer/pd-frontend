@@ -50,14 +50,14 @@ import { eventDetails } from 'src/stores/eventDetailsStores';
         {{ eventDetails.description }}
       </div>
     </div>
+    <div class="eventActionBar">
+      <span class="material-symbols-outlined edit"> edit </span>
+      <span class="material-symbols-outlined delete"> delete_forever </span>
+    </div>
   </div>
 </template>
 
 <style>
-.material-icons {
-  font-family: 'Material Icons';
-}
-
 .eventDisplayContainer {
   display: flex;
   flex-wrap: nowrap;
@@ -67,6 +67,35 @@ import { eventDetails } from 'src/stores/eventDetailsStores';
   border-radius: 5px;
   padding: 5px;
 }
+.eventActionBar {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+}
+
+.material-symbols-outlined.edit {
+  color: #344f49;
+  transition: transform 0.3s ease;
+}
+.material-symbols-outlined.edit:hover {
+  cursor: pointer;
+  transform: scale(1.1);
+  border-radius: 50px;
+  background-color: rgba(167, 187, 183, 0.3);
+}
+
+.material-symbols-outlined.delete {
+  color: #344f49;
+  transition: transform 0.3s ease;
+}
+
+.material-symbols-outlined.delete:hover {
+  cursor: pointer;
+  transform: scale(1.1);
+  border-radius: 50px;
+  background-color: rgba(167, 187, 183, 0.3);
+}
+
 .eventDisplayHeader {
   display: flex;
   flex-wrap: nowrap;
