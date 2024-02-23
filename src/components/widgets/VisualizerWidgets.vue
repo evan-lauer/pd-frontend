@@ -3,12 +3,12 @@ import { selectedDate } from 'src/stores/calendarStores';
 import { eventData } from 'src/stores/eventStores';
 import { listsData_ } from 'src/stores/listStores';
 import { GChart } from 'vue-google-charts';
-import { watch, ref } from 'vue';
+import { watch, ref, computed } from 'vue';
 
 // figure out how to make the percentages show up
 const testTabs = {
     "listId1": {
-        listTitle: "homework",
+        listTitle: "title 1",
         items: [
           {
             itemId: "list1itemId1",
@@ -22,7 +22,7 @@ const testTabs = {
           }
         ]},
     "listId2": {
-        listTitle: "work",
+        listTitle: "title 2",
         items: [
         {
           itemId: "list2id1",
@@ -41,7 +41,7 @@ const testTabs = {
         }
       ]},
       "listId3": {
-        listTitle: "title3",
+        listTitle: "3",
         items: [
         {
           itemId: "list2id1",
@@ -51,49 +51,44 @@ const testTabs = {
       ]}
   };
 
-let selectedTabId = null;
-const selectedTabItems = () => {
-  if (selectedTabId === null) {
-    return null
-  } else {
-    const getArray = testTabs[selectedTabId].items;
-    return getArray;
+const selectedTabId = ref(null);
+
+const selectedTabItems = computed(() => {
+  if (selectedTabId.value === null) {
+    return null;
   }
-}
+  return testTabs[selectedTabId.value].items;
+});
 
 const chartType = 'PieChart';
 
 const calcCompleteTask = () => {
   let completedTasks = 0;
-  if (selectedTabId === null) {
-    console.log("in null")
+  if (selectedTabId.value === null) {
     return 1;
   } else {
-    for (let i = 0; i < selectedTabItems().length; i++){
-      if (selectedTabItems()[i].checked === true) {
+    for (let i = 0; i < selectedTabItems.value.length; i++){
+      if (selectedTabItems.value[i].checked === true) {
         completedTasks++;
       }
     }    
   }
-  console.log("# of completed Tasks" + completedTasks)
   return completedTasks;
 };
 
 const calcIncompleteTask = () => {
   let imcompleteTasks = 0;
 
-  if (selectedTabId === null) {
-    console.log("in null")
+  if (selectedTabId.value === null) {
     return 1
     ;
   } else {
-    for (let i = 0; i < selectedTabItems().length; i++){
-      if (selectedTabItems()[i].checked === false) {
+    for (let i = 0; i < selectedTabItems.value.length; i++){
+      if (selectedTabItems.value[i].checked === false) {
         imcompleteTasks++;
       }
     }
   }
-  console.log("# of imcomplete Tasks" + imcompleteTasks)
   return imcompleteTasks;
 };
 
@@ -103,15 +98,17 @@ let chartData = [
   ['Incomplete', calcIncompleteTask()]
 ];
 
-watch(() => selectedTabId, () => {
-  console.log("watch called")
+watch(selectedTabId, () => {
+  updateChartData(); // Call the function to update chartData when selectedTabId changes
+});
 
+const updateChartData = () => {
   chartData = [
     ['Task Name', 'Items'],
     ['Complete', calcCompleteTask()],
     ['Incomplete', calcIncompleteTask()]
-  ]
-});
+  ];
+};
 
 const chartOptions = {
   legend: 'none',
@@ -210,7 +207,7 @@ function upcomingEventChecker() {
 
 <template>
   <div class="widgetContainer">
-    <div class="upcomingEventWidget" @click="console.log(selectedTabId)">
+    <div class="upcomingEventWidget">
       <div class="upcomingEvent">
         <span
           class="material-symbols-outlined"
@@ -264,7 +261,6 @@ function upcomingEventChecker() {
 
 <!-- <option
 v-for="list in listsData_.tabs"
-:key="list"
 > -->
 
 <style scoped>
@@ -318,10 +314,14 @@ v-for="list in listsData_.tabs"
 }
 
 .dropdown {
+  display: flex;
   width: auto;
   height: auto;
   padding: 2px;
   margin: 4px;
+  border:1px solid #dd825f;
+  border-radius: 3px;
+  text-align: center;
 }
 .dayVisualizer {
   height: 20px;
