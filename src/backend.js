@@ -56,7 +56,7 @@ export const getCalendarEventsByUserId = async () => {
 
 // Delete the event specified by eventId
 export const deleteCalendarEvent = async (eventId) => {
-  console.log("deleting: " ,eventId)
+  console.log('deleting: ', eventId);
   const options = {
     method: 'DELETE',
     url: `${API_ENDPOINT}/CalendarEvents/${TEST_USER_ID}/${eventId}`
@@ -117,6 +117,7 @@ export const putListItem = async (listId, listTitle, itemId, itemContent, timest
     }
   };
   if (typeof itemContent !== 'undefined') {
+    console.log('adding content to entry');
     options.data.itemContent = itemContent;
   }
   const res = await axios.request(options);

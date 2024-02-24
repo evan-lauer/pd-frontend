@@ -1,6 +1,10 @@
 <script setup>
 import { selectedTab, listsData_ } from 'src/stores/listStores';
 import ListItem from 'src/components/list/ListItem.vue';
+
+const handleCreate = (itemContent) => {
+  listsData_.createListItem(selectedTab.id, listsData_.tabs[selectedTab.id].listTitle, itemContent);
+};
 </script>
 
 <template>
@@ -9,14 +13,16 @@ import ListItem from 'src/components/list/ListItem.vue';
     :key="item.itemId"
     :listId="selectedTab.id"
     :item="item"
+    @delete-item="
+      (listId, itemId) => {
+        listsData_.deleteListItem(listId, itemId);
+      }
+    "
+    @create-item="handleCreate('')"
   />
   <button
     class="itemAddButton"
-    @click="
-      () => {
-        listsData_.createListItem(selectedTab.id, listsData_.tabs[selectedTab.id].listTitle, '');
-      }
-    "
+    @click="handleCreate('')"
   >
     +
   </button>

@@ -56,7 +56,7 @@ export const listsData_ = reactive({
     // For each element, add it to the appropriate list (or
     // create it if it doesn't exist yet)
     dataArray.forEach((item) => {
-      if (item.listId in newTabs && item.itemContent) {
+      if (item.listId in newTabs && item.itemContent !== undefined) {
         // Add item to existing list
         newTabs[item.listId].items.push({
           itemId: item.itemId,
@@ -72,7 +72,7 @@ export const listsData_ = reactive({
           timestamp: item.timestamp,
           items: []
         };
-        if (item.itemContent) {
+        if (item.itemContent !== undefined) {
           // This really should not happen. If it does we have a potential problem
           throw new Error('Error, why was the item created before the list?');
           // newTabs[item.listId].items.push({

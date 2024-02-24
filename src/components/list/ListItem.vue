@@ -1,6 +1,8 @@
 <script setup>
 import { listsData_ } from 'src/stores/listStores';
 import debounce from 'src/util/debounce';
+import XButton from 'src/components/icons/XButton.vue';
+const emit = defineEmits(['createItem', 'deleteItem']);
 
 defineProps({
   listId: String,
@@ -20,7 +22,7 @@ const handleSpecialKeys = (event) => {
       console.log("let's delete this ");
     }
   } else if (event.key === 'Enter') {
-    console.log("let's create a new one");
+    emit('createItem');
   }
 };
 </script>
@@ -42,13 +44,34 @@ const handleSpecialKeys = (event) => {
       @keydown="handleSpecialKeys($event)"
       @keydown.enter.prevent
     ></textarea>
+    <XButton @click="$emit('deleteItem', listId, item.itemId)" />
   </div>
 </template>
 
 <style scoped>
+.xButton {
+  opacity: 0;
+  outline: 1px solid white;
+  border-radius: 4px;
+  transition:
+    opacity linear 0.15s,
+    outline linear 0.15s;
+}
+
+.itemName:focus + .xButton {
+  opacity: 100%;
+}
+
+.individualItem:hover > .xButton {
+  opacity: 100%;
+}
+
+.xButton:hover {
+  outline: 1px solid grey;
+}
+
 .individualItem {
   display: flex;
-  flex-wrap: wrap;
   vertical-align: center;
   width: 100%;
   align-items: center;
@@ -71,6 +94,7 @@ const handleSpecialKeys = (event) => {
   margin: 5px;
   outline: none;
   font-family: Arial;
+  resize: none;
 }
 .itemName:focus {
   border: 1px solid black;
