@@ -131,6 +131,7 @@ function rebuildDateObject(dateObject, dateString) {
       <SimpleButton
         inner-text="Save"
         @click="submissionHandler()"
+        :disabled="isValidTimePeriod"
       />
     </div>
   </div>

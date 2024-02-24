@@ -3,23 +3,113 @@ import { selectedDate } from 'src/stores/calendarStores';
 import { eventData } from 'src/stores/eventStores';
 import { listsData_ } from 'src/stores/listStores';
 import { GChart } from 'vue-google-charts';
+import { watch, ref, computed } from 'vue';
 
 // figure out how to make the percentages show up
-const changeSelectedTab = (tabId) => {};
+const testTabs = {
+    "listId1": {
+        listTitle: "title 1",
+        items: [
+          {
+            itemId: "list1itemId1",
+            itemContent: "CS homework",
+            checked: true
+          },
+          {
+            itemId: "list1itemId2",
+            itemContent: "Bio homework",
+            checked: false
+          }
+        ]},
+    "listId2": {
+        listTitle: "title 2",
+        items: [
+        {
+          itemId: "list2id1",
+          itemContent: "email work",
+          checked: true
+        },
+        {
+          itemId: "list2id2",
+          itemContent: "calculate work",
+          checked: false
+        },
+        {
+          itemId: "list2id3",
+          itemContent: "write work",
+          checked: false
+        }
+      ]},
+      "listId3": {
+        listTitle: "3",
+        items: [
+        {
+          itemId: "list2id1",
+          itemContent: "email work",
+          checked: true
+        },
+      ]}
+  };
+
+const selectedTabId = ref(null);
+
+const selectedTabItems = computed(() => {
+  if (selectedTabId.value === null) {
+    return null;
+  }
+  return testTabs[selectedTabId.value].items;
+});
+
 const chartType = 'PieChart';
+
 const calcCompleteTask = () => {
-  const completeTasks = 2;
-  return completeTasks;
+  let completedTasks = 0;
+  if (selectedTabId.value === null) {
+    return 1;
+  } else {
+    for (let i = 0; i < selectedTabItems.value.length; i++){
+      if (selectedTabItems.value[i].checked === true) {
+        completedTasks++;
+      }
+    }    
+  }
+  return completedTasks;
 };
+
 const calcIncompleteTask = () => {
-  const imcompleteTasks = 1;
+  let imcompleteTasks = 0;
+
+  if (selectedTabId.value === null) {
+    return 1
+    ;
+  } else {
+    for (let i = 0; i < selectedTabItems.value.length; i++){
+      if (selectedTabItems.value[i].checked === false) {
+        imcompleteTasks++;
+      }
+    }
+  }
   return imcompleteTasks;
 };
-const chartData = [
+
+let chartData = [
   ['Task Name', 'Items'],
   ['Complete', calcCompleteTask()],
   ['Incomplete', calcIncompleteTask()]
 ];
+
+watch(selectedTabId, () => {
+  updateChartData(); // Call the function to update chartData when selectedTabId changes
+});
+
+const updateChartData = () => {
+  chartData = [
+    ['Task Name', 'Items'],
+    ['Complete', calcCompleteTask()],
+    ['Incomplete', calcIncompleteTask()]
+  ];
+};
+
 const chartOptions = {
   legend: 'none',
   slices: {
@@ -136,10 +226,12 @@ function upcomingEventChecker() {
           :options="chartOptions"
         />
       </div>
-      <select class="dropdown">
+      <select v-model="selectedTabId" class="dropdown">
         <option
-          v-for="list in listsData_.tabs"
-          :key="list"
+          v-for="list, listId in testTabs"
+          :key="listId"
+          :id="`dropdown-`+listId"
+          :value="listId"
         >
           {{ list.listTitle }}
         </option>
@@ -166,6 +258,10 @@ function upcomingEventChecker() {
     </div>
   </div>
 </template>
+
+<!-- <option
+v-for="list in listsData_.tabs"
+> -->
 
 <style scoped>
 .widgetContainer {
@@ -216,14 +312,16 @@ function upcomingEventChecker() {
   font-size: medium;
   text-align: center;
 }
-.pieChart {
-  display: flex;
-}
+
 .dropdown {
+  display: flex;
   width: auto;
   height: auto;
   padding: 2px;
   margin: 4px;
+  border:1px solid #dd825f;
+  border-radius: 3px;
+  text-align: center;
 }
 .dayVisualizer {
   height: 20px;
@@ -278,8 +376,8 @@ function upcomingEventChecker() {
   background-color: gray;
   padding: 4px;
   z-index: 1;
-  justify-content: center; /* Center horizontally */
-  align-items: center; /* Center vertically */
+  justify-content: center;
+  align-items: center;
 }
 
 .eventDivs:hover > .eventNamePopup {
