@@ -15,11 +15,22 @@ const updateDayClicked = (day, month, year) => {
 };
 
 const displayDays = computed(() => {
-  return calendar.getCalendar(
+  const thisMonth = calendar.getCalendar(
     selectedDate.dateTime.getFullYear(),
     selectedDate.dateTime.getMonth()
   );
+  const nextMonth = calendar.getCalendar(
+    selectedDate.dateTime.getFullYear(),
+    selectedDate.dateTime.getMonth() + 1
+  );
+  if (thisMonth.length === 35) {
+    // If this month only shows 5 weeks, then we need to append the next week to it.
+    const daysToAppend = nextMonth.slice(7, 14);
+    return thisMonth.concat(daysToAppend);
+  }
+  return thisMonth;
 });
+console.log('DISPLAY DAYS', displayDays);
 
 // 1 indexed
 function getDayByIndex(week, day) {
