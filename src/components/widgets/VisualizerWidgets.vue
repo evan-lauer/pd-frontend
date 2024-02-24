@@ -283,6 +283,7 @@ v-for="list in listsData_.tabs"
   align-items: center;
   padding: 10px;
   flex-direction: column;
+  text-align: center;
 }
 
 .upcomingEvent {

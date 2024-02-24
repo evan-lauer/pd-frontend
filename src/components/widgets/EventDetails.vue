@@ -28,14 +28,14 @@ import { eventData } from 'src/stores/eventStores';
           Start Time:
           <div class="theTime">
             {{ eventDetails.startDateTime.toDateString() }} at
-            {{ eventDetails.startDateTime.toTimeString() }}
+            {{ eventDetails.startDateTime.getHours() }}:{{ eventDetails.startDateTime.getMinutes() }}
           </div>
         </div>
         <div class="eventEnd">
           End Time:
           <div class="theTime">
             {{ eventDetails.endDateTime.toDateString() }} at
-            {{ eventDetails.endDateTime.toTimeString() }}
+            {{ eventDetails.endDateTime.getHours() }}:{{ eventDetails.endDateTime.getMinutes() }}
           </div>
         </div>
       </div>
@@ -69,9 +69,7 @@ import { eventData } from 'src/stores/eventStores';
   flex-wrap: nowrap;
   flex-direction: column;
   justify-content: flex-start;
-  border: 2px solid var(--primary-default);
-  border-radius: 5px;
-  padding: 5px;
+  width: 100%;
 }
 .eventActionBar {
   display: flex;
@@ -108,7 +106,7 @@ import { eventData } from 'src/stores/eventStores';
   justify-content: flex-start;
   flex-direction: row;
   margin-top: 10px;
-  padding-bottom: 20px;
+  padding-bottom: 15px;
 }
 .eventTitle {
   font-weight: bold;
@@ -130,7 +128,7 @@ import { eventData } from 'src/stores/eventStores';
   flex-direction: row;
   font-weight: bold;
   justify-content: flex-start;
-  padding-bottom: 20px;
+  padding-bottom: 15px;
 }
 
 .eventTimes {

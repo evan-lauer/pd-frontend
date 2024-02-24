@@ -42,8 +42,14 @@ function rebuildDateObject(dateObject, dateString) {
 </script>
 
 <template>
-  <div class="formContainer">
-    <div class="inputRow">
+  <div class="eventDisplayContainer">
+    <div class="eventDisplayHeader">
+      <span
+        class="material-symbols-outlined"
+        style="color: #344f49"
+      >
+        calendar_month
+      </span>
       <input
         class="eventNameInput"
         placeholder="Add Event Title"
@@ -54,69 +60,79 @@ function rebuildDateObject(dateObject, dateString) {
         "
       />
     </div>
-    <div class="inputRow">
-      <img
-        src="src/components/icons/clock9.svg"
-        class="clockIcon"
-        alt="Time Icon"
-      />
-      <div class="dateLabel">Start Date</div>
-      <input
-        class="datePicker"
-        :class="{ error: isValidTimePeriod }"
-        type="date"
-        :value="startDateString"
-        @input="
-          (event) => {
-            addEventForm.startDateTime = rebuildDateObject(
-              addEventForm.startDateTime,
-              event.target.value
-            );
-          }
-        "
-      />
-      <TimePicker
-        :timestamp="addEventForm.startDateTime"
-        :class="{ error: isValidTimePeriod }"
-        @timestamp-change="
-          (newTimestamp) => {
-            addEventForm.startDateTime = newTimestamp;
-          }
-        "
-      />
+    <div class="eventDateRange">
+      <span
+        class="material-symbols-outlined"
+        style="color: #344f49"
+      >
+        schedule
+      </span>
+      <div class="eventTimes">
+        <div class="eventStart">
+          Start Time:
+          <div class="theTime">
+            <!-- <input
+              class="datePicker"
+              :class="{ error: isValidTimePeriod }"
+              type="date"
+              :value="startDateString"
+              @input="
+                (event) => {
+                  addEventForm.startDateTime = rebuildDateObject(
+                    addEventForm.startDateTime,
+                    event.target.value
+                  );
+                }
+              "
+            />
+            <TimePicker
+              :timestamp="addEventForm.startDateTime"
+              :class="{ error: isValidTimePeriod }"
+              @timestamp-change="
+                (newTimestamp) => {
+                  addEventForm.startDateTime = newTimestamp;
+                }
+              "
+            /> -->
+          </div>
+        </div>
+        <div class="eventEnd">
+          End Time:
+          <div class="theTime">
+            <!-- <input
+              class="datePicker end"
+              :class="{ error: isValidTimePeriod }"
+              type="date"
+              :value="endDateString"
+              @input="
+                (event) => {
+                  addEventForm.endDateTime = rebuildDateObject(
+                    addEventForm.endDateTime,
+                    event.target.value
+                  );
+                }
+              "
+            />
+            <TimePicker
+              :timestamp="addEventForm.endDateTime"
+              :class="{ error: isValidTimePeriod }"
+              @timestamp-change="
+                (newTimestamp) => {
+                  addEventForm.endDateTime = newTimestamp;
+                }
+              "
+            /> -->
+          </div>
+        </div>
+      </div>
     </div>
-    <div class="inputRow">
-      <div class="dateLabel">End Date</div>
-      <input
-        class="datePicker end"
-        :class="{ error: isValidTimePeriod }"
-        type="date"
-        :value="endDateString"
-        @input="
-          (event) => {
-            addEventForm.endDateTime = rebuildDateObject(
-              addEventForm.endDateTime,
-              event.target.value
-            );
-          }
-        "
-      />
-      <TimePicker
-        :timestamp="addEventForm.endDateTime"
-        :class="{ error: isValidTimePeriod }"
-        @timestamp-change="
-          (newTimestamp) => {
-            addEventForm.endDateTime = newTimestamp;
-          }
-        "
-      />
-    </div>
-    <div class="inputRow">
-      <img
-        src="src/components/icons/description.svg"
-        class="descriptionIcon"
-        alt="Description Icon"
-      />
+    <div class="eventDescription">
+      <span
+        class="material-symbols-outlined"
+        style="color: #344f49"
+      >
+        description
+      </span>
       <input
         class="descriptionInput"
         placeholder="Add Event Description"
@@ -126,6 +142,8 @@ function rebuildDateObject(dateObject, dateString) {
           }
         "
       />
+      <div class="eventNotes">
+      </div>
     </div>
     <div class="saveButtonRow">
       <SimpleButton
@@ -137,34 +155,112 @@ function rebuildDateObject(dateObject, dateString) {
   </div>
 </template>
 
+
 <style scoped>
-.formContainer {
-  height: 100%;
-  width: 95%;
+.saveButtonRow {
   display: flex;
-  gap: 5px;
-  margin: 0 0 0 30px;
+  justify-content: flex-end;
+  margin-top: 5px;
+}
+.saveButton {
+  display: flex;
+  margin: 4px;
+  width: 50px;
+  justify-content: center;
+}
+
+.error {
+  border: 1px solid red;
+}
+.eventDisplayContainer {
+  display: flex;
+  flex-wrap: nowrap;
   flex-direction: column;
-  justify-content: space-evenly;
-  align-items: stretch;
+  justify-content: flex-start;
+  width: 100%;
 }
-.clockIcon {
-  height: 15px;
-  width: 15px;
-  position: absolute;
-  left: 30px;
+.eventActionBar {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
 }
-.descriptionIcon {
-  height: 15px;
-  width: 15px;
-  position: absolute;
-  left: 30px;
+
+.material-symbols-outlined.edit {
+  color: #344f49;
+  transition: transform 0.3s ease;
 }
+.material-symbols-outlined.edit:hover {
+  cursor: pointer;
+  transform: scale(1.1);
+  border-radius: 50px;
+  background-color: rgba(167, 187, 183, 0.3);
+}
+
+.material-symbols-outlined.delete {
+  color: #344f49;
+  transition: transform 0.3s ease;
+}
+
+.material-symbols-outlined.delete:hover {
+  cursor: pointer;
+  transform: scale(1.1);
+  border-radius: 50px;
+  background-color: rgba(167, 187, 183, 0.3);
+}
+
+.eventDisplayHeader {
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content: flex-start;
+  flex-direction: row;
+  margin-top: 10px;
+  padding-bottom: 15px;
+}
+.eventTitle {
+  font-weight: bold;
+  font-size: large;
+  padding-left: 10px;
+}
+.eventDescription {
+  display: flex;
+  flex-direction: row;
+  font-style: italic;
+  justify-content: flex-start;
+}
+.eventNotes {
+  padding-left: 10px;
+}
+
+.eventDateRange {
+  display: flex;
+  flex-direction: row;
+  font-weight: bold;
+  justify-content: flex-start;
+  padding-bottom: 15px;
+}
+
+.eventTimes {
+  display: flex;
+  flex-direction: column;
+  padding-left: 10px;
+}
+
+.eventStart {
+  padding-bottom: 5px;
+}
+
+.theTime {
+  font-weight: normal;
+  display: flex;
+}
+
 .eventNameInput {
   height: 25px;
   width: 100%;
   border: 1px solid transparent;
   font-size: large;
+  padding-left: 10px;
+
 }
 .eventNameInput::placeholder {
   font-size: large;
@@ -179,6 +275,7 @@ function rebuildDateObject(dateObject, dateString) {
   width: 100%;
   border: 1px solid transparent;
   font-size: small;
+  padding-left: 10px;
 }
 .descriptionInput:focus {
   border-bottom: 1px solid var(--primary-default);
@@ -186,35 +283,5 @@ function rebuildDateObject(dateObject, dateString) {
 }
 .descriptionInput::placeholder {
   font-size: small;
-}
-.inputRow {
-  display: flex;
-  align-items: center;
-  max-width: 100%;
-  justify-content: flex-start;
-}
-.datePicker {
-  width: 110px;
-}
-.dateLabel {
-  display: flex;
-  width: 20%;
-  height: auto;
-  max-height: 10px;
-  align-items: center;
-}
-.saveButtonRow {
-  display: flex;
-  justify-content: flex-end;
-}
-.saveButton {
-  display: flex;
-  margin: 4px;
-  width: 50px;
-  justify-content: center;
-}
-
-.error {
-  border: 1px solid red;
 }
 </style>
