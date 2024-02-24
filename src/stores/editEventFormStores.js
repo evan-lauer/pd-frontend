@@ -12,13 +12,12 @@ export const editEventForm = reactive({
   startDateTime: new Date(),
   endDateTime: new Date(),
   putEvent: async () => {
-    console.log('blah blah: ', addEventForm.title);
     await putCalendarEvent(
       uid.rnd(),
-      addEventForm.startDateTime,
-      addEventForm.endDateTime,
-      addEventForm.title,
-      addEventForm.description
+      editEventForm.startDateTime,
+      editEventForm.endDateTime,
+      editEventForm.title,
+      editEventForm.description
     );
   }
 });

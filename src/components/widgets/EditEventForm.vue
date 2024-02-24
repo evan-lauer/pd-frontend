@@ -18,6 +18,8 @@ function submissionHandler() {
 //
 // This converts the date object to yyyy-mm-dd
 function getISOString(dateObject) {
+  console.log(dateObject, typeof dateObject);
+
   const offset = dateObject.getTimezoneOffset();
   dateObject = new Date(dateObject.getTime() - offset * 60 * 1000);
   return dateObject.toISOString().split('T')[0];
