@@ -4,6 +4,7 @@ import { Calendar } from 'calendar-base';
 import { selectedDate } from 'src/stores/calendarStores';
 import userStore from 'src/stores/userStore';
 import { eventData, eventMethods } from 'src/stores/eventStores';
+import { eventDetails } from 'src/stores/eventDetailsStores';
 import EventStar from 'src/components/calendar/events/EventStar.vue';
 import { addEventForm } from 'src/stores/addEventFormStores';
 
@@ -50,6 +51,7 @@ function prefilledEventForm(weekIndex, dayIndex) {
   const endDateTime = new Date(startDateTime.getTime() + 60 * 60 * 1000);
   addEventForm.startDateTime = startDateTime;
   addEventForm.endDateTime = endDateTime;
+  eventDetails.isDetailsActive = false;
   addEventForm.isFormActive = true;
 }
 

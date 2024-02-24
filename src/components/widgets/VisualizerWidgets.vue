@@ -1,8 +1,144 @@
 <script setup>
 import { selectedDate } from 'src/stores/calendarStores';
 import { eventData } from 'src/stores/eventStores';
+import { listsData_ } from 'src/stores/listStores';
+import { GChart } from 'vue-google-charts';
+import { watch, ref, computed } from 'vue';
+
+// figure out how to make the percentages show up
+const testTabs = {
+    "listId1": {
+        listTitle: "title 1",
+        items: [
+          {
+            itemId: "list1itemId1",
+            itemContent: "CS homework",
+            checked: true
+          },
+          {
+            itemId: "list1itemId2",
+            itemContent: "Bio homework",
+            checked: false
+          }
+        ]},
+    "listId2": {
+        listTitle: "title 2",
+        items: [
+        {
+          itemId: "list2id1",
+          itemContent: "email work",
+          checked: true
+        },
+        {
+          itemId: "list2id2",
+          itemContent: "calculate work",
+          checked: false
+        },
+        {
+          itemId: "list2id3",
+          itemContent: "write work",
+          checked: false
+        }
+      ]},
+      "listId3": {
+        listTitle: "3",
+        items: [
+        {
+          itemId: "list2id1",
+          itemContent: "email work",
+          checked: true
+        },
+      ]}
+  };
+
+const selectedTabId = ref(null);
+
+const selectedTabItems = computed(() => {
+  if (selectedTabId.value === null) {
+    return null;
+  }
+  return testTabs[selectedTabId.value].items;
+});
+
+const chartType = 'PieChart';
+
+const calcCompleteTask = () => {
+  let completedTasks = 0;
+  if (selectedTabId.value === null) {
+    return 1;
+  } else {
+    for (let i = 0; i < selectedTabItems.value.length; i++){
+      if (selectedTabItems.value[i].checked === true) {
+        completedTasks++;
+      }
+    }    
+  }
+  return completedTasks;
+};
+
+const calcIncompleteTask = () => {
+  let imcompleteTasks = 0;
+
+  if (selectedTabId.value === null) {
+    return 1
+    ;
+  } else {
+    for (let i = 0; i < selectedTabItems.value.length; i++){
+      if (selectedTabItems.value[i].checked === false) {
+        imcompleteTasks++;
+      }
+    }
+  }
+  return imcompleteTasks;
+};
+
+let chartData = [
+  ['Task Name', 'Items'],
+  ['Complete', calcCompleteTask()],
+  ['Incomplete', calcIncompleteTask()]
+];
+
+watch(selectedTabId, () => {
+  updateChartData(); // Call the function to update chartData when selectedTabId changes
+});
+
+const updateChartData = () => {
+  chartData = [
+    ['Task Name', 'Items'],
+    ['Complete', calcCompleteTask()],
+    ['Incomplete', calcIncompleteTask()]
+  ];
+};
+
+const chartOptions = {
+  legend: 'none',
+  slices: {
+    0: { color: '#dd825f' },
+    1: { color: 'grey' }
+  },
+  chartArea: {
+    left: 0,
+    right: 0,
+    top: 0,
+    bottom: 0,
+    width: '100%',
+    height: '85%',
+    backgroundColor: 'red'
+  },
+  forceIFrame: true,
+  pieSliceText: 'percentage',
+  sliceVisibilityThreshold: 0,
+  height: 75,
+  width: 85,
+  fontSize: 8,
+  backgroundColor: 'transparent',
+  enableInteractivity: false
+};
+
+const currentDayTime = new Date();
 
 const getWidth = (event) => {
+  // Calculates the width of the div that represents an event in the day visualizer widget
   const sTime = new Date(event.startTime);
   const eTime = new Date(event.endTime);
   return `${
@@ -12,7 +148,9 @@ const getWidth = (event) => {
   }%`;
 };
 
-const eventLength = (event) => {
+const eventDuration = (event) => {
+  // Calculates the duration of each event scheduled on the selectedDate
+  // Populates the popup when eventDiv hovered
   let string = '';
   const sTime = new Date(event.startTime);
   const eTime = new Date(event.endTime);
@@ -29,43 +167,8 @@ const eventLength = (event) => {
   return string;
 };
 
-const widgetsTestData = [
-  {
-    description: '',
-    endTime: '2024-02-16T12:30:00.000Z',
-    eventId: '5TZIPTLMGs',
-    startTime: '2024-02-16T08:00:00.000Z',
-    title: 'event1',
-    userId: 'test-user'
-  },
-  {
-    description: '',
-    endTime: '2024-02-16T23:00:00.000Z',
-    eventId: '5TZIPTLMGs',
-    startTime: '2024-02-16T21:00:00.000Z',
-    title: 'event2',
-    userId: 'test-user'
-  },
-  {
-    description: '',
-    endTime: '2024-02-16T23:00:00.000Z',
-    eventId: '5TZIPTLMGs',
-    startTime: '2024-02-16T21:00:00.000Z',
-    title: 'event2',
-    userId: 'test-user'
-  },
-  {
-    description: '',
-    endTime: '2024-02-16T12:30:00.000Z',
-    eventId: '5TZIPTLMGs',
-    startTime: '2024-02-16T08:00:00.000Z',
-    title: 'event1',
-    userId: 'test-user'
-  }
-];
-
 function upcomingEventChecker() {
-  // Checks for any upcoming events
+  // Checks for upcoming events on the current day
   let message = 'No upcoming events today!';
   const dateOptions = {
     timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone,
@@ -100,19 +203,38 @@ function upcomingEventChecker() {
   }
   return message;
 }
-
-const currentDayTime = new Date();
 </script>
 
 <template>
   <div class="widgetContainer">
     <div class="upcomingEventWidget">
-      <div class="upcomingEvent">{{ upcomingEventChecker() }}</div>
+      <div class="upcomingEvent">
+        <span
+          class="material-symbols-outlined"
+          style="color: #344f49"
+        >
+          event_upcoming
+        </span>
+        {{ upcomingEventChecker() }}
+      </div>
     </div>
     <div class="taskContainer">
-      <div class="taskCircle"></div>
-      <select class="dropdown">
-        <option>1</option>
+      <div class="pieChart">
+        <GChart
+          :type="chartType"
+          :data="chartData"
+          :options="chartOptions"
+        />
+      </div>
+      <select v-model="selectedTabId" class="dropdown">
+        <option
+          v-for="list, listId in testTabs"
+          :key="listId"
+          :id="`dropdown-`+listId"
+          :value="listId"
+        >
+          {{ list.listTitle }}
+        </option>
       </select>
     </div>
     <div class="barContainer">
@@ -122,23 +244,24 @@ const currentDayTime = new Date();
       {{ selectedDate.dateTime.getFullYear() }}
       <div
         class="dayVisualizer"
-        v-if="widgetsTestData !== ''"
+        v-if="eventData.monthlyEvents[selectedDate.dateTime] !== ''"
       >
         <div
-          v-for="(events, index) in widgetsTestData"
+          v-for="(events, index) in eventData.monthlyEvents[selectedDate.dateTime.getDate()]"
           :key="index"
           :class="index === 0 ? 'firstEventDiv' : 'eventDivs'"
           :style="{ width: getWidth(events) }"
         >
-          <div class="eventNamePopup">{{ events.title }}<br />{{ eventLength(events) }}</div>
+          <div class="eventNamePopup">{{ events.title }}<br />{{ eventDuration(events) }}</div>
         </div>
       </div>
     </div>
   </div>
 </template>
 
-<!-- <div class="dayVisualizer" v-if="eventData.monthlyEvents[selectedDate.dateTime] !== ''">
-  <div v-for="events in eventData.monthlyEvents[selectedDate.dateTime.getDate()]" -->
+<!-- <option
+v-for="list in listsData_.tabs"
+> -->
 
 <style scoped>
 .widgetContainer {
@@ -160,6 +283,7 @@ const currentDayTime = new Date();
   align-items: center;
   padding: 10px;
   flex-direction: column;
+  text-align: center;
 }
 
 .upcomingEvent {
@@ -173,6 +297,7 @@ const currentDayTime = new Date();
   display: flex;
   justify-content: space-around;
   align-items: center;
+  padding: 5px;
 }
 .barContainer {
   grid-row: 2;
@@ -189,16 +314,15 @@ const currentDayTime = new Date();
   text-align: center;
 }
 
-.taskCircle {
-  padding-top: 35%;
-  width: 35%;
-  background-color: #dd825f;
-  border-radius: 50%;
-  margin: 5px;
-}
 .dropdown {
+  display: flex;
   width: auto;
   height: auto;
+  padding: 2px;
+  margin: 4px;
+  border:1px solid #dd825f;
+  border-radius: 3px;
+  text-align: center;
 }
 .dayVisualizer {
   height: 20px;
@@ -253,8 +377,8 @@ const currentDayTime = new Date();
   background-color: gray;
   padding: 4px;
   z-index: 1;
-  justify-content: center; /* Center horizontally */
-  align-items: center; /* Center vertically */
+  justify-content: center;
+  align-items: center;
 }
 
 .eventDivs:hover > .eventNamePopup {
