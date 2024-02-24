@@ -59,6 +59,7 @@ export const getCalendarEventsByUserId = async () => {
 
 // Delete the event specified by eventId
 export const deleteCalendarEvent = async (eventId) => {
+  console.log("deleting: " ,eventId)
   const options = {
     method: 'DELETE',
     url: `${API_ENDPOINT}/CalendarEvents/${TEST_USER_ID}/${eventId}`

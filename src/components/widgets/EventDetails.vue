@@ -2,6 +2,7 @@
 <!-- event has been clicked -->
 <script setup>
 import { eventDetails } from 'src/stores/eventDetailsStores';
+import { eventData } from 'src/stores/eventStores';
 </script>
 
 <template>
@@ -52,7 +53,12 @@ import { eventDetails } from 'src/stores/eventDetailsStores';
     </div>
     <div class="eventActionBar">
       <span class="material-symbols-outlined edit"> edit </span>
-      <span class="material-symbols-outlined delete"> delete_forever </span>
+      <span
+        class="material-symbols-outlined delete"
+        @click="eventData.deleteEventFromBoth(eventDetails.eventId)"
+      >
+        delete_forever
+      </span>
     </div>
   </div>
 </template>
