@@ -8,12 +8,12 @@ This is boilerplate code.
 */
 import 'src/globals.css';
 
-import { createList, putListItem } from './backend';
+import { createList, putListItem } from 'src/backend';
 
 import App from 'src/App.vue';
 import ShortUniqueId from 'short-unique-id';
 import { createApp } from 'vue';
-import { listsData } from './stores/listStores';
+import { listsData } from 'src/stores/listStores';
 import router from 'src/router';
 
 // const uid = new ShortUniqueId({ length: 10 });

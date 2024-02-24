@@ -1,11 +1,11 @@
 <script setup>
 import { addEventForm } from 'src/stores/addEventFormStores';
 import { eventDetails } from 'src/stores/eventDetailsStores';
-import { editEventForm } from '../../stores/editEventFormStores';
+import { editEventForm } from 'src/stores/editEventFormStores';
 import AddEventForm from 'src/components/widgets/AddEventForm.vue';
 import EventDetails from 'src/components/widgets/EventDetails.vue';
 import VisualizerWidgets from 'src/components/widgets/VisualizerWidgets.vue';
-import EditEventForm from './EditEventForm.vue';
+import EditEventForm from 'src/components/widgets/EditEventForm.vue';
 </script>
 
 <template>

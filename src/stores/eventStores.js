@@ -1,12 +1,11 @@
 import { addEventForm } from 'src/stores/addEventFormStores';
-import { editEventForm } from './editEventFormStores';
+import { deleteCalendarEvent } from 'src/backend';
+import { editEventForm } from 'src/stores/editEventFormStores';
 import { eventDetails } from 'src/stores/eventDetailsStores';
 // import ShortUniqueId from "short-unique-id";
 import { reactive } from 'vue';
 import { selectedDate } from 'src/stores/calendarStores';
 import userStore from 'src/stores/userStore.js';
-import { deleteCalendarEvent } from 'src/backend';
-
 
 // Store for maintaining events, in order to display on
 // calendar
@@ -49,25 +48,29 @@ export const eventData = reactive({
   },
 
   deleteEventFromStore: (eventToBeDeletedId) => {
-    const newEventArray = eventData.theEvents.filter((anEvent) => anEvent.eventId != eventToBeDeletedId);
+    const newEventArray = eventData.theEvents.filter(
+      (anEvent) => anEvent.eventId != eventToBeDeletedId
+    );
     eventData.theEvents = newEventArray;
-    console.log("Event deleted from store.")
+    console.log('Event deleted from store.');
   },
 
   deleteEventFromBoth: (eventToBeDeletedId) => {
     eventData.deleteEventFromStore(eventToBeDeletedId);
     deleteCalendarEvent(eventToBeDeletedId);
-    console.log("Event deleted from backend.")
+    console.log('Event deleted from backend.');
   },
 
   displayEditEvent: (eventToBeEditedId) => {
     eventDetails.isDetailsActive = false;
     editEventForm.isFormActive = true;
 
-    const eventToBeEditedArray = eventData.theEvents.filter((anEvent) => anEvent.eventId === eventToBeEditedId);
+    const eventToBeEditedArray = eventData.theEvents.filter(
+      (anEvent) => anEvent.eventId === eventToBeEditedId
+    );
     const theEventToBeEditedObject = eventToBeEditedArray[0];
-    console.log("Event to be edited array: ", eventToBeEditedArray);
-    console.log("The event to be edited: ", theEventToBeEditedObject);
+    console.log('Event to be edited array: ', eventToBeEditedArray);
+    console.log('The event to be edited: ', theEventToBeEditedObject);
 
     editEventForm.title = theEventToBeEditedObject['title'];
     editEventForm.description = theEventToBeEditedObject['description'];
@@ -109,7 +112,7 @@ export const eventData = reactive({
     const endDate = selectedDate.dateTime;
     const startDate = new Date(endDate);
     startDate.setDate(startDate.getDate() - 7);
-   
+
     for (const item of theEvents) {
       const date = new Date(item['startTime']);
       const eventMonth = date.getMonth();

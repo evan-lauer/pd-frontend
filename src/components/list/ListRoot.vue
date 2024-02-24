@@ -1,7 +1,7 @@
 <script setup>
 import ListSpace from 'src/components/list/ListSpace.vue';
 import TabBar from 'src/components/list/TabBar.vue';
-import { selectedTab } from '../../stores/listStores';
+import { selectedTab } from 'src/stores/listStores';
 </script>
 
 <template>
