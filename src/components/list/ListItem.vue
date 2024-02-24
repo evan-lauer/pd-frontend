@@ -1,5 +1,5 @@
 <script setup>
-import { listsData_ } from 'src/stores/listStores';
+import { listsData } from 'src/stores/listStores';
 import debounce from 'src/util/debounce';
 import XButton from 'src/components/icons/XButton.vue';
 const emit = defineEmits(['createItem', 'deleteItem']);
@@ -14,7 +14,7 @@ defineProps({
 });
 
 // We need to make a debounced save function for each individual
-const debouncedSaveItem = debounce(listsData_.updateListItemContent, 500);
+const debouncedSaveItem = debounce(listsData.updateListItemContent, 500);
 
 const handleSpecialKeys = (event) => {
   if (event.key === 'Backspace') {

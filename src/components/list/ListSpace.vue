@@ -1,21 +1,21 @@
 <script setup>
-import { selectedTab, listsData_ } from 'src/stores/listStores';
+import { selectedTab, listsData } from 'src/stores/listStores';
 import ListItem from 'src/components/list/ListItem.vue';
 
 const handleCreate = (itemContent) => {
-  listsData_.createListItem(selectedTab.id, listsData_.tabs[selectedTab.id].listTitle, itemContent);
+  listsData.createListItem(selectedTab.id, listsData.tabs[selectedTab.id].listTitle, itemContent);
 };
 </script>
 
 <template>
   <ListItem
-    v-for="item in listsData_.tabs[selectedTab.id].items"
+    v-for="item in listsData.tabs[selectedTab.id].items"
     :key="item.itemId"
     :listId="selectedTab.id"
     :item="item"
     @delete-item="
       (listId, itemId) => {
-        listsData_.deleteListItem(listId, itemId);
+        listsData.deleteListItem(listId, itemId);
       }
     "
     @create-item="handleCreate('')"

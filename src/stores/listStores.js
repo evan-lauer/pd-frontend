@@ -38,7 +38,7 @@ console.log(tabs["abcdefg"].items[0].itemContent);
 This will print "do homework"
 */
 
-export const listsData_ = reactive({
+export const listsData = reactive({
   tabs: {},
   tabIdArray: [],
   // This gets all the lists and items from the database
@@ -85,8 +85,8 @@ export const listsData_ = reactive({
     });
     console.log('Hi team :) I added test tabs to the database');
     console.log('This is what the tabs look like when they get put into the listStore: ', newTabs);
-    listsData_.tabs = newTabs;
-    listsData_.tabIdArray = newTabIdArray;
+    listsData.tabs = newTabs;
+    listsData.tabIdArray = newTabIdArray;
   },
 
   // Add a new list to the store, and push it to the database
@@ -94,13 +94,13 @@ export const listsData_ = reactive({
     const listId = uid.rnd();
     const extraItemId = uid.rnd();
     const timestamp = Date.now();
-    listsData_.tabs[listId] = {
+    listsData.tabs[listId] = {
       listTitle: listTitle,
       extraItemId: extraItemId,
       items: [],
       timestamp: timestamp
     };
-    listsData_.tabIdArray.push(listId);
+    listsData.tabIdArray.push(listId);
     return await createList(listId, listTitle, extraItemId, timestamp);
   },
 
@@ -108,7 +108,7 @@ export const listsData_ = reactive({
   createListItem: async (listId, listTitle, itemContent) => {
     const itemId = uid.rnd();
     const timestamp = Date.now();
-    listsData_.tabs[listId].items.push({
+    listsData.tabs[listId].items.push({
       itemId: itemId,
       itemContent: itemContent,
       timestamp: timestamp
@@ -118,13 +118,13 @@ export const listsData_ = reactive({
 
   // Delete a list from the store, and delete it from the database
   deleteList: async (listId) => {
-    const extraItemId = listsData_.tabs[listId].extraItemId;
+    const extraItemId = listsData.tabs[listId].extraItemId;
     const itemIdArray =
-      listsData_.tabs[listId].items.forEach((item) => {
+      listsData.tabs[listId].items.forEach((item) => {
         return item.itemId;
       }) || [];
-    listsData_.tabIdArray = listsData_.tabIdArray.filter((id) => id !== listId);
-    delete listsData_.tabs[listId];
+    listsData.tabIdArray = listsData.tabIdArray.filter((id) => id !== listId);
+    delete listsData.tabs[listId];
     // We need to delete every entry associated with the list,
     // which includes the list entry itself, and then every item
     // associated with that list.
@@ -139,7 +139,7 @@ export const listsData_ = reactive({
   // Delete a list item from the store, and delete it from the database
   deleteListItem: async (listId, itemId) => {
     // Create a new copy of the list with only the OTHER items
-    listsData_.tabs[listId].items = listsData_.tabs[listId].items.filter(
+    listsData.tabs[listId].items = listsData.tabs[listId].items.filter(
       (item) => item.itemId !== itemId
     );
     return await deleteListItem(listId, itemId);
@@ -147,76 +147,21 @@ export const listsData_ = reactive({
 
   updateListTitle: async (listId, newTitle) => {
     console.log('calling update');
-    const timestamp = listsData_.tabs[listId].timestamp;
-    const extraItemId = listsData_.tabs[listId].extraItemId;
-    listsData_.tabs[listId].listTitle = newTitle;
+    const timestamp = listsData.tabs[listId].timestamp;
+    const extraItemId = listsData.tabs[listId].extraItemId;
+    listsData.tabs[listId].listTitle = newTitle;
     return await updateListsEntry(listId, newTitle, extraItemId, undefined, timestamp);
   },
   updateListItemContent: async (listId, itemId, newItemContent) => {
-    const listTitle = listsData_.tabs[listId].listTitle;
-    for (let i = 0; i < listsData_.tabs[listId].items.length; i++) {
-      if (listsData_.tabs[listId].items[i].itemId === itemId) {
-        const timestamp = listsData_.tabs[listId].items[i].timestamp;
-        listsData_.tabs[listId].items[i].itemContent = newItemContent;
+    const listTitle = listsData.tabs[listId].listTitle;
+    for (let i = 0; i < listsData.tabs[listId].items.length; i++) {
+      if (listsData.tabs[listId].items[i].itemId === itemId) {
+        const timestamp = listsData.tabs[listId].items[i].timestamp;
+        listsData.tabs[listId].items[i].itemContent = newItemContent;
         return await updateListsEntry(listId, listTitle, itemId, newItemContent, timestamp);
       }
     }
     throw new Error('itemId not found');
-  }
-});
-
-export const listsData = reactive({
-  // tabs will be a 2d array
-  // TODO: (1) alter the first, hardcoded tab
-
-  tabIds: ['0'],
-
-  tabDict: {
-    0: {
-      label: 'Tasks',
-      items: [
-        {
-          label: 'first',
-          id: '1',
-          checked: false
-        }
-      ]
-    }
-  },
-  addTab: (tabName) => {
-    // add a new tab to the dict of tabs
-    const suid = new ShortUniqueId({ length: 10 });
-    const tabId = suid.rnd();
-    listsData.tabIds.push(tabId);
-    listsData.tabDict[tabId] = {
-      items: [],
-      label: tabName
-    };
-  },
-  addItem: (tabId, itemLabel, indexOfPrevItem) => {
-    // add an item to the specified tab
-    const suid = new ShortUniqueId({ length: 10 });
-    const itemId = suid.rnd();
-    const newItem = {
-      label: itemLabel,
-      id: itemId,
-      checked: false
-    };
-    listsData.tabDict[tabId].items.splice(indexOfPrevItem + 1, 0, newItem);
-    return itemId;
-  },
-  deleteTab: (tabId) => {
-    // delete the specified tab
-    delete listsData.tabDict.tabId;
-    listsData.tabIds = listsData.tabIds.filter((item) => {
-      return item !== tabId;
-    });
-  },
-  deleteItem: (tabId, itemId) => {
-    // delete the specified item from the tab
-    listsData.tabDict[tabId].items = listsData.tabDict[tabId].items.filter((item) => {
-      return item.id !== itemId;
-    });
   }
 });
 

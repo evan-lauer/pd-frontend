@@ -1,55 +1,58 @@
 <script setup>
 import { selectedDate } from 'src/stores/calendarStores';
 import { eventData } from 'src/stores/eventStores';
-import { listsData_ } from 'src/stores/listStores';
+import { listsData } from 'src/stores/listStores';
 import { GChart } from 'vue-google-charts';
 import { watch, ref, computed } from 'vue';
 
 // figure out how to make the percentages show up
 const testTabs = {
-    "listId1": {
-        listTitle: "title 1",
-        items: [
-          {
-            itemId: "list1itemId1",
-            itemContent: "CS homework",
-            checked: true
-          },
-          {
-            itemId: "list1itemId2",
-            itemContent: "Bio homework",
-            checked: false
-          }
-        ]},
-    "listId2": {
-        listTitle: "title 2",
-        items: [
-        {
-          itemId: "list2id1",
-          itemContent: "email work",
-          checked: true
-        },
-        {
-          itemId: "list2id2",
-          itemContent: "calculate work",
-          checked: false
-        },
-        {
-          itemId: "list2id3",
-          itemContent: "write work",
-          checked: false
-        }
-      ]},
-      "listId3": {
-        listTitle: "3",
-        items: [
-        {
-          itemId: "list2id1",
-          itemContent: "email work",
-          checked: true
-        },
-      ]}
-  };
+  listId1: {
+    listTitle: 'title 1',
+    items: [
+      {
+        itemId: 'list1itemId1',
+        itemContent: 'CS homework',
+        checked: true
+      },
+      {
+        itemId: 'list1itemId2',
+        itemContent: 'Bio homework',
+        checked: false
+      }
+    ]
+  },
+  listId2: {
+    listTitle: 'title 2',
+    items: [
+      {
+        itemId: 'list2id1',
+        itemContent: 'email work',
+        checked: true
+      },
+      {
+        itemId: 'list2id2',
+        itemContent: 'calculate work',
+        checked: false
+      },
+      {
+        itemId: 'list2id3',
+        itemContent: 'write work',
+        checked: false
+      }
+    ]
+  },
+  listId3: {
+    listTitle: '3',
+    items: [
+      {
+        itemId: 'list2id1',
+        itemContent: 'email work',
+        checked: true
+      }
+    ]
+  }
+};
 
 const selectedTabId = ref(null);
 
@@ -67,11 +70,11 @@ const calcCompleteTask = () => {
   if (selectedTabId.value === null) {
     return 1;
   } else {
-    for (let i = 0; i < selectedTabItems.value.length; i++){
+    for (let i = 0; i < selectedTabItems.value.length; i++) {
       if (selectedTabItems.value[i].checked === true) {
         completedTasks++;
       }
-    }    
+    }
   }
   return completedTasks;
 };
@@ -80,10 +83,9 @@ const calcIncompleteTask = () => {
   let imcompleteTasks = 0;
 
   if (selectedTabId.value === null) {
-    return 1
-    ;
+    return 1;
   } else {
-    for (let i = 0; i < selectedTabItems.value.length; i++){
+    for (let i = 0; i < selectedTabItems.value.length; i++) {
       if (selectedTabItems.value[i].checked === false) {
         imcompleteTasks++;
       }
@@ -226,11 +228,14 @@ function upcomingEventChecker() {
           :options="chartOptions"
         />
       </div>
-      <select v-model="selectedTabId" class="dropdown">
+      <select
+        v-model="selectedTabId"
+        class="dropdown"
+      >
         <option
-          v-for="list, listId in testTabs"
+          v-for="(list, listId) in testTabs"
           :key="listId"
-          :id="`dropdown-`+listId"
+          :id="`dropdown-` + listId"
           :value="listId"
         >
           {{ list.listTitle }}
@@ -260,7 +265,7 @@ function upcomingEventChecker() {
 </template>
 
 <!-- <option
-v-for="list in listsData_.tabs"
+v-for="list in listsData.tabs"
 > -->
 
 <style scoped>
@@ -320,7 +325,7 @@ v-for="list in listsData_.tabs"
   height: auto;
   padding: 2px;
   margin: 4px;
-  border:1px solid #dd825f;
+  border: 1px solid #dd825f;
   border-radius: 3px;
   text-align: center;
 }

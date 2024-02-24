@@ -1,5 +1,5 @@
 <script setup>
-import { listsData, listsData_, selectedTab } from 'src/stores/listStores';
+import { listsData, selectedTab } from 'src/stores/listStores';
 import debounce from 'src/util/debounce';
 
 // TODO: implement some if-statement so if there are 10 tabs, we prevent this function to be executed
@@ -34,19 +34,19 @@ const makeReadOnly = (tabId) => {
   }
 };
 
-const debouncedUpdateTitle = debounce(listsData_.updateListTitle, 1000);
+const debouncedUpdateTitle = debounce(listsData.updateListTitle, 1000);
 </script>
 
 <template>
   <div
     :class="selectedTab.id === tabId ? `tabContainer selected` : `tabContainer`"
-    v-for="tabId in listsData_.tabIdArray"
+    v-for="tabId in listsData.tabIdArray"
     :key="tabId"
   >
     <input
       :id="'tabName-' + tabId"
       :class="selectedTab.id === tabId ? `tabName selected` : `tabName`"
-      :value="listsData_.tabs[tabId].listTitle"
+      :value="listsData.tabs[tabId].listTitle"
       @input="
         (event) => {
           debouncedUpdateTitle(tabId, event.target.value);
@@ -63,21 +63,21 @@ const debouncedUpdateTitle = debounce(listsData_.updateListTitle, 1000);
       @click="
         () => {
           const tabToDelete = selectedTab.id;
-          if (listsData_.tabIdArray.length > 1) {
-            const selectedTabIndex = listsData_.tabIdArray.findIndex((id) => id === tabToDelete);
-            if (selectedTabIndex === listsData_.tabIdArray.length - 1) {
+          if (listsData.tabIdArray.length > 1) {
+            const selectedTabIndex = listsData.tabIdArray.findIndex((id) => id === tabToDelete);
+            if (selectedTabIndex === listsData.tabIdArray.length - 1) {
               // If last tab, switch to previous tab
-              selectedTab.id = listsData_.tabIdArray[selectedTabIndex - 1];
+              selectedTab.id = listsData.tabIdArray[selectedTabIndex - 1];
             } else {
               // Otherwise, switch to next tab
-              selectedTab.id = listsData_.tabIdArray[selectedTabIndex + 1];
+              selectedTab.id = listsData.tabIdArray[selectedTabIndex + 1];
             }
             console.log(selectedTabIndex);
             console.log('new selected tab: ', selectedTab.id);
           } else {
             selectedTab.id = undefined;
           }
-          listsData_.deleteList(tabToDelete);
+          listsData.deleteList(tabToDelete);
         }
       "
     >
@@ -85,12 +85,12 @@ const debouncedUpdateTitle = debounce(listsData_.updateListTitle, 1000);
     </button>
   </div>
 
-  <div v-if="listsData.tabIds.length < 10">
+  <div v-if="listsData.tabIdArray.length < 10">
     <button
       class="tabAddButton"
       @click="
         () => {
-          listsData_.createList('');
+          listsData.createList('');
         }
       "
     >

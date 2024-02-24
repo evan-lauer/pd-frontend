@@ -13,7 +13,7 @@ import { createList, putListItem } from './backend';
 import App from 'src/App.vue';
 import ShortUniqueId from 'short-unique-id';
 import { createApp } from 'vue';
-import { listsData_ } from './stores/listStores';
+import { listsData } from './stores/listStores';
 import router from 'src/router';
 
 // const uid = new ShortUniqueId({ length: 10 });
@@ -29,7 +29,7 @@ import router from 'src/router';
 // putListItem(newListId, 'list 2', uid.rnd(), 'item 1', Date.now());
 // putListItem(newListId, 'list 2', uid.rnd(), 'item 2', Date.now());
 
-listsData_.fetchTabs();
+listsData.fetchTabs();
 
 const app = createApp(App);
 
