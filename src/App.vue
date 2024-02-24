@@ -15,8 +15,6 @@ import DashboardView from 'src/views/DashboardView.vue';
 <template>
   <div class="appBody">
     <DashboardView />
-    <LoginView />
-    <LogoutView />
   </div>
 </template>
 

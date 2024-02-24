@@ -62,20 +62,26 @@ const debouncedUpdateTitle = debounce(listsData_.updateListTitle, 1000);
       :class="selectedTab.id === tabId ? `deleteButton focus` : `deleteButton`"
       @click="
         () => {
-          listsData_.deleteList(selectedTab.id);
-
-          // TODO: Change this so it bumps to the next tab rather
-          // than the first tab
-          if (listsData_.tabIdArray.length > 0) {
-            selectedTab.id = listsData_.tabIdArray[0];
+          const tabToDelete = selectedTab.id;
+          if (listsData_.tabIdArray.length > 1) {
+            const selectedTabIndex = listsData_.tabIdArray.findIndex((id) => id === tabToDelete);
+            if (selectedTabIndex === listsData_.tabIdArray.length - 1) {
+              // If last tab, switch to previous tab
+              selectedTab.id = listsData_.tabIdArray[selectedTabIndex - 1];
+            } else {
+              // Otherwise, switch to next tab
+              selectedTab.id = listsData_.tabIdArray[selectedTabIndex + 1];
+            }
+            console.log(selectedTabIndex);
+            console.log('new selected tab: ', selectedTab.id);
           } else {
             selectedTab.id = undefined;
           }
+          listsData_.deleteList(tabToDelete);
         }
       "
     >
       ×
-      <!-- TODO: Apply this delete button to DB lists -->
     </button>
   </div>
 

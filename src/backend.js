@@ -147,30 +147,15 @@ export const getListItemsByUserId = async () => {
   }
 };
 
-// Delete the specified list (and all associated items)
-export const deleteList = async (listId) => {
-  const options = {
-    method: 'DELETE',
-    url: `${API_ENDPOINT}/ListItems/${TEST_USER_ID}/${listId}`
-  };
-  const res = await axios.request(options);
-  if (res.data) {
-    console.log(res.data);
-  } else {
-    console.log(res);
-  }
-  return res;
-};
-
 // Delete the specified item from the specified list
 export const deleteListItem = async (listId, itemId) => {
   const options = {
     method: 'DELETE',
-    url: `${API_ENDPOINT}/ListItems/${TEST_USER_ID}/${listId}/${itemId}`
+    url: `${API_ENDPOINT}/ListItems/${TEST_USER_ID}/${itemId}`
   };
   const res = await axios.request(options);
   if (res.data) {
-    console.log(res.data);
+    // console.log(res.data);
   } else {
     console.log(res);
   }

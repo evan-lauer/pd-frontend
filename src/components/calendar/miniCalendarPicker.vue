@@ -6,23 +6,22 @@ import { selectedDate } from 'src/stores/calendarStores';
 import LeftChevron from 'src/components/icons/LeftChevron.vue';
 import RightChevron from 'src/components/icons/RightChevron.vue';
 
-const currentDate = ref(new Date());
 const newDate = ref(null);
 
 const currentMonth = computed(() => {
-  return currentDate.value.toLocaleString('default', { month: 'long', year: 'numeric' });
+  return selectedDate.dateTime.toLocaleString('default', { month: 'long', year: 'numeric' });
 });
 
 const daysOfWeek = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 
 const startOfMonth = () => {
-  const date = new Date(currentDate.value);
+  const date = new Date(selectedDate.dateTime);
   date.setDate(1);
   return date.getDay();
 };
 
 const daysInMonth = () => {
-  const date = new Date(currentDate.value);
+  const date = new Date(selectedDate.dateTime);
   date.setMonth(date.getMonth() + 1);
   date.setDate(0);
   return date.getDate();
@@ -33,8 +32,11 @@ const isToday = (date) => {
   return date === today.toISOString().split('T')[0];
 };
 
+// TODO: Fix this so that the selectedDate is selected
+// but you have to do the toISOString thing and you can't break the time zone sooooo
 const isSelected = (date) => {
-  return date === newDate.value;
+  console.log(date);
+  return date === selectedDate.dateTime.toISOString;
 };
 
 const selectDate = (date) => {
@@ -48,16 +50,21 @@ const selectDate = (date) => {
 };
 
 const previousMonth = () => {
-  currentDate.value = new Date(currentDate.value.setMonth(currentDate.value.getMonth() - 1));
+  selectedDate.dateTime = new Date(
+    selectedDate.dateTime.setMonth(selectedDate.dateTime.getMonth() - 1)
+  );
 };
 
 const nextMonth = () => {
-  const date = currentDate.value.getDate();
-  const newMonth = currentDate.value.getMonth() + 2;
-  const daysInNewMonth = new Date(currentDate.value.getFullYear(), newMonth, 0).getDate();
+  const date = selectedDate.dateTime.getDate();
+  const newMonth = selectedDate.dateTime.getMonth() + 2;
+  const daysInNewMonth = new Date(selectedDate.dateTime.getFullYear(), newMonth, 0).getDate();
 
-  currentDate.value = new Date(
-    currentDate.value.setMonth(currentDate.value.getMonth() + 1, Math.min(daysInNewMonth, date))
+  selectedDate.dateTime = new Date(
+    selectedDate.dateTime.setMonth(
+      selectedDate.dateTime.getMonth() + 1,
+      Math.min(daysInNewMonth, date)
+    )
   );
 };
 
@@ -73,8 +80,10 @@ const calendar = computed(() => {
       if ((i === 0 && j < startDay) || day > daysInCurrentMonth) {
         row.push({ number: '', date: '' });
       } else {
-        const date = new Date(currentDate.value);
+        const date = new Date(selectedDate.dateTime);
         date.setDate(day);
+        // Fix this line because toISOString will ignore the time zone. Right?
+        // or am i trippin?
         row.push({ number: day, date: date.toISOString().split('T')[0] });
         day++;
       }
