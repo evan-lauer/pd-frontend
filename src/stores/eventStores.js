@@ -74,8 +74,8 @@ export const eventData = reactive({
 
     editEventForm.title = theEventToBeEditedObject['title'];
     editEventForm.description = theEventToBeEditedObject['description'];
-    editEventForm.startDateTime = theEventToBeEditedObject['startTime'];
-    editEventForm.endDateTime = theEventToBeEditedObject['endTime'];
+    editEventForm.startDateTime = new Date(theEventToBeEditedObject['startTime']);
+    editEventForm.endDateTime = new Date(theEventToBeEditedObject['endTime']);
   },
 
   getWeekOutOfYear: (date, year) => {
