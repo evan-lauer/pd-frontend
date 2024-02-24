@@ -113,7 +113,7 @@ export const eventData = reactive({
     const startDate = new Date(endDate);
     startDate.setDate(startDate.getDate() - 7);
 
-    for (const item of theEvents) {
+    for (const item of eventData.theEvents) {
       const date = new Date(item['startTime']);
       const eventMonth = date.getMonth();
       const eventYear = date.getFullYear();
