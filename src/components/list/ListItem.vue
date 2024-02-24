@@ -1,20 +1,26 @@
 <script setup>
 import { listsData } from 'src/stores/listStores';
+import { ref } from 'vue';
 import debounce from 'src/util/debounce';
 import XButton from 'src/components/icons/XButton.vue';
-const emit = defineEmits(['createItem', 'deleteItem']);
 
-defineProps({
+const emit = defineEmits(['createItem', 'deleteItem']);
+const props = defineProps({
   listId: String,
   item: {
     itemId: String,
     itemContent: String,
-    timestamp: Number
+    timestamp: Number,
+    checked: Boolean
   }
 });
 
+const checked = ref(props.item.checked);
+
 // We need to make a debounced save function for each individual
 const debouncedSaveItem = debounce(listsData.updateListItemContent, 500);
+
+const debouncedCheckItem = debounce(listsData.checkListItem, 300);
 
 const handleSpecialKeys = (event) => {
   if (event.key === 'Backspace') {
@@ -33,6 +39,13 @@ const handleSpecialKeys = (event) => {
       <input
         type="checkbox"
         class="checkbox"
+        :checked="checked"
+        @change="
+          () => {
+            checked = !checked;
+            debouncedCheckItem(listId, item.itemId, checked);
+          }
+        "
       />
       <!-- TODO: Handle the checkbox with the stores -->
     </div>
