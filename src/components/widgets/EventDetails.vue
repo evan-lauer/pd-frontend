@@ -28,7 +28,9 @@ import { eventData } from 'src/stores/eventStores';
           Start Time:
           <div class="theTime">
             {{ eventDetails.startDateTime.toDateString() }} at
-            {{ eventDetails.startDateTime.getHours() }}:{{ eventDetails.startDateTime.getMinutes() }}
+            {{ eventDetails.startDateTime.getHours() }}:{{
+              eventDetails.startDateTime.getMinutes()
+            }}
           </div>
         </div>
         <div class="eventEnd">
@@ -52,7 +54,12 @@ import { eventData } from 'src/stores/eventStores';
       </div>
     </div>
     <div class="eventActionBar">
-      <span class="material-symbols-outlined edit"> edit </span>
+      <span
+        class="material-symbols-outlined edit"
+        @click="eventData.displayEditEvent(eventDetails.eventId)"
+      >
+        edit
+      </span>
       <span
         class="material-symbols-outlined delete"
         @click="eventData.deleteEventFromBoth(eventDetails.eventId)"

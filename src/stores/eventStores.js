@@ -1,4 +1,5 @@
 import { addEventForm } from 'src/stores/addEventFormStores';
+import { editEventForm } from './editEventFormStores';
 import { eventDetails } from 'src/stores/eventDetailsStores';
 // import ShortUniqueId from "short-unique-id";
 import { reactive } from 'vue';
@@ -47,16 +48,31 @@ export const eventData = reactive({
     return eventData.theEvents;
   },
 
-  deleteEventFromStore: (eventIdToDelete) => {
-    const newEventArray = eventData.theEvents.filter((anEvent) => anEvent.eventId != eventIdToDelete);
+  deleteEventFromStore: (eventToBeDeletedId) => {
+    const newEventArray = eventData.theEvents.filter((anEvent) => anEvent.eventId != eventToBeDeletedId);
     eventData.theEvents = newEventArray;
     console.log("Event deleted from store.")
   },
 
-  deleteEventFromBoth: (eventIdToDelete) => {
-    eventData.deleteEventFromStore(eventIdToDelete);
-    deleteCalendarEvent(eventIdToDelete);
+  deleteEventFromBoth: (eventToBeDeletedId) => {
+    eventData.deleteEventFromStore(eventToBeDeletedId);
+    deleteCalendarEvent(eventToBeDeletedId);
     console.log("Event deleted from backend.")
+  },
+
+  displayEditEvent: (eventToBeEditedId) => {
+    eventDetails.isDetailsActive = false;
+    editEventForm.isFormActive = true;
+
+    const eventToBeEditedArray = eventData.theEvents.filter((anEvent) => anEvent.eventId === eventToBeEditedId);
+    const theEventToBeEditedObject = eventToBeEditedArray[0];
+    console.log("Event to be edited array: ", eventToBeEditedArray);
+    console.log("The event to be edited: ", theEventToBeEditedObject);
+
+    editEventForm.title = theEventToBeEditedObject['title'];
+    editEventForm.description = theEventToBeEditedObject['description'];
+    editEventForm.startDateTime = theEventToBeEditedObject['startTime'];
+    editEventForm.endDateTime = theEventToBeEditedObject['endTime'];
   },
 
   getWeekOutOfYear: (date, year) => {
