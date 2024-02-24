@@ -1,16 +1,18 @@
 <script setup>
 import { addEventForm } from 'src/stores/addEventFormStores';
+import { eventDetails } from 'src/stores/eventDetailsStores';
+import { editEventForm } from '../../stores/editEventFormStores';
 import AddEventForm from 'src/components/widgets/AddEventForm.vue';
 import EventDetails from 'src/components/widgets/EventDetails.vue';
-import { eventDetails } from 'src/stores/eventDetailsStores';
 import VisualizerWidgets from 'src/components/widgets/VisualizerWidgets.vue';
+import EditEventForm from './EditEventForm.vue';
 </script>
 
 <template>
   <div class="leftPanel">
-
     <AddEventForm v-if="addEventForm.isFormActive" />
     <EventDetails v-if="eventDetails.isDetailsActive" />
+    <EditEventForm v-if="editEventForm.isFormActive" />
   </div>
   <div class="rightPanel">
     <VisualizerWidgets />
@@ -35,7 +37,6 @@ import VisualizerWidgets from 'src/components/widgets/VisualizerWidgets.vue';
   margin-top: 10px;
   margin-bottom: 10px;
   margin-left: 10px;
-
 }
 .rightPanel {
   padding: 10px;
