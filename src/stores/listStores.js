@@ -34,7 +34,8 @@ export const listsData = reactive({
         newTabs[item.listId].items.push({
           itemId: item.itemId,
           itemContent: item.itemContent,
-          timestamp: item.timestamp
+          timestamp: item.timestamp,
+          checked: item.checked ? true : false
         });
       } else {
         newTabIdArray.push(item.listId);
@@ -86,7 +87,7 @@ export const listsData = reactive({
       itemContent: itemContent,
       timestamp: timestamp
     });
-    return await putListItem(listId, listTitle, itemId, itemContent, timestamp);
+    return await putListItem(listId, listTitle, itemId, itemContent, timestamp, false);
   },
 
   // Delete a list from the store, and delete it from the database
@@ -123,15 +124,35 @@ export const listsData = reactive({
     const timestamp = listsData.tabs[listId].timestamp;
     const extraItemId = listsData.tabs[listId].extraItemId;
     listsData.tabs[listId].listTitle = newTitle;
-    return await updateListsEntry(listId, newTitle, extraItemId, undefined, timestamp);
+    return await updateListsEntry(listId, newTitle, extraItemId, undefined, timestamp, false);
   },
   updateListItemContent: async (listId, itemId, newItemContent) => {
     const listTitle = listsData.tabs[listId].listTitle;
     for (let i = 0; i < listsData.tabs[listId].items.length; i++) {
       if (listsData.tabs[listId].items[i].itemId === itemId) {
         const timestamp = listsData.tabs[listId].items[i].timestamp;
+        const checked = listsData.tabs[listId].items[i].checked;
         listsData.tabs[listId].items[i].itemContent = newItemContent;
-        return await updateListsEntry(listId, listTitle, itemId, newItemContent, timestamp);
+        return await updateListsEntry(
+          listId,
+          listTitle,
+          itemId,
+          newItemContent,
+          timestamp,
+          checked
+        );
+      }
+    }
+    throw new Error('itemId not found');
+  },
+  checkListItem: async (listId, itemId, checked) => {
+    const listTitle = listsData.tabs[listId].listTitle;
+    for (let i = 0; i < listsData.tabs[listId].items.length; i++) {
+      if (listsData.tabs[listId].items[i].itemId === itemId) {
+        listsData.tabs[listId].items[i].checked = checked;
+        const timestamp = listsData.tabs[listId].items[i].timestamp;
+        const itemContent = listsData.tabs[listId].items[i].itemContent;
+        return await updateListsEntry(listId, listTitle, itemId, itemContent, timestamp, checked);
       }
     }
     throw new Error('itemId not found');

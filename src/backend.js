@@ -85,7 +85,8 @@ export const createList = async (listId, listTitle, itemId, timestamp) => {
       listId: listId,
       listTitle: listTitle,
       itemId: itemId,
-      timestamp: timestamp
+      timestamp: timestamp,
+      checked: false
     }
   };
   const res = await axios.request(options);
@@ -101,7 +102,7 @@ export const createList = async (listId, listTitle, itemId, timestamp) => {
 //
 // Return the ID of the created item
 // (timestamp should be in milliseconds since 1970, which you get by typing Date.now())
-export const putListItem = async (listId, listTitle, itemId, itemContent, timestamp) => {
+export const putListItem = async (listId, listTitle, itemId, itemContent, timestamp, checked) => {
   const options = {
     method: 'PUT',
     url: `${API_ENDPOINT}/ListItems`,
@@ -113,7 +114,8 @@ export const putListItem = async (listId, listTitle, itemId, itemContent, timest
       listId: listId,
       listTitle: listTitle,
       itemId: itemId,
-      timestamp: timestamp
+      timestamp: timestamp,
+      checked: checked
     }
   };
   if (typeof itemContent !== 'undefined') {
