@@ -22,6 +22,12 @@ export const eventMethods = reactive({
   }
 });
 
+// TODO: Finish this
+export const eventData_ = reactive({
+  events: {},
+  fetchEvents: async () => {}
+});
+
 export const eventData = reactive({
   eventIds: [],
   theEvents: [],

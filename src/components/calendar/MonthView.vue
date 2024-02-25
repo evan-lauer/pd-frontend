@@ -30,7 +30,6 @@ const displayDays = computed(() => {
   }
   return thisMonth;
 });
-console.log('DISPLAY DAYS', displayDays);
 
 // 1 indexed
 function getDayByIndex(week, day) {

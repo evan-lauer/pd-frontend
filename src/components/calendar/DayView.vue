@@ -144,8 +144,6 @@ function formatTimes(startTime, endTime) {
 }
 .datePickerDiv {
   float: center;
-  min-width: 100%;
-  min-height: 100%;
 }
 .eventsContainer {
   border-radius: 7px;

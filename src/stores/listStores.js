@@ -104,6 +104,7 @@ export const listsData = reactive({
     // associated with that list.
     const results = new Array();
     results.push(deleteListItem(listId, extraItemId));
+    console.log('ids to delete: ', itemIdArray);
     itemIdArray.forEach((id) => {
       results.push(deleteListItem(listId, id));
     });

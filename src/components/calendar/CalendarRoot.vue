@@ -63,6 +63,5 @@ function toggleEventForm() {
 
 .content {
   height: 85%;
-  overflow: hidden;
 }
 </style>
