@@ -122,6 +122,14 @@ function renderWeekHeader(week, day) {
         :key="day"
         class="day"
         :class="{ selected: isSelectedDate(getDayByIndex(week, day)) }"
+        @click="
+          updateDayClicked(
+            getDayByIndex(week, day).day,
+            getDayByIndex(week, day).month,
+            getDayByIndex(week, day).year
+          )
+          // upcomingTaskChecker();
+        "
       >
         <div
           class="dayHeader"
@@ -156,14 +164,6 @@ function renderWeekHeader(week, day) {
         <div
           class="pseudoDay"
           :class="{ first: day === 1 }"
-          @click="
-            updateDayClicked(
-              getDayByIndex(week, day).day,
-              getDayByIndex(week, day).month,
-              getDayByIndex(week, day).year
-            )
-            // upcomingTaskChecker();
-          "
           @dblclick="
             () => {
               prefilledEventForm(week, day);
