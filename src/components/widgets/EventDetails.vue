@@ -56,7 +56,7 @@ import { eventData } from 'src/stores/eventStores';
     <div class="eventActionBar">
       <span
         class="material-symbols-outlined edit"
-        @click="eventData.displayEditEvent(eventDetails.eventId)"
+        @click="eventData.displayEditEvent(eventDetails)"
       >
         edit
       </span>

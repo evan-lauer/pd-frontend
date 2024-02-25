@@ -1,9 +1,5 @@
-// import { putCalendarEvent } from '../backend';
-import ShortUniqueId from 'short-unique-id';
 import { putCalendarEvent } from 'src/backend';
 import { reactive } from 'vue';
-
-const uid = new ShortUniqueId({ length: 10 });
 
 export const editEventForm = reactive({
   isFormActive: false,
@@ -11,13 +7,14 @@ export const editEventForm = reactive({
   description: '',
   startDateTime: new Date(),
   endDateTime: new Date(),
-  putEvent: async () => {
+  putEvent: async (uid, startTime, endTime, description, title) => {
+    console.log("saving event")
     await putCalendarEvent(
-      uid.rnd(),
-      editEventForm.startDateTime,
-      editEventForm.endDateTime,
-      editEventForm.title,
-      editEventForm.description
+      uid,
+      startTime,
+      endTime,
+      title,
+      description
     );
   }
 });

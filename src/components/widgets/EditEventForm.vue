@@ -5,10 +5,22 @@ import TimePicker from 'src/components/widgets/TimePicker.vue';
 import { editEventForm } from 'src/stores/editEventFormStores';
 import SimpleButton from 'src/components/icons/SimpleButton.vue';
 import { computed } from 'vue';
+import { eventData } from 'src/stores/eventStores';
+import { eventDetails } from 'src/stores/eventDetailsStores';
 
-function submissionHandler() {
+function submissionHandler(eventId) {
   editEventForm.isFormActive = false;
-  editEventForm.putEvent();
+  eventData.editEvent(
+    eventId,
+    editEventForm.startDateTime.toISOString(),
+    editEventForm.endDateTime.toISOString(),
+    editEventForm.description,
+    editEventForm.title
+  );
+}
+
+function cancelEditHandler() {
+  editEventForm.isFormActive = false;
 }
 
 // Date inputs require the value to be formatted as yyyy-mm-dd
@@ -18,8 +30,6 @@ function submissionHandler() {
 //
 // This converts the date object to yyyy-mm-dd
 function getISOString(dateObject) {
-  console.log(dateObject, typeof dateObject);
-
   const offset = dateObject.getTimezoneOffset();
   dateObject = new Date(dateObject.getTime() - offset * 60 * 1000);
   return dateObject.toISOString().split('T')[0];
@@ -141,7 +151,12 @@ function rebuildDateObject(dateObject, dateString) {
     <div class="saveButtonRow">
       <SimpleButton
         inner-text="Save"
-        @click="submissionHandler()"
+        @click="submissionHandler(eventDetails.eventId)"
+        :disabled="isValidTimePeriod"
+      />
+      <SimpleButton
+        inner-text="Cancel"
+        @click="cancelEditHandler()"
         :disabled="isValidTimePeriod"
       />
     </div>

@@ -19,6 +19,7 @@ import DayView from 'src/components/calendar/DayView.vue';
 import DatePicker from 'src/components/calendar/datePickers/DatePicker.vue';
 import CreateEventButton from 'src/components/calendar/CreateEventButton.vue';
 import { eventDetails } from 'src/stores/eventDetailsStores';
+import { editEventForm } from '../../stores/editEventFormStores';
 
 function toggleEventForm() {
   const startDateTime = new Date();
@@ -29,6 +30,7 @@ function toggleEventForm() {
   addEventForm.endDateTime = endDateTime;
   addEventForm.isFormActive = !addEventForm.isFormActive;
   eventDetails.isDetailsActive = false;
+  editEventForm.isFormActive = false;
 }
 </script>
 
