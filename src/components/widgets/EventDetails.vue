@@ -7,56 +7,58 @@ import { eventData } from 'src/stores/eventStores';
 
 <template>
   <div class="eventDisplayContainer">
-    <div class="eventDisplayHeader">
-      <span
-        class="material-symbols-outlined"
-        style="color: #344f49"
-      >
-        calendar_month
-      </span>
-      <div class="eventTitle">{{ eventDetails.title }}</div>
-    </div>
-    <div class="eventDateRange">
-      <span
-        class="material-symbols-outlined"
-        style="color: #344f49"
-      >
-        schedule
-      </span>
-      <div class="eventTimes">
-        <div class="eventStart">
-          Start Time:
-          <div class="theTime">
-            {{ eventDetails.startDateTime.toDateString() }} at
-            {{ eventDetails.startDateTime.getHours() }}:{{
-              eventDetails.startDateTime.getMinutes()
-            }}
+    <div class="eventContent">
+      <div class="eventDisplayHeader">
+        <span
+          class="material-symbols-outlined"
+          style="color: #344f49"
+        >
+          calendar_month
+        </span>
+        <div class="eventTitle">{{ eventDetails.title }}</div>
+      </div>
+      <div class="eventDateRange">
+        <span
+          class="material-symbols-outlined"
+          style="color: #344f49"
+        >
+          schedule
+        </span>
+        <div class="eventTimes">
+          <div class="eventStart">
+            Start Time:
+            <div class="theTime">
+              {{ eventDetails.startDateTime.toDateString() }} at
+              {{ eventDetails.startDateTime.getHours() }}:{{
+                eventDetails.startDateTime.getMinutes()
+              }}
+            </div>
           </div>
-        </div>
-        <div class="eventEnd">
-          End Time:
-          <div class="theTime">
-            {{ eventDetails.endDateTime.toDateString() }} at
-            {{ eventDetails.endDateTime.getHours() }}:{{ eventDetails.endDateTime.getMinutes() }}
+          <div class="eventEnd">
+            End Time:
+            <div class="theTime">
+              {{ eventDetails.endDateTime.toDateString() }} at
+              {{ eventDetails.endDateTime.getHours() }}:{{ eventDetails.endDateTime.getMinutes() }}
+            </div>
           </div>
         </div>
       </div>
-    </div>
-    <div class="eventDescription">
-      <span
-        class="material-symbols-outlined"
-        style="color: #344f49"
-      >
-        description
-      </span>
-      <div class="eventNotes">
-        {{ eventDetails.description }}
+      <div class="eventDescription">
+        <span
+          class="material-symbols-outlined"
+          style="color: #344f49"
+        >
+          description
+        </span>
+        <div class="eventNotes">
+          {{ eventDetails.description }}
+        </div>
       </div>
     </div>
     <div class="eventActionBar">
       <span
         class="material-symbols-outlined edit"
-        @click="eventData.displayEditEvent(eventDetails.eventId)"
+        @click="eventData.displayEditEvent(eventDetails)"
       >
         edit
       </span>
@@ -75,7 +77,7 @@ import { eventData } from 'src/stores/eventStores';
   display: flex;
   flex-wrap: nowrap;
   flex-direction: column;
-  justify-content: flex-start;
+  justify-content: space-between;
   width: 100%;
 }
 .eventActionBar {

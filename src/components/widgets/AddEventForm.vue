@@ -11,6 +11,10 @@ function submissionHandler() {
   addEventForm.putEvent();
 }
 
+function cancelEditHandler() {
+  addEventForm = false;
+}
+
 // Date inputs require the value to be formatted as yyyy-mm-dd
 // but our start and end dates are JS Date objects
 // so these computed values will sync with the store.
@@ -43,109 +47,115 @@ function rebuildDateObject(dateObject, dateString) {
 
 <template>
   <div class="eventDisplayContainer">
-    <div class="eventDisplayHeader">
-      <span
-        class="material-symbols-outlined"
-        style="color: #344f49"
-      >
-        calendar_month
-      </span>
-      <input
-        class="eventNameInput"
-        placeholder="Add Event Title"
-        @change="
-          (event) => {
-            addEventForm.title = event.target.value;
-          }
-        "
-      />
-    </div>
-    <div class="eventDateRange">
-      <span
-        class="material-symbols-outlined"
-        style="color: #344f49"
-      >
-        schedule
-      </span>
-      <div class="eventTimes">
-        <div class="eventStart">
-          Start Time:
-          <div class="theTime">
-            <!-- <input
-              class="datePicker"
-              :class="{ error: isValidTimePeriod }"
-              type="date"
-              :value="startDateString"
-              @input="
-                (event) => {
-                  addEventForm.startDateTime = rebuildDateObject(
-                    addEventForm.startDateTime,
-                    event.target.value
-                  );
-                }
-              "
-            />
-            <TimePicker
-              :timestamp="addEventForm.startDateTime"
-              :class="{ error: isValidTimePeriod }"
-              @timestamp-change="
-                (newTimestamp) => {
-                  addEventForm.startDateTime = newTimestamp;
-                }
-              "
-            /> -->
+    <div class="eventContent">
+      <div class="eventDisplayHeader">
+        <span
+          class="material-symbols-outlined"
+          style="color: #344f49"
+        >
+          calendar_month
+        </span>
+        <input
+          class="eventNameInput"
+          placeholder="Add Event Title"
+          @change="
+            (event) => {
+              addEventForm.title = event.target.value;
+            }
+          "
+        />
+      </div>
+      <div class="eventDateRange">
+        <span
+          class="material-symbols-outlined"
+          style="color: #344f49"
+        >
+          schedule
+        </span>
+        <div class="eventTimes">
+          <div class="eventStart">
+            Start Time:
+            <div class="theTime">
+              <input
+                class="datePicker"
+                :class="{ error: isValidTimePeriod }"
+                type="date"
+                :value="startDateString"
+                @input="
+                  (event) => {
+                    addEventForm.startDateTime = rebuildDateObject(
+                      addEventForm.startDateTime,
+                      event.target.value
+                    );
+                  }
+                "
+              />
+              <TimePicker
+                :timestamp="addEventForm.startDateTime"
+                :class="{ error: isValidTimePeriod }"
+                @timestamp-change="
+                  (newTimestamp) => {
+                    addEventForm.startDateTime = newTimestamp;
+                  }
+                "
+              />
+            </div>
           </div>
-        </div>
-        <div class="eventEnd">
-          End Time:
-          <div class="theTime">
-            <!-- <input
-              class="datePicker end"
-              :class="{ error: isValidTimePeriod }"
-              type="date"
-              :value="endDateString"
-              @input="
-                (event) => {
-                  addEventForm.endDateTime = rebuildDateObject(
-                    addEventForm.endDateTime,
-                    event.target.value
-                  );
-                }
-              "
-            />
-            <TimePicker
-              :timestamp="addEventForm.endDateTime"
-              :class="{ error: isValidTimePeriod }"
-              @timestamp-change="
-                (newTimestamp) => {
-                  addEventForm.endDateTime = newTimestamp;
-                }
-              "
-            /> -->
+          <div class="eventEnd">
+            End Time:
+            <div class="theTime">
+              <input
+                class="datePicker end"
+                :class="{ error: isValidTimePeriod }"
+                type="date"
+                :value="endDateString"
+                @input="
+                  (event) => {
+                    addEventForm.endDateTime = rebuildDateObject(
+                      addEventForm.endDateTime,
+                      event.target.value
+                    );
+                  }
+                "
+              />
+              <TimePicker
+                :timestamp="addEventForm.endDateTime"
+                :class="{ error: isValidTimePeriod }"
+                @timestamp-change="
+                  (newTimestamp) => {
+                    addEventForm.endDateTime = newTimestamp;
+                  }
+                "
+              />
+            </div>
           </div>
         </div>
       </div>
-    </div>
-    <div class="eventDescription">
-      <span
-        class="material-symbols-outlined"
-        style="color: #344f49"
-      >
-        description
-      </span>
-      <input
-        class="descriptionInput"
-        placeholder="Add Event Description"
-        @change="
-          (event) => {
-            addEventForm.description = event.target.value;
-          }
-        "
-      />
-      <div class="eventNotes">
+      <div class="eventDescription">
+        <span
+          class="material-symbols-outlined"
+          style="color: #344f49"
+        >
+          description
+        </span>
+        <input
+          class="descriptionInput"
+          placeholder="Add Event Description"
+          @change="
+            (event) => {
+              addEventForm.description = event.target.value;
+            }
+          "
+        />
+        <div class="eventNotes"></div>
       </div>
     </div>
-    <div class="saveButtonRow">
+    <div class="actionButtonsRow">
+      <SimpleButton
+        inner-text="Cancel"
+        @click="cancelEditHandler()"
+        :disabled="isValidTimePeriod"
+      />
       <SimpleButton
         inner-text="Save"
         @click="submissionHandler()"
@@ -155,9 +165,8 @@ function rebuildDateObject(dateObject, dateString) {
   </div>
 </template>
 
-
 <style scoped>
-.saveButtonRow {
+.actionButtonsRow {
   display: flex;
   justify-content: flex-end;
   margin-top: 5px;
@@ -176,7 +185,7 @@ function rebuildDateObject(dateObject, dateString) {
   display: flex;
   flex-wrap: nowrap;
   flex-direction: column;
-  justify-content: flex-start;
+  justify-content: space-between;
   width: 100%;
 }
 .eventActionBar {
@@ -260,7 +269,6 @@ function rebuildDateObject(dateObject, dateString) {
   border: 1px solid transparent;
   font-size: large;
   padding-left: 10px;
-
 }
 .eventNameInput::placeholder {
   font-size: large;

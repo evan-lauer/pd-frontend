@@ -103,22 +103,25 @@ watch(
   }
 );
 
-// hard coded; all functions below are for event containers
+// functions below are for event containers.
+// heights in calculations are hard coded right now, but the basic functionality/reactivity is there.
+// sincerely apologize for the inconvenience.
 
 // height component
 function calculate_height(startTime, endTime) {
   const start_date = new Date(startTime);
   const end_date = new Date(endTime);
-  // assuming same day
-  const height = (end_date.getHours() - start_date.getHours()) * 62;
+  const height = ((end_date.getHours() + end_date.getMinutes() / 60) - (start_date.getHours() + start_date.getMinutes() / 60)) * 62;
   return height + 'px';
 }
 // top component
 function calculate_top(startTime) {
   const date = new Date(startTime);
-  const top_percent = 41 + date.getHours() * 62;
+  const top_percent = 41 + ((date.getHours() + date.getMinutes() / 60) * 62);
   return top_percent + 'px';
 }
+
+// below are for overlapping event case
 
 // helper function for find_overlap function
 function is_overlap(event1, event2) {
@@ -244,7 +247,7 @@ function formatTimes(startTime, endTime) {
         >
           <div v-if="eventA.startTime !== eventA.endTime">
             <!-- <EventStar /> -->
-            <div class="eventDesc">{{ eventA.title }}</div>
+            <div class="eventDesc boldFont">{{ eventA.title }}</div>
             <div class="eventDesc">{{ formatTimes(eventA.startTime, eventA.endTime) }}</div>
           </div>
         </div>
@@ -326,10 +329,11 @@ function formatTimes(startTime, endTime) {
 .eventsContainer {
   /* width: 14%; */
   border-radius: 7px;
-  background-color: gray;
+  background-color: #9098A1;
   position: absolute;
   /* z-index: 1; */
   border: 1px solid aliceblue;
+  overflow-y: auto;
 }
 
 .eventDesc {
@@ -339,5 +343,9 @@ function formatTimes(startTime, endTime) {
   padding-left: 5px;
   width: 80%;
   overflow: hidden;
+}
+
+.boldFont {
+  font-weight: bold;
 }
 </style>
