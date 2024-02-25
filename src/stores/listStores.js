@@ -48,7 +48,7 @@ export const listsData = reactive({
         };
         if (item.itemContent !== undefined) {
           // This really should not happen. If it does we have a potential problem
-          throw new Error('Error, why was the item created before the list?');
+          console.log('Error, why was the item created before the list?');
           // newTabs[item.listId].items.push({
           //   itemId: item.itemId,
           //   itemContent: item.itemContent,
