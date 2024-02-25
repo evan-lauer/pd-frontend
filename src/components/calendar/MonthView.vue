@@ -202,6 +202,11 @@ function renderWeekHeader(week, day) {
   height: 100%;
   width: 100%;
   position: relative;
+  transition: background 0.1s linear;
+}
+
+.day:hover {
+  background: var(--google-docs-grey);
 }
 
 .day.selected {
