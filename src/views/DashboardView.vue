@@ -33,8 +33,8 @@ const userEvents = eventData.userEvents();
 <style scoped>
 .gridContainer {
   background: var(--google-docs-grey);
-  min-height: 100svh;
-  min-width: 100svw;
+  height: 100svh;
+  width: 100svw;
   display: grid;
   grid-template-columns: 0fr 13fr 7fr 0fr;
   grid-template-rows: 0fr 13fr 7fr 0fr;

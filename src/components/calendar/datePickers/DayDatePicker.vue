@@ -30,7 +30,6 @@ import SimpleButton from 'src/components/icons/SimpleButton.vue';
   font-weight: 700;
   margin: 0;
 
-  width: 400px;
   text-align: center;
 }
 
@@ -51,7 +50,6 @@ import SimpleButton from 'src/components/icons/SimpleButton.vue';
 .buttons {
   display: flex;
   flex-direction: row;
-  width: 80%;
   justify-content: left;
   align-items: center;
   padding-left: 20px;

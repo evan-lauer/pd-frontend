@@ -71,7 +71,7 @@ function rebuildDateObject(dateObject, dateString) {
         <div class="eventStart">
           Start Time:
           <div class="theTime">
-            <!-- <input
+            <input
               class="datePicker"
               :class="{ error: isValidTimePeriod }"
               type="date"
@@ -93,13 +93,13 @@ function rebuildDateObject(dateObject, dateString) {
                   addEventForm.startDateTime = newTimestamp;
                 }
               "
-            /> -->
+            />
           </div>
         </div>
         <div class="eventEnd">
           End Time:
           <div class="theTime">
-            <!-- <input
+            <input
               class="datePicker end"
               :class="{ error: isValidTimePeriod }"
               type="date"
@@ -121,7 +121,7 @@ function rebuildDateObject(dateObject, dateString) {
                   addEventForm.endDateTime = newTimestamp;
                 }
               "
-            /> -->
+            />
           </div>
         </div>
       </div>
