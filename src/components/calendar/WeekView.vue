@@ -111,7 +111,7 @@ watch(
 function calculate_height(startTime, endTime) {
   const start_date = new Date(startTime);
   const end_date = new Date(endTime);
-  const height = (end_date.getTime() - start_date.getTime()) * 0.000016;
+  const height = ((end_date.getHours() + end_date.getMinutes() / 60) - (start_date.getHours() + start_date.getMinutes() / 60)) * 62;
   return height + 'px';
 }
 // top component
