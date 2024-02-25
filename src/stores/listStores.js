@@ -93,10 +93,9 @@ export const listsData = reactive({
   // Delete a list from the store, and delete it from the database
   deleteList: async (listId) => {
     const extraItemId = listsData.tabs[listId].extraItemId;
-    const itemIdArray =
-      listsData.tabs[listId].items.forEach((item) => {
-        return item.itemId;
-      }) || [];
+    const itemIdArray = listsData.tabs[listId].items.map((item) => {
+      return item.itemId;
+    });
     listsData.tabIdArray = listsData.tabIdArray.filter((id) => id !== listId);
     delete listsData.tabs[listId];
     // We need to delete every entry associated with the list,
@@ -104,7 +103,6 @@ export const listsData = reactive({
     // associated with that list.
     const results = new Array();
     results.push(deleteListItem(listId, extraItemId));
-    console.log('ids to delete: ', itemIdArray);
     itemIdArray.forEach((id) => {
       results.push(deleteListItem(listId, id));
     });
