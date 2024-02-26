@@ -3,6 +3,12 @@
 <script setup>
 import { eventDetails } from 'src/stores/eventDetailsStores';
 import { eventData } from 'src/stores/eventStores';
+
+const timeOptions = {
+  hour: 'numeric',
+  minute: 'numeric',
+  hour12: true
+}
 </script>
 
 <template>
@@ -29,16 +35,15 @@ import { eventData } from 'src/stores/eventStores';
             Start Time:
             <div class="theTime">
               {{ eventDetails.startDateTime.toDateString() }} at
-              {{ eventDetails.startDateTime.getHours() }}:{{
-                eventDetails.startDateTime.getMinutes()
-              }}
+              {{ eventDetails.startDateTime.toLocaleTimeString(undefined, timeOptions) }}
+
             </div>
           </div>
           <div class="eventEnd">
             End Time:
             <div class="theTime">
               {{ eventDetails.endDateTime.toDateString() }} at
-              {{ eventDetails.endDateTime.getHours() }}:{{ eventDetails.endDateTime.getMinutes() }}
+              {{ eventDetails.endDateTime.toLocaleTimeString(undefined, timeOptions) }}
             </div>
           </div>
         </div>
