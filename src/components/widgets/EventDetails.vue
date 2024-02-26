@@ -84,6 +84,7 @@ import { eventData } from 'src/stores/eventStores';
   display: flex;
   flex-direction: row;
   justify-content: flex-end;
+  gap: 5px;
 }
 
 .material-symbols-outlined.edit {
@@ -116,6 +117,7 @@ import { eventData } from 'src/stores/eventStores';
   flex-direction: row;
   margin-top: 10px;
   padding-bottom: 15px;
+  align-items: center;
 }
 .eventTitle {
   font-weight: bold;
@@ -130,6 +132,8 @@ import { eventData } from 'src/stores/eventStores';
 }
 .eventNotes {
   padding-left: 10px;
+  overflow-y: scroll;
+  max-height: 25px;
 }
 
 .eventDateRange {

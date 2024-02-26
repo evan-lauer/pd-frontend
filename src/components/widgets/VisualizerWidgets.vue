@@ -233,7 +233,7 @@ function upcomingEventChecker() {
         class="dropdown"
       >
         <option
-          v-for="(list, listId) in testTabs"
+          v-for="(list, listId) in listsData.tabs"
           :key="listId"
           :id="`dropdown-` + listId"
           :value="listId"
@@ -265,7 +265,7 @@ function upcomingEventChecker() {
 </template>
 
 <!-- <option
-v-for="list in listsData.tabs"
+v-for="(list, listId) in listsData.tabs"
 > -->
 
 <style scoped>
