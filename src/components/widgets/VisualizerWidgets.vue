@@ -330,7 +330,7 @@ function upcomingEventChecker() {
   transform: translateX(-50%);
   border-radius: 5px;
   font-size: small;
-  background-color: gray;
+  background-color: lightgray;
   padding: 4px;
   z-index: 1;
   justify-content: center;
