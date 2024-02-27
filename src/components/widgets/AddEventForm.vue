@@ -4,15 +4,25 @@
 import TimePicker from 'src/components/widgets/TimePicker.vue';
 import { addEventForm } from 'src/stores/addEventFormStores';
 import SimpleButton from 'src/components/icons/SimpleButton.vue';
+import { eventData } from 'src/stores/eventStores';
 import { computed } from 'vue';
+import ShortUniqueId from 'short-unique-id';
 
-function submissionHandler() {
+const uid = new ShortUniqueId({ length: 10 });
+
+async function submissionHandler() {
   addEventForm.isFormActive = false;
-  addEventForm.putEvent();
-}
-
-function cancelEditHandler() {
-  addEventForm = false;
+  const eventId = uid.rnd();
+  eventData.putEventInStore(
+    eventId,
+    addEventForm.startDateTime,
+    addEventForm.endDateTime,
+    addEventForm.description,
+    addEventForm.title
+  );
+  await addEventForm.putEvent(eventId);
+  eventData.creatingWeeksEventArray();
+  eventData.creatingDaysEventArray();
 }
 
 // Date inputs require the value to be formatted as yyyy-mm-dd
@@ -285,7 +295,6 @@ function rebuildDateObject(dateObject, dateString) {
   padding-left: 4px;
   border-radius: 4px;
   justify-content: center;
-
 }
 
 .theTime {

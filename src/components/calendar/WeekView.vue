@@ -1,7 +1,6 @@
 <script setup>
 import { ref, watch, onMounted } from 'vue';
 import { Calendar } from 'calendar-base';
-import userStore from 'src/stores/userStore';
 import { selectedDate } from 'src/stores/calendarStores';
 import { eventData, eventMethods } from 'src/stores/eventStores';
 import EventStar from 'src/components/calendar/events/EventStar.vue';
@@ -106,13 +105,11 @@ watch(
   }
 );
 
-userStore.getEvents();
 eventData.creatingWeeksEventArray();
 watch(
   () => eventData.getWeekOutOfYear(selectedDate.dateTime, new Date().getFullYear()),
   () => {
     // This ensures that the numsEventsArray is reset when the month is changed
-    userStore.getEvents();
     eventData.creatingWeeksEventArray();
   }
 );
