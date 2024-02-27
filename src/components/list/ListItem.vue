@@ -3,6 +3,7 @@ import { listsData } from 'src/stores/listStores';
 import { ref } from 'vue';
 import debounce from 'src/util/debounce';
 import XButton from 'src/components/icons/XButton.vue';
+import CheckBox from './CheckBox.vue';
 
 const emit = defineEmits(['createItem', 'deleteItem']);
 const props = defineProps({
@@ -36,17 +37,16 @@ const handleSpecialKeys = (event) => {
 <template>
   <div class="individualItem">
     <div class="checkboxContainer">
-      <input
-        type="checkbox"
-        class="checkbox"
+      <CheckBox
         :checked="checked"
-        @change="
+        @click="
           () => {
             checked = !checked;
             debouncedCheckItem(listId, item.itemId, checked);
           }
         "
       />
+
       <!-- TODO: Handle the checkbox with the stores -->
     </div>
     <textarea
@@ -100,17 +100,22 @@ const handleSpecialKeys = (event) => {
   height: 20%;
   width: 85%;
   font-size: medium;
-  border: 1px solid transparent;
-
+  border: none;
+  border-bottom: 1px solid transparent;
+  transition: border 0.1s linear;
   resize: vertical;
-  border-radius: 5px;
   padding: 10px;
   margin: 5px;
   outline: none;
   font-family: Arial;
   resize: none;
 }
+
 .itemName:focus {
-  border: 1px solid black;
+  border-radius: 0px;
+  border-top: none;
+  border-right: none;
+  border-left: none;
+  border-bottom: 1px solid #dd825f;
 }
 </style>

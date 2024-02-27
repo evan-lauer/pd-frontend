@@ -115,7 +115,7 @@ const debouncedUpdateTitle = debounce(listsData.updateListTitle, 1000);
 }
 .tabContainer.selected {
   height: 100%;
-  width: 160px;
+  width: 140px;
   border-bottom: transparent;
   border-top: 2px solid #dd825f;
   border-left: 2px solid #dd825f;
@@ -124,7 +124,6 @@ const debouncedUpdateTitle = debounce(listsData.updateListTitle, 1000);
 
 .tabName {
   display: flex;
-  width: 50px;
   height: 20px;
   border: 1px solid transparent;
   border-radius: 15px 15px 0 0;
