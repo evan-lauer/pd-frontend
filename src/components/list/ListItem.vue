@@ -81,6 +81,7 @@ const handleSpecialKeys = (event) => {
 
 .xButton:hover {
   outline: 1px solid grey;
+  cursor: pointer;
 }
 
 .individualItem {

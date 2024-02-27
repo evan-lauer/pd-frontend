@@ -20,7 +20,7 @@ const makeEditable = (tabId) => {
   const tabName = document.getElementById(`tabName-${tabId}`);
   if (tabName) {
     tabName.readOnly = false;
-    tabName.style.borderColor = 'green';
+    tabName.style.borderBottomColor = 'green';
     tabName.style.cursor = 'text';
   }
 };
@@ -101,9 +101,11 @@ const debouncedUpdateTitle = debounce(listsData.updateListTitle, 1000);
 /* tabContainer doesn't change height... why? Wanna make it shorter  */
 .tabContainer {
   display: flex;
-  border-radius: 10px 10px 0px 0px;
-  border: 2px solid #dd825f;
+  border-radius: 15px 15px 0px 0px;
   border-bottom: transparent;
+  border-top: 2px solid lightgray;
+  border-left: 2px solid lightgray;
+  border-right: 2px solid lightgray;
   height: auto;
   width: 15%;
   padding: 2px;
@@ -111,25 +113,30 @@ const debouncedUpdateTitle = debounce(listsData.updateListTitle, 1000);
   align-items: center;
 }
 .tabContainer.selected {
-  border-bottom: transparent;
   height: 100%;
   width: auto;
+  border-bottom: transparent;
+  border-top: 2px solid #dd825f;
+  border-left: 2px solid #dd825f;
+  border-right: 2px solid #dd825f;
+
 }
 
 .tabName {
   display: flex;
-  width: 70px;
+  width: 50px;
   height: 20px;
   border: 1px solid transparent;
-  border-radius: 5px;
+  border-radius: 15px 15px 0 0;
   align-items: center;
   text-align: center;
   padding: 2px 10px;
   overflow: auto;
-  font-size: large;
+  font-size: medium;
 }
 .tabName.selected {
   font-weight: bold;
+  font-size: medium;
   height: 85%;
   outline: none;
 }

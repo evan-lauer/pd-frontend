@@ -5,65 +5,14 @@ import { listsData } from 'src/stores/listStores';
 import { GChart } from 'vue-google-charts';
 import { watch, ref, computed } from 'vue';
 
-// figure out how to make the percentages show up
-const testTabs = {
-  listId1: {
-    listTitle: 'title 1',
-    items: [
-      {
-        itemId: 'list1itemId1',
-        itemContent: 'CS homework',
-        checked: true
-      },
-      {
-        itemId: 'list1itemId2',
-        itemContent: 'Bio homework',
-        checked: false
-      }
-    ]
-  },
-  listId2: {
-    listTitle: 'title 2',
-    items: [
-      {
-        itemId: 'list2id1',
-        itemContent: 'email work',
-        checked: true
-      },
-      {
-        itemId: 'list2id2',
-        itemContent: 'calculate work',
-        checked: false
-      },
-      {
-        itemId: 'list2id3',
-        itemContent: 'write work',
-        checked: false
-      }
-    ]
-  },
-  listId3: {
-    listTitle: '3',
-    items: [
-      {
-        itemId: 'list2id1',
-        itemContent: 'email work',
-        checked: true
-      }
-    ]
-  }
-};
-
 const selectedTabId = ref(null);
 
 const selectedTabItems = computed(() => {
   if (selectedTabId.value === null) {
     return null;
   }
-  return testTabs[selectedTabId.value].items;
+  return listsData.tabs[selectedTabId.value].items;
 });
-
-const chartType = 'PieChart';
 
 const calcCompleteTask = () => {
   let completedTasks = 0;
@@ -101,7 +50,11 @@ let chartData = [
 ];
 
 watch(selectedTabId, () => {
-  updateChartData(); // Call the function to update chartData when selectedTabId changes
+  if (selectedTabId.value !== null) {
+    calcCompleteTask();
+    calcIncompleteTask();
+    updateChartData();    
+  }
 });
 
 const updateChartData = () => {
@@ -111,6 +64,8 @@ const updateChartData = () => {
     ['Incomplete', calcIncompleteTask()]
   ];
 };
+
+const chartType = 'PieChart';
 
 const chartOptions = {
   legend: 'none',
@@ -233,7 +188,7 @@ function upcomingEventChecker() {
         class="dropdown"
       >
         <option
-          v-for="(list, listId) in testTabs"
+          v-for="(list, listId) in listsData.tabs"
           :key="listId"
           :id="`dropdown-` + listId"
           :value="listId"
@@ -263,10 +218,6 @@ function upcomingEventChecker() {
     </div>
   </div>
 </template>
-
-<!-- <option
-v-for="list in listsData.tabs"
-> -->
 
 <style scoped>
 .widgetContainer {
@@ -379,7 +330,7 @@ v-for="list in listsData.tabs"
   transform: translateX(-50%);
   border-radius: 5px;
   font-size: small;
-  background-color: gray;
+  background-color: lightgray;
   padding: 4px;
   z-index: 1;
   justify-content: center;

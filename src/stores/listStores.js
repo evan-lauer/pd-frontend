@@ -61,6 +61,7 @@ export const listsData = reactive({
     console.log('This is what the tabs look like when they get put into the listStore: ', newTabs);
     listsData.tabs = newTabs;
     listsData.tabIdArray = newTabIdArray;
+    return;
   },
 
   // Add a new list to the store, and push it to the database

@@ -10,7 +10,9 @@
 
 <script setup>
 import { addEventForm } from 'src/stores/addEventFormStores';
-import { viewMode } from 'src/stores/calendarStores';
+import { viewMode, selectedDate } from 'src/stores/calendarStores';
+import { computed, watch, ref } from 'vue';
+import { Calendar } from 'calendar-base';
 
 import ModePicker from 'src/components/calendar/ModePicker.vue';
 import MonthView from 'src/components/calendar/MonthView.vue';
@@ -19,7 +21,10 @@ import DayView from 'src/components/calendar/DayView.vue';
 import DatePicker from 'src/components/calendar/datePickers/DatePicker.vue';
 import CreateEventButton from 'src/components/calendar/CreateEventButton.vue';
 import { eventDetails } from 'src/stores/eventDetailsStores';
-import { editEventForm } from '../../stores/editEventFormStores';
+import { editEventForm } from 'src/stores/editEventFormStores';
+import { eventData } from 'src/stores/eventStores';
+
+const calendar = new Calendar({ siblingMonths: true, weekNumbers: true });
 
 function toggleEventForm() {
   const startDateTime = new Date();
@@ -32,6 +37,130 @@ function toggleEventForm() {
   eventDetails.isDetailsActive = false;
   editEventForm.isFormActive = false;
 }
+
+const monthDisplayDays = computed(() => {
+  const thisMonth = calendar.getCalendar(
+    selectedDate.dateTime.getFullYear(),
+    selectedDate.dateTime.getMonth()
+  );
+  const nextMonth = calendar.getCalendar(
+    selectedDate.dateTime.getFullYear(),
+    selectedDate.dateTime.getMonth() + 1
+  );
+  if (thisMonth.length === 35) {
+    // If this month only shows 5 weeks, then we need to append the next week to it.
+    const daysToAppend = nextMonth.slice(7, 14);
+    return thisMonth.concat(daysToAppend);
+  }
+  return thisMonth;
+});
+
+const getNumDays = (year, month) => {
+  return new Date(year, month, 0).getDate();
+};
+
+const getMonthViewEvents = (monthViewEvents) => {
+  // This array, eventsArray, will be the same exact shape as the calendar
+  // array from calendar-base.
+  // This will allow us to index into the array using our index in the month view,
+  // without having to recalculate anything. We only need to rebuild this when the selectedDate changes.
+  //
+  // We can also just index into this array to build the week and day arrays.
+  // I know this is fucked but bear with me.
+  const eventsArray = new Array(7 * 6);
+  const startOfMonth = new Date(
+    `` +
+      monthDisplayDays.value[0].year +
+      `-` +
+      (monthDisplayDays.value[0].month + 1) +
+      `-` +
+      monthDisplayDays.value[0].day
+  );
+  const endOfMonth = new Date(
+    `` +
+      monthDisplayDays.value[41].year +
+      `-` +
+      (monthDisplayDays.value[41].month + 1) +
+      `-` +
+      monthDisplayDays.value[41].day
+  );
+  // This part is completely fucked. Basically we need to calculate how many days
+  // are "wrapping around" from the previous month or the next month
+  const thisYear = selectedDate.dateTime.getFullYear();
+  const lastMonth =
+    selectedDate.dateTime.getMonth() <= 0
+      ? selectedDate.dateTime.getMonth() + 12
+      : selectedDate.dateTime.getMonth(); // one indexed
+  console.log('last month: ', lastMonth);
+  const thisMonth = selectedDate.dateTime.getMonth() + 1; // one indexed
+  const nextMonth =
+    selectedDate.dateTime.getMonth() + 2 > 12
+      ? selectedDate.dateTime.getMonth() + 2 - 12
+      : selectedDate.dateTime.getMonth() + 2; // one indexed
+  console.log(nextMonth);
+  const daysInLastMonth = getNumDays(thisYear, lastMonth);
+  const daysInThisMonth = getNumDays(thisYear, thisMonth);
+  var numDaysFromLastMonth = 0;
+  for (var i = 0; i < monthDisplayDays.value.length; i++) {
+    if (monthDisplayDays.value[i].month + 1 === lastMonth) {
+      numDaysFromLastMonth += 1;
+    }
+  }
+  console.log('this many days wrapped from prev month: ', numDaysFromLastMonth);
+  // for every event, check if the endTime of the event comes after the start of the month,
+  // and if the start time comes before the end of the month. If yes to both, then we need it in the
+  // eventsArray
+  eventData.theEvents.forEach((event) => {
+    if (startOfMonth < event.endTime && event.startTime < endOfMonth) {
+      if (event.startTime.getDate() !== event.endTime.getDate()) {
+        // In this corner case, the event starts and ends in different days, so we need to handle the special behavior
+      }
+      var indexIntoNewArray = 0;
+      if (event.startTime.getMonth() + 1 === lastMonth) {
+        // If this event is wrapping from last month
+        indexIntoNewArray =
+          event.startTime.getDate() - (daysInLastMonth - numDaysFromLastMonth + 1);
+      } else if (event.startTime.getMonth() + 1 === thisMonth) {
+        // If this event is from this month
+        indexIntoNewArray = event.startTime.getDate() + numDaysFromLastMonth - 1;
+      } else {
+        // If this event is wrapping from next month
+        indexIntoNewArray = numDaysFromLastMonth + daysInThisMonth + event.startTime.getDate() - 1;
+      }
+      if (indexIntoNewArray >= 0 && indexIntoNewArray <= 41) {
+        if (eventsArray[indexIntoNewArray]) {
+          eventsArray[indexIntoNewArray].push(event);
+        } else {
+          eventsArray[indexIntoNewArray] = [event];
+        }
+      } else {
+        console.log('Error with wraparound event indexing...');
+      }
+    }
+  });
+  console.log('events for this month: ', eventsArray);
+  monthViewEvents.value = eventsArray;
+};
+
+const monthViewEvents = ref([]);
+const weekViewEvents = ref([]);
+
+watch(
+  () => selectedDate.dateTime.getMonth(),
+  () => getMonthViewEvents(monthViewEvents),
+  { immediate: true }
+);
+
+watch(
+  () => {
+    // some function that tests if the selectedDate is in a different week
+  },
+  () => {
+    // some function that builds the weekview events array
+  }
+);
+
+// finally just build dayViewEvents as a computed property
 </script>
 
 <template>

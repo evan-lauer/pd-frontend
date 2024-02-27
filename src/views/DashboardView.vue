@@ -68,7 +68,7 @@ const userEvents = eventData.userEvents();
 .listsContainer,
 .dynamicContainer {
   background: white;
-  border-radius: 8px;
+  border-radius: 5px;
   box-shadow: 0px 0px 4px 0px rgba(0, 0, 0, 0.12);
 }
 </style>

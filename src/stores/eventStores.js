@@ -1,13 +1,12 @@
+import ShortUniqueId from 'short-unique-id';
 import { addEventForm } from 'src/stores/addEventFormStores';
 import { deleteCalendarEvent } from 'src/backend';
 import { editEventForm } from 'src/stores/editEventFormStores';
 import { eventDetails } from 'src/stores/eventDetailsStores';
-import ShortUniqueId from "short-unique-id";
 import { reactive } from 'vue';
 import { selectedDate } from 'src/stores/calendarStores';
 import userStore from 'src/stores/userStore.js';
 import { viewMode } from 'src/stores/calendarStores';
-
 
 // Store for maintaining events, in order to display on
 // calendar
@@ -64,7 +63,6 @@ export const eventData = reactive({
     } else if (viewMode.mode === 'day') {
       eventData.creatingDaysEventArray();
     }
-
   },
 
   deleteEventFromStore: (eventToBeDeletedId) => {
@@ -83,22 +81,22 @@ export const eventData = reactive({
 
   putEventInStore: (theEventId, startTime, endTime, description, title) => {
     const newEvent = {
-        description: description,
-        endTime: endTime,
-        eventId: theEventId,
-        startTime: startTime,
-        title: title,
-        userId: 'test-user'
+      description: description,
+      endTime: endTime,
+      eventId: theEventId,
+      startTime: startTime,
+      title: title,
+      userId: 'test-user'
     };
     eventData.theEvents.push(newEvent);
   },
 
   putEventInBoth: (startTime, endTime, description, title) => {
-    console.log(startTime, endTime, description, title)
+    console.log(startTime, endTime, description, title);
     const uid = new ShortUniqueId({ length: 10 }).rnd();
     editEventForm.putEvent(uid, startTime, endTime, description, title);
     eventData.putEventInStore(uid, startTime, endTime, description, title);
-    console.log(eventData.theEvents)
+    console.log(eventData.theEvents);
   },
 
   //form, but used where?
@@ -126,7 +124,7 @@ export const eventData = reactive({
   editEvent: (eventToBeEditedId, startTime, endTime, description, title) => {
     eventData.translateEventToEditStores(eventToBeEditedId);
     eventData.putEventInBoth(startTime, endTime, description, title);
-    console.log(startTime, endTime, description, title)
+    console.log(startTime, endTime, description, title);
     eventData.deleteEventFromBoth(eventToBeEditedId);
     eventData.refreshEventArray();
   },

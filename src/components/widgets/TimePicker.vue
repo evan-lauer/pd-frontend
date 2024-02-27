@@ -279,13 +279,13 @@ li {
 
 .amOrPm.dropdown {
   position: relative;
-  bottom: 60px;
+  bottom: 33px;
 }
 
 .hours.dropdown,
 .minutes.dropdown {
   position: relative;
-  bottom: 265px;
+  bottom: 135px;
 }
 
 .dropdown {
@@ -310,6 +310,10 @@ li {
   width: 80px;
   display: flex;
   gap: 5px;
+  padding-top: 0.75px;
+  padding-bottom: 0.75px;
+  padding-right: 2px;
+  padding-left: 4px;
   margin-left: 10px;
   background-color: lightgray;
   border-radius: 4px;
@@ -327,12 +331,15 @@ li {
 }
 
 .typography {
+  display: flex;
   margin: 0;
   width: 16px;
   border: none;
   outline: none;
   height: 100%;
   user-select: none;
+  align-items: center;
+  justify-content: center;
 }
 
 .typography:focus {
