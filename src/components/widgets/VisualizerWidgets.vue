@@ -7,14 +7,6 @@ import { ref, computed } from 'vue';
 
 const selectedTabId = ref(null);
 
-const selectedTabItems = computed(() => {
-  if (selectedTabId.value === null) {
-    return null;
-  }
-  console.log('this many items: ', listsData.tabs[selectedTabId.value].items.length);
-  return listsData.tabs[selectedTabId.value].items;
-});
-
 const numCompleteTasks = computed(() => {
   let completedTasks = 0;
   if (selectedTabId.value === null) {
@@ -105,13 +97,33 @@ const eventDuration = (event) => {
   const hours = Math.floor(durationM / 60);
   const minutes = Math.floor(durationM % 60);
 
-  if (minutes > 0) {
-    string = hours + ' hrs ' + minutes + ' mins';
+  if (hours === 0){
+    string = minutes + ' mins'
+  } else if (minutes === 0) {
+    string = hours + ' hrs'
   } else {
-    string = hours + ' hrs';
+    string = hours + ' hrs ' + minutes + ' mins'
   }
   return string;
 };
+
+// returns total number of hours allocated to events for a given day
+function totalEventTime(event_arr) {
+  let res = 0;
+  let str = '';
+  for (let i = 0; i < event_arr.length; i++) {
+    res += (event_arr[i].endTime.getHours() - event_arr[i].startTime.getHours());
+  }
+  str = res === 1 ? 'hour' : 'hours';
+  return res + ' ' + str;
+}
+
+// returns total number of events for a given day
+function totalEventQuantity(event_arr) {
+  let str = '';
+  str = event_arr.length === 1 ? 'event' : 'events';
+  return event_arr.length + ' ' + str;
+}
 
 function upcomingEventChecker() {
   // Checks for upcoming events on the current day
@@ -140,7 +152,7 @@ function upcomingEventChecker() {
       }
       if (eventObject && nextTask) {
         message =
-          'Your next task is ' +
+          'Your next event is ' +
           eventObject.title +
           ' at ' +
           nextTask.toLocaleTimeString(undefined, dateOptions);
@@ -187,10 +199,11 @@ function upcomingEventChecker() {
       </select>
     </div>
     <div class="barContainer">
-      Events on
+      <!-- Events on
       {{ selectedDate.dateTime.toLocaleString('default', { month: 'long' }) }}
       {{ selectedDate.dateTime.getDate() }}
-      {{ selectedDate.dateTime.getFullYear() }}
+      {{ selectedDate.dateTime.getFullYear() }} -->
+      <div style="font-size:14px;">You are busy for {{ totalEventTime(eventData.monthlyEvents[selectedDate.dateTime.getDate()]) }}<br>and you have {{ totalEventQuantity(eventData.monthlyEvents[selectedDate.dateTime.getDate()]) }}</div>
       <div
         class="dayVisualizer"
         v-if="eventData.monthlyEvents[selectedDate.dateTime] !== ''"
@@ -201,9 +214,12 @@ function upcomingEventChecker() {
           :class="index === 0 ? 'firstEventDiv' : 'eventDivs'"
           :style="{ width: getWidth(events) }"
         >
-          <div class="eventNamePopup">{{ events.title }}<br />{{ eventDuration(events) }}</div>
+          <div class="eventNamePopup">
+            {{ events.title }}<br />{{ eventDuration(events) }}
+          </div>
         </div>
       </div>
+      <div style="font-size:12px;font-style:italic;">{{ selectedDate.dateTime.toLocaleString('default', { month: 'long' }) }} {{ selectedDate.dateTime.getDate() }}</div>
     </div>
   </div>
 </template>
@@ -258,7 +274,6 @@ function upcomingEventChecker() {
   font-size: medium;
   text-align: center;
 }
-
 .dropdown {
   display: flex;
   width: auto;

@@ -239,7 +239,7 @@ function rebuildDateObject(dateObject, dateString) {
   justify-content: flex-start;
   flex-direction: row;
   margin-top: 10px;
-  padding-bottom: 15px;
+  padding-bottom: 10px;
 }
 .eventTitle {
   font-weight: bold;
