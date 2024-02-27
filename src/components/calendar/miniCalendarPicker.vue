@@ -134,8 +134,6 @@ const calendar = computed(() => {
 <style>
 .date-picker {
   font-family: Arial, sans-serif;
-  min-width: 100%;
-  min-height: 100%;
 }
 
 .calendar-header {
@@ -161,7 +159,6 @@ const calendar = computed(() => {
 .weekdays div {
   width: calc(100% / 7);
   text-align: center;
-  padding: 5px;
   font-weight: bold;
 }
 

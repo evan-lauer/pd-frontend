@@ -18,7 +18,19 @@ const userStore = reactive({
     // get all the events from the database for the given user
     const res = await axios.request(options);
     if (res.data) {
-      this.events = res.data;
+      const fetchedEvents = res.data.map((event) => {
+        return {
+          startTime: new Date(event.startTime),
+          endTime: new Date(event.endTime),
+          description: event.description,
+          eventId: event.eventId,
+          title: event.title,
+          userId: event.userId
+        };
+      });
+      fetchedEvents.sort((event1, event2) => event1.startTime - event2.startTime);
+      this.events = fetchedEvents;
+      console.log('events data in the store: ', fetchedEvents);
       // console.log(res.data);
     } else {
       console.log(res);

@@ -48,7 +48,7 @@ export const listsData = reactive({
         };
         if (item.itemContent !== undefined) {
           // This really should not happen. If it does we have a potential problem
-          throw new Error('Error, why was the item created before the list?');
+          console.log('Error, why was the item created before the list?');
           // newTabs[item.listId].items.push({
           //   itemId: item.itemId,
           //   itemContent: item.itemContent,
@@ -61,6 +61,7 @@ export const listsData = reactive({
     console.log('This is what the tabs look like when they get put into the listStore: ', newTabs);
     listsData.tabs = newTabs;
     listsData.tabIdArray = newTabIdArray;
+    return;
   },
 
   // Add a new list to the store, and push it to the database
@@ -93,10 +94,9 @@ export const listsData = reactive({
   // Delete a list from the store, and delete it from the database
   deleteList: async (listId) => {
     const extraItemId = listsData.tabs[listId].extraItemId;
-    const itemIdArray =
-      listsData.tabs[listId].items.forEach((item) => {
-        return item.itemId;
-      }) || [];
+    const itemIdArray = listsData.tabs[listId].items.map((item) => {
+      return item.itemId;
+    });
     listsData.tabIdArray = listsData.tabIdArray.filter((id) => id !== listId);
     delete listsData.tabs[listId];
     // We need to delete every entry associated with the list,

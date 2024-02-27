@@ -30,7 +30,6 @@ const displayDays = computed(() => {
   }
   return thisMonth;
 });
-console.log('DISPLAY DAYS', displayDays);
 
 // 1 indexed
 function getDayByIndex(week, day) {
@@ -64,6 +63,15 @@ function prefilledEventForm(weekIndex, dayIndex) {
   addEventForm.endDateTime = endDateTime;
   eventDetails.isDetailsActive = false;
   addEventForm.isFormActive = true;
+}
+
+function isSelectedDate(date) {
+  const timestamp = selectedDate.dateTime;
+  return (
+    date.day === timestamp.getDate() &&
+    date.month === timestamp.getMonth() &&
+    date.year === timestamp.getFullYear()
+  );
 }
 
 userStore.getEvents();
@@ -112,7 +120,16 @@ function renderWeekHeader(week, day) {
       <div
         v-for="day in 7"
         :key="day"
-        :class="'day'"
+        class="day"
+        :class="{ selected: isSelectedDate(getDayByIndex(week, day)) }"
+        @click="
+          updateDayClicked(
+            getDayByIndex(week, day).day,
+            getDayByIndex(week, day).month,
+            getDayByIndex(week, day).year
+          )
+          // upcomingTaskChecker();
+        "
       >
         <div
           class="dayHeader"
@@ -121,12 +138,11 @@ function renderWeekHeader(week, day) {
           {{ renderWeekHeader(week, day) }}
         </div>
         <div
-          :class="
-            getDayByIndex(week, day).month !== selectedDate.dateTime.getMonth()
-              ? `dateNumber lastMonth`
-              : `dateNumber`
-          "
-          :style="isToday(getDayByIndex(week, day)) ? `color: #DD825F; font-weight: bold;` : ``"
+          class="dateNumber"
+          :class="{
+            lastMonth: getDayByIndex(week, day).month !== selectedDate.dateTime.getMonth(),
+            today: isToday(getDayByIndex(week, day))
+          }"
         >
           {{ getDayByIndex(week, day).day }}
         </div>
@@ -146,15 +162,8 @@ function renderWeekHeader(week, day) {
         </div>
 
         <div
-          :class="day === 1 ? `pseudoDay first` : `pseudoDay`"
-          @click="
-            updateDayClicked(
-              getDayByIndex(week, day).day,
-              getDayByIndex(week, day).month,
-              getDayByIndex(week, day).year
-            )
-            // upcomingTaskChecker();
-          "
+          class="pseudoDay"
+          :class="{ first: day === 1 }"
           @dblclick="
             () => {
               prefilledEventForm(week, day);
@@ -193,6 +202,15 @@ function renderWeekHeader(week, day) {
   height: 100%;
   width: 100%;
   position: relative;
+  transition: background 0.1s linear;
+}
+
+.day:hover {
+  background: var(--google-docs-grey);
+}
+
+.day.selected {
+  background: #f0f3f5;
 }
 
 .eventsContainer {
@@ -215,6 +233,7 @@ function renderWeekHeader(week, day) {
   top: 0;
   margin: 10% 0;
   border-right: 1px solid var(--calendar-border-grey);
+  z-index: 5;
 }
 
 .pseudoDay.first {
@@ -227,6 +246,15 @@ function renderWeekHeader(week, day) {
 
 .dateNumber.lastMonth {
   color: #9098a1;
+}
+
+.dateNumber.today {
+  color: #dd825f;
+  font-weight: 500;
+}
+
+.day.selected > .dateNumber {
+  font-weight: 700;
 }
 
 .dayHeader {

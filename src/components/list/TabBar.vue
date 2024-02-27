@@ -72,8 +72,6 @@ const debouncedUpdateTitle = debounce(listsData.updateListTitle, 1000);
               // Otherwise, switch to next tab
               selectedTab.id = listsData.tabIdArray[selectedTabIndex + 1];
             }
-            console.log(selectedTabIndex);
-            console.log('new selected tab: ', selectedTab.id);
           } else {
             selectedTab.id = undefined;
           }
