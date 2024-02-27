@@ -72,6 +72,7 @@ export const eventData = reactive({
   deleteEventFromBoth: (eventToBeDeletedId) => {
     eventData.deleteEventFromStore(eventToBeDeletedId);
     deleteCalendarEvent(eventToBeDeletedId);
+    eventDetails.isDetailsActive = false;
     console.log('Event deleted from backend.');
   },
 
@@ -95,7 +96,6 @@ export const eventData = reactive({
     console.log(eventData.theEvents)
   },
 
-  //form, but used where?
   translateEventToEditStores: (eventToBeEditedId) => {
     const eventToBeEditedArray = eventData.theEvents.filter(
       (anEvent) => anEvent.eventId === eventToBeEditedId
