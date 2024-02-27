@@ -1,81 +1,3 @@
-<template>
-  {{ console.log('find_overlap', find_overlap(eventData.weeklyEvents[22])) }}
-  <div class="weekContainer">
-    <div
-      v-for="day in 7"
-      :key="day"
-      :class="day === 1 ? `weekContainer first` : `weekContainer`"
-    >
-      <div
-        class="rowDisplay"
-        :style="isToday(getDays()[day - 1]) ? `color: #DD825F; font-weight: bold;` : ``"
-      >
-        <div class="rowDisplay">
-          {{ getDays()[day - 1].day }}
-        </div>
-        <div class="rowDisplay dateHeader">
-          {{ getWeekDays(day - 1) }}
-        </div>
-      </div>
-    </div>
-  </div>
-  <div class="contentDiv">
-    <div
-      class="dayContainer"
-      v-for="day in 7"
-      :key="day"
-      :class="day === 1 ? `dayContainer first` : `dayContainer`"
-    >
-      <div class="hourContainer allDayEvents rowDisplay">
-        <div
-          class="eventSymbol"
-          @click="() => eventMethods.displayEvent(eventA)"
-          v-for="eventA of eventData.weeklyEvents[getDays()[day - 1].day]"
-          :key="eventA"
-        >
-          <div v-if="eventA.startTime === eventA.endTime">
-            {{ console.log('starttime', eventA.startTime) }}
-            <EventStar />
-          </div>
-        </div>
-      </div>
-      <div>
-        <div
-          class="eventSymbol eventsContainer"
-          :style="{
-            height: calculate_height(eventA.startTime, eventA.endTime),
-            top: calculate_top(eventA.startTime),
-            zIndex: calculate_z(eventA, eventData.weeklyEvents[getDays()[day - 1].day]),
-            width: calculate_width(eventA, eventData.weeklyEvents[getDays()[day - 1].day])
-          }"
-          @click="() => eventMethods.displayEvent(eventA)"
-          v-for="eventA of eventData.weeklyEvents[getDays()[day - 1].day]"
-          :key="eventA"
-        >
-          <div v-if="eventA.startTime !== eventA.endTime">
-            <!-- <EventStar /> -->
-            <div class="eventDesc boldFont">{{ eventA.title }}</div>
-            <div class="eventDesc">{{ formatTimes(eventA.startTime, eventA.endTime) }}</div>
-          </div>
-        </div>
-      </div>
-      <div
-        class="hourContainer"
-        v-for="(n, i) in 24"
-        :key="n"
-        :class="i === 0 ? `hourContainer first` : `hourContainer`"
-      >
-        <div
-          v-if="day === 1"
-          class="timeStyle"
-        >
-          {{ i }}:00
-        </div>
-      </div>
-    </div>
-  </div>
-</template>
-
 <script setup>
 import { ref, watch, onMounted } from 'vue';
 import { Calendar } from 'calendar-base';
@@ -83,6 +5,7 @@ import userStore from 'src/stores/userStore';
 import { selectedDate } from 'src/stores/calendarStores';
 import { eventData, eventMethods } from 'src/stores/eventStores';
 import EventStar from 'src/components/calendar/events/EventStar.vue';
+import WeekViewEvent from './WeekViewEvent.vue';
 
 const calendar = new Calendar({ siblingMonths: true, weekNumbers: true });
 
@@ -91,13 +14,13 @@ const hourHeight = ref(null);
 const allDayEventsHeight = ref(null);
 
 onMounted(() => {
-  dayWidth.value = document.querySelector('.dayContainer').offsetWidth;
-  console.log('dayContainer width: ', dayWidth.value);
+  dayWidth.value = document.querySelector('.hourContainer').offsetWidth;
+  console.log('hourContainer width: ', dayWidth.value);
   hourHeight.value = document.querySelector('.hourContainer').offsetHeight;
   console.log('hourContainer height: ', hourHeight.value);
   allDayEventsHeight.value = document.querySelector('.allDayEvents').offsetHeight;
-  console.log('allDayEvents height: ', hourHeight.value);
-})
+  console.log('allDayEvents height: ', allDayEventsHeight.value);
+});
 
 function previousMonth() {
   return calendar.getCalendar(
@@ -179,7 +102,7 @@ watch(
   () => selectedDate.dateTime.getMonth(),
   () => {
     displayDays.value = [...previousMonth(), ...currentMonth(), ...nextMonth()];
-    console.log("the selectedDate.dateTime.getMonth() changed value: ", displayDays);
+    console.log('the selectedDate.dateTime.getMonth() changed value: ', displayDays);
   }
 );
 
@@ -194,33 +117,14 @@ watch(
   }
 );
 
-// functions below are for event containers.
-// heights in calculations are hard coded right now, but the basic functionality/reactivity is there.
-// sincerely apologize for the inconvenience.
-
-// height component
-function calculate_height(startTime, endTime) {
-  const start_date = new Date(startTime);
-  const end_date = new Date(endTime);
-  const height = ((end_date.getHours() + end_date.getMinutes() / 60) - (start_date.getHours() + start_date.getMinutes() / 60)) * hourHeight.value;
-  // const height = hourHeight.value * ((end_date.getHours() + end_date.getMinutes() / 60) - (start_date.getHours() + start_date.getMinutes() / 60));
-  return height + 'px';
-}
-// top component
-function calculate_top(startTime) {
-  const date = new Date(startTime);
-  const top_percent = allDayEventsHeight.value + ((date.getHours() + date.getMinutes() / 60) * hourHeight.value);
-  return top_percent + 'px';
-}
-
 // below are for overlapping event case
 
 // helper function for find_overlap function
 function is_overlap(event1, event2) {
-  const event1_start = new Date (event1.startTime).getTime();
-  const event1_end = new Date (event1.endTime).getTime();
-  const event2_start = new Date (event2.startTime).getTime();
-  const event2_end = new Date (event2.endTime).getTime();
+  const event1_start = new Date(event1.startTime).getTime();
+  const event1_end = new Date(event1.endTime).getTime();
+  const event2_start = new Date(event2.startTime).getTime();
+  const event2_end = new Date(event2.endTime).getTime();
   return event1_start < event2_end && event1_end > event2_start;
 }
 
@@ -246,42 +150,67 @@ function find_overlap(event_arr) {
   }
   return res;
 }
-
-function calculate_z(cur_event, event_arr) {
-  const overlap_events = find_overlap(event_arr);
-  for (let i = 0; i < overlap_events.length; i++) {
-    if (overlap_events[i].includes(cur_event)) {
-      return overlap_events[i].indexOf(cur_event);
-    }
-  }
-}
-
-function calculate_width(cur_event, event_arr) {
-  const overlap_events = find_overlap(event_arr);
-  for (let i = 0; i < overlap_events.length; i++) {
-    if (overlap_events[i].includes(cur_event)) {
-      const height = overlap_events[i].indexOf(cur_event) == 0 ? '14' : '7';
-      return height + '%';
-    }
-  }
-}
-
-function formatTimes(startTime, endTime) {
-  const start = new Date(startTime);
-  const end = new Date(endTime);
-  return (
-    start.getHours() +
-    ':' +
-    (start.getMinutes() < 10 ? '0' : '') +
-    start.getMinutes() +
-    '-' +
-    end.getHours() +
-    ':' +
-    (end.getMinutes() < 10 ? '0' : '') +
-    end.getMinutes()
-  );
-}
 </script>
+
+<template>
+  {{ console.log('find_overlap', find_overlap(eventData.weeklyEvents[22])) }}
+  <div class="weekContainer">
+    <div
+      v-for="day in 7"
+      :key="day"
+      :class="day === 1 ? `weekContainer first` : `weekContainer`"
+    >
+      <div
+        class="rowDisplay"
+        :style="isToday(getDays()[day - 1]) ? `color: #DD825F; font-weight: bold;` : ``"
+      >
+        <div class="rowDisplay">
+          {{ getDays()[day - 1].day }}
+        </div>
+        <div class="rowDisplay dateHeader">
+          {{ getWeekDays(day - 1) }}
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="contentDiv">
+    <div
+      class="dayContainer"
+      v-for="day in 7"
+      :key="day"
+      :class="day === 1 ? `dayContainer first` : `dayContainer`"
+    >
+      <div class="allDayEvents rowDisplay">
+        <div
+          class="eventSymbol"
+          @click="() => eventMethods.displayEvent(eventA)"
+          v-for="eventA of eventData.weeklyEvents[getDays()[day - 1].day]"
+          :key="eventA"
+        >
+          <div v-if="eventA.startTime === eventA.endTime">
+            {{ console.log('starttime', eventA.startTime) }}
+            <EventStar />
+          </div>
+        </div>
+      </div>
+      <div>
+        <WeekViewEvent :day="day" />
+      </div>
+      <div
+        v-for="(n, i) in 24"
+        :key="n"
+        :class="i === 0 ? `hourContainer first hour` + i : `hourContainer hour` + i"
+      >
+        <div
+          v-if="day === 1"
+          class="timeStyle"
+        >
+          {{ i }}:00
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
 
 <style scoped>
 .timeStyle {
@@ -315,7 +244,7 @@ function formatTimes(startTime, endTime) {
   border-bottom: var(--calendar-border-grey) 1px solid;
 }
 
-.hourContainer.allDayEvents {
+.allDayEvents {
   height: 10%;
 }
 .contentDiv {
@@ -344,7 +273,7 @@ function formatTimes(startTime, endTime) {
   /* width: 14%; */
   max-width: 14%;
   border-radius: 7px;
-  background-color: #9098A1;
+  background-color: #9098a1;
   position: absolute;
   /* z-index: 1; */
   border: 1px solid aliceblue;

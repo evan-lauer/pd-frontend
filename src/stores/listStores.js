@@ -86,7 +86,8 @@ export const listsData = reactive({
     listsData.tabs[listId].items.push({
       itemId: itemId,
       itemContent: itemContent,
-      timestamp: timestamp
+      timestamp: timestamp,
+      checked: false
     });
     return await putListItem(listId, listTitle, itemId, itemContent, timestamp, false);
   },

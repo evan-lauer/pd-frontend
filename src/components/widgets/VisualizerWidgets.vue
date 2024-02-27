@@ -3,7 +3,7 @@ import { selectedDate } from 'src/stores/calendarStores';
 import { eventData } from 'src/stores/eventStores';
 import { listsData } from 'src/stores/listStores';
 import { GChart } from 'vue-google-charts';
-import { watch, ref, computed } from 'vue';
+import { ref, computed } from 'vue';
 
 const selectedTabId = ref(null);
 
@@ -11,59 +11,48 @@ const selectedTabItems = computed(() => {
   if (selectedTabId.value === null) {
     return null;
   }
+  console.log('this many items: ', listsData.tabs[selectedTabId.value].items.length);
   return listsData.tabs[selectedTabId.value].items;
 });
 
-const calcCompleteTask = () => {
+const numCompleteTasks = computed(() => {
   let completedTasks = 0;
   if (selectedTabId.value === null) {
     return 1;
   } else {
-    for (let i = 0; i < selectedTabItems.value.length; i++) {
-      if (selectedTabItems.value[i].checked === true) {
+    for (let i = 0; i < listsData.tabs[selectedTabId.value].items.length; i++) {
+      if (listsData.tabs[selectedTabId.value].items[i].checked === true) {
         completedTasks++;
       }
     }
   }
+  console.log('taasks completeed', completedTasks);
   return completedTasks;
-};
+});
 
-const calcIncompleteTask = () => {
-  let imcompleteTasks = 0;
+const numIncompleteTasks = computed(() => {
+  let incompleteTasks = 0;
 
   if (selectedTabId.value === null) {
     return 1;
   } else {
-    for (let i = 0; i < selectedTabItems.value.length; i++) {
-      if (selectedTabItems.value[i].checked === false) {
-        imcompleteTasks++;
+    for (let i = 0; i < listsData.tabs[selectedTabId.value].items.length; i++) {
+      if (listsData.tabs[selectedTabId.value].items[i].checked === false) {
+        incompleteTasks++;
       }
     }
   }
-  return imcompleteTasks;
-};
-
-let chartData = [
-  ['Task Name', 'Items'],
-  ['Complete', calcCompleteTask()],
-  ['Incomplete', calcIncompleteTask()]
-];
-
-watch(selectedTabId, () => {
-  if (selectedTabId.value !== null) {
-    calcCompleteTask();
-    calcIncompleteTask();
-    updateChartData();    
-  }
+  console.log('incomplete tasks', incompleteTasks);
+  return incompleteTasks;
 });
 
-const updateChartData = () => {
-  chartData = [
+const chartData = computed(() => {
+  return [
     ['Task Name', 'Items'],
-    ['Complete', calcCompleteTask()],
-    ['Incomplete', calcIncompleteTask()]
+    ['Complete', numCompleteTasks.value],
+    ['Incomplete', numIncompleteTasks.value]
   ];
-};
+});
 
 const chartType = 'PieChart';
 
