@@ -1,6 +1,7 @@
 <script setup>
 defineProps({ checked: Boolean });
 </script>
+
 <template>
   <div class="iconContainer">
     <svg
@@ -29,10 +30,12 @@ defineProps({ checked: Boolean });
     </svg>
   </div>
 </template>
+
 <style scoped>
 .uncheckedIcon,
 .checkedIcon {
   height: 20px;
   width: 20px;
+  fill: #dd825f;
 }
 </style>
