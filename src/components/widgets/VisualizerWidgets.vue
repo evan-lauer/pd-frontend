@@ -7,14 +7,6 @@ import { ref, computed } from 'vue';
 
 const selectedTabId = ref(null);
 
-const selectedTabItems = computed(() => {
-  if (selectedTabId.value === null) {
-    return null;
-  }
-  console.log('this many items: ', listsData.tabs[selectedTabId.value].items.length);
-  return listsData.tabs[selectedTabId.value].items;
-});
-
 const numCompleteTasks = computed(() => {
   let completedTasks = 0;
   if (selectedTabId.value === null) {
@@ -105,10 +97,12 @@ const eventDuration = (event) => {
   const hours = Math.floor(durationM / 60);
   const minutes = Math.floor(durationM % 60);
 
-  if (minutes > 0) {
-    string = hours + ' hrs ' + minutes + ' mins';
+  if (hours === 0){
+    string = minutes + ' mins'
+  } else if (minutes === 0) {
+    string = hours + ' hrs'
   } else {
-    string = hours + ' hrs';
+    string = hours + ' hrs ' + minutes + ' mins'
   }
   return string;
 };
@@ -140,7 +134,7 @@ function upcomingEventChecker() {
       }
       if (eventObject && nextTask) {
         message =
-          'Your next task is ' +
+          'Your next event is ' +
           eventObject.title +
           ' at ' +
           nextTask.toLocaleTimeString(undefined, dateOptions);
@@ -187,10 +181,8 @@ function upcomingEventChecker() {
       </select>
     </div>
     <div class="barContainer">
-      Events on
-      {{ selectedDate.dateTime.toLocaleString('default', { month: 'long' }) }}
-      {{ selectedDate.dateTime.getDate() }}
-      {{ selectedDate.dateTime.getFullYear() }}
+        {{ selectedDate.dateTime.toLocaleString('default', { month: 'long' }) }}
+        {{ selectedDate.dateTime.getDate() }}
       <div
         class="dayVisualizer"
         v-if="eventData.monthlyEvents[selectedDate.dateTime] !== ''"
@@ -201,7 +193,9 @@ function upcomingEventChecker() {
           :class="index === 0 ? 'firstEventDiv' : 'eventDivs'"
           :style="{ width: getWidth(events) }"
         >
-          <div class="eventNamePopup">{{ events.title }}<br />{{ eventDuration(events) }}</div>
+          <div class="eventNamePopup">
+            {{ events.title }}<br />{{ eventDuration(events) }}
+          </div>
         </div>
       </div>
     </div>
@@ -258,7 +252,6 @@ function upcomingEventChecker() {
   font-size: medium;
   text-align: center;
 }
-
 .dropdown {
   display: flex;
   width: auto;

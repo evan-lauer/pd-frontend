@@ -20,7 +20,7 @@ const makeEditable = (tabId) => {
   const tabName = document.getElementById(`tabName-${tabId}`);
   if (tabName) {
     tabName.readOnly = false;
-    tabName.style.borderBottomColor = 'green';
+    tabName.style.borderBottomColor = '#dd825f';
     tabName.style.cursor = 'text';
   }
 };
@@ -107,19 +107,19 @@ const debouncedUpdateTitle = debounce(listsData.updateListTitle, 1000);
   border-left: 2px solid lightgray;
   border-right: 2px solid lightgray;
   height: auto;
-  width: 15%;
+  width: 20%;
   padding: 2px;
   margin-bottom: 5px;
   align-items: center;
+  padding-left: 2px;
 }
 .tabContainer.selected {
   height: 100%;
-  width: auto;
+  width: 160px;
   border-bottom: transparent;
   border-top: 2px solid #dd825f;
   border-left: 2px solid #dd825f;
   border-right: 2px solid #dd825f;
-
 }
 
 .tabName {
@@ -138,6 +138,7 @@ const debouncedUpdateTitle = debounce(listsData.updateListTitle, 1000);
   font-weight: bold;
   font-size: medium;
   height: 85%;
+  width: auto;
   outline: none;
 }
 .tabName:hover {

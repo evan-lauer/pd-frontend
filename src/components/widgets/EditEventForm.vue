@@ -79,7 +79,7 @@ function rebuildDateObject(dateObject, dateString) {
         </span>
         <div class="eventTimes">
           <div class="eventStart">
-            Start Time:
+            <div class="dateText">Start Time:</div>
             <div class="theTime">
               <input
                 class="datePicker"
@@ -107,7 +107,7 @@ function rebuildDateObject(dateObject, dateString) {
             </div>
           </div>
           <div class="eventEnd">
-            End Time:
+            <div class="dateText">End Time:</div>
             <div class="theTime">
               <input
                 class="datePicker end"
@@ -171,6 +171,10 @@ function rebuildDateObject(dateObject, dateString) {
   display: flex;
   justify-content: flex-end;
   margin-top: 5px;
+  gap: 5px;
+}
+.actionButton {
+  height: 20px;
 }
 .saveButton {
   display: flex;
@@ -224,7 +228,7 @@ function rebuildDateObject(dateObject, dateString) {
   justify-content: flex-start;
   flex-direction: row;
   margin-top: 10px;
-  padding-bottom: 15px;
+  padding-bottom: 10px;
 }
 .eventTitle {
   font-weight: bold;
@@ -255,13 +259,40 @@ function rebuildDateObject(dateObject, dateString) {
   padding-left: 10px;
 }
 
-.eventStart {
+.eventStart,
+.eventEnd {
   padding-bottom: 5px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+.dateText {
+  width: 85px;
+}
+
+.datePicker {
+  font-family: arial;
+  background-color: lightgray;
+  border: 0px;
+  height: 20px;
+  width: 95px;
+  display: flex;
+  gap: 5px;
+  padding-top: 0.75px;
+  padding-bottom: 0.75px;
+  padding-right: 2px;
+  padding-left: 4px;
+  border-radius: 4px;
+  justify-content: center;
+
 }
 
 .theTime {
-  font-weight: normal;
   display: flex;
+  font-weight: normal;
+  font-family: Arial;
+  align-items: center;
+  text-align: center;
 }
 
 .eventNameInput {
@@ -293,4 +324,5 @@ function rebuildDateObject(dateObject, dateString) {
 .descriptionInput::placeholder {
   font-size: small;
 }
+
 </style>
