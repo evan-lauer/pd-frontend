@@ -171,8 +171,7 @@ function getDays() {
     :style="{
       height: calculate_height(eventA.startTime, eventA.endTime),
       top: calculate_top(eventA.startTime),
-      zIndex: calculate_z(eventA, eventData.weeklyEvents[getDays()[day - 1].day]),
-      width: calculate_width(eventA, eventData.weeklyEvents[getDays()[day - 1].day])
+      zIndex: calculate_z(eventA, eventData.weeklyEvents[getDays()[day - 1].day])
     }"
     @click="() => eventMethods.displayEvent(eventA)"
     v-for="eventA of eventData.weeklyEvents[getDays()[day - 1].day]"
@@ -181,20 +180,24 @@ function getDays() {
     <div v-if="eventA.startTime !== eventA.endTime">
       <!-- <EventStar /> -->
       <div class="eventDesc boldFont">{{ eventA.title }}</div>
-      <div class="eventDesc">{{ formatTimes(eventA.startTime, eventA.endTime) }}</div>
+      <div class="eventDesc">{{ eventA.description }}</div>
     </div>
   </div>
 </template>
 <style scoped>
 .eventsContainer {
-  /* width: 14%; */
+  width: 14%;
   max-width: 14%;
   border-radius: 7px;
   background-color: #c3d7ca;
   position: absolute;
   /* z-index: 1; */
   border: 1px solid aliceblue;
-  overflow-y: auto;
+  transition: background-color 0.1s linear;
+}
+
+.eventsContainer:hover {
+  background-color: #a4bcad;
 }
 
 .eventDesc {
@@ -204,6 +207,8 @@ function getDays() {
   padding-left: 5px;
   width: 80%;
   overflow: hidden;
+  text-wrap: nowrap;
+  text-overflow: ellipsis;
 }
 
 .boldFont {

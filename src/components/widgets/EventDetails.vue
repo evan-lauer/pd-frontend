@@ -8,7 +8,7 @@ const timeOptions = {
   hour: 'numeric',
   minute: 'numeric',
   hour12: true
-}
+};
 </script>
 
 <template>
@@ -36,7 +36,6 @@ const timeOptions = {
             <div class="theTime">
               {{ eventDetails.startDateTime.toDateString() }} at
               {{ eventDetails.startDateTime.toLocaleTimeString(undefined, timeOptions) }}
-
             </div>
           </div>
           <div class="eventEnd">
@@ -137,8 +136,8 @@ const timeOptions = {
 }
 .eventNotes {
   padding-left: 10px;
-  overflow-y: scroll;
-  max-height: 25px;
+  overflow-y: auto;
+  max-height: 75px;
 }
 
 .eventDateRange {

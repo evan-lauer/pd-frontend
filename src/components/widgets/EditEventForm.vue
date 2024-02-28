@@ -275,7 +275,6 @@ function rebuildDateObject(dateObject, dateString) {
   background-color: lightgray;
   border: 0px;
   height: 20px;
-  width: 95px;
   display: flex;
   gap: 5px;
   padding-top: 0.75px;
@@ -284,7 +283,6 @@ function rebuildDateObject(dateObject, dateString) {
   padding-left: 4px;
   border-radius: 4px;
   justify-content: center;
-
 }
 
 .theTime {
@@ -324,5 +322,4 @@ function rebuildDateObject(dateObject, dateString) {
 .descriptionInput::placeholder {
   font-size: small;
 }
-
 </style>

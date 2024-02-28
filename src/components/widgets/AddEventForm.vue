@@ -286,7 +286,6 @@ function rebuildDateObject(dateObject, dateString) {
   background-color: lightgray;
   border: 0px;
   height: 20px;
-  width: 95px;
   display: flex;
   gap: 5px;
   padding-top: 0.75px;

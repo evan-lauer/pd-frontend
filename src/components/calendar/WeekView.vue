@@ -265,28 +265,4 @@ function find_overlap(event_arr) {
 .times {
   font-size: 13px;
 }
-
-.eventsContainer {
-  /* width: 14%; */
-  max-width: 14%;
-  border-radius: 7px;
-  background-color: #9098a1;
-  position: absolute;
-  /* z-index: 1; */
-  border: 1px solid aliceblue;
-  overflow-y: auto;
-}
-
-.eventDesc {
-  font-size: 10px;
-  padding-bottom: 5px;
-  padding-top: 5px;
-  padding-left: 5px;
-  width: 80%;
-  overflow: hidden;
-}
-
-.boldFont {
-  font-weight: bold;
-}
 </style>

@@ -275,18 +275,19 @@ li {
 
 .field.selected > .typography {
   background: rgba(88, 131, 122, 0.3);
-  
 }
 
 .amOrPm.dropdown {
   position: relative;
   bottom: 33px;
+  left: -17px;
 }
 
 .hours.dropdown,
 .minutes.dropdown {
   position: relative;
   bottom: 135px;
+  left: -13px;
 }
 
 .dropdown {
@@ -340,7 +341,6 @@ li {
   height: 100%;
   user-select: none;
   align-items: center;
-  justify-content: center;
 }
 
 .typography:focus {
