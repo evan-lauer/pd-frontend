@@ -1,5 +1,5 @@
 <script setup>
-import { selectedDate } from 'src/stores/calendarStores';
+import { viewMode, selectedDate } from 'src/stores/calendarStores';
 import { eventData } from 'src/stores/eventStores';
 import { listsData } from 'src/stores/listStores';
 import { GChart } from 'vue-google-charts';
@@ -108,7 +108,15 @@ const eventDuration = (event) => {
 };
 
 // returns total number of hours allocated to events for a given day
-function totalEventTime(event_arr) {
+function totalEventTime(selected_date) {
+  let event_arr;
+  if (viewMode.mode === 'month') {
+    event_arr = eventData.monthlyEvents[selected_date];
+  } else if (viewMode.mode === 'week') {
+    event_arr = eventData.weeklyEvents[selected_date];
+  } else {
+    event_arr = eventData.dailyEvents[selected_date];
+  }
   let res = 0;
   let str = '';
   for (let i = 0; i < event_arr.length; i++) {
@@ -119,10 +127,30 @@ function totalEventTime(event_arr) {
 }
 
 // returns total number of events for a given day
-function totalEventQuantity(event_arr) {
+function totalEventQuantity(selected_date) {
+  let event_arr;
+  if (viewMode.mode === 'month') {
+    event_arr = eventData.monthlyEvents[selected_date];
+  } else if (viewMode.mode === 'week') {
+    event_arr = eventData.weeklyEvents[selected_date];
+  } else {
+    event_arr = eventData.dailyEvents[selected_date];
+  }
   let str = '';
   str = event_arr.length === 1 ? 'event' : 'events';
   return event_arr.length + ' ' + str;
+}
+
+function viewArray(selected_date) {
+  let event_arr;
+  if (viewMode.mode === 'month') {
+    event_arr = eventData.monthlyEvents[selected_date];
+  } else if (viewMode.mode === 'week') {
+    event_arr = eventData.weeklyEvents[selected_date];
+  } else {
+    event_arr = eventData.dailyEvents[selected_date];
+  }
+  return event_arr;
 }
 
 function upcomingEventChecker() {
@@ -203,13 +231,13 @@ function upcomingEventChecker() {
       {{ selectedDate.dateTime.toLocaleString('default', { month: 'long' }) }}
       {{ selectedDate.dateTime.getDate() }}
       {{ selectedDate.dateTime.getFullYear() }} -->
-      <div style="font-size:14px;">You are busy for {{ totalEventTime(eventData.monthlyEvents[selectedDate.dateTime.getDate()]) }}<br>and you have {{ totalEventQuantity(eventData.monthlyEvents[selectedDate.dateTime.getDate()]) }}</div>
+      <div style="font-size:14px;">You are busy for {{ totalEventTime(selectedDate.dateTime.getDate()) }}<br>and you have {{ totalEventQuantity(selectedDate.dateTime.getDate()) }}</div>
       <div
         class="dayVisualizer"
         v-if="eventData.monthlyEvents[selectedDate.dateTime] !== ''"
       >
         <div
-          v-for="(events, index) in eventData.monthlyEvents[selectedDate.dateTime.getDate()]"
+          v-for="(events, index) in viewArray(selectedDate.dateTime.getDate())"
           :key="index"
           :class="index === 0 ? 'firstEventDiv' : 'eventDivs'"
           :style="{ width: getWidth(events) }"
