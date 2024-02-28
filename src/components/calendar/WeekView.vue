@@ -5,7 +5,7 @@ import userStore from 'src/stores/userStore';
 import { selectedDate } from 'src/stores/calendarStores';
 import { eventData, eventMethods } from 'src/stores/eventStores';
 import EventStar from 'src/components/calendar/events/EventStar.vue';
-import WeekViewEvent from './WeekViewEvent.vue';
+// import WeekViewEvent from './WeekViewEvent.vue';
 
 const calendar = new Calendar({ siblingMonths: true, weekNumbers: true });
 

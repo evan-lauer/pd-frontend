@@ -113,6 +113,24 @@ const eventDuration = (event) => {
   return string;
 };
 
+// returns total number of hours allocated to events for a given day
+function totalEventTime(event_arr) {
+  let res = 0;
+  let str = '';
+  for (let i = 0; i < event_arr.length; i++) {
+    res += (event_arr[i].endTime.getHours() - event_arr[i].startTime.getHours());
+  }
+  str = res === 1 ? 'hour' : 'hours';
+  return res + ' ' + str;
+}
+
+// returns total number of events for a given day
+function totalEventQuantity(event_arr) {
+  let str = '';
+  str = event_arr.length === 1 ? 'event' : 'events';
+  return event_arr.length + ' ' + str;
+}
+
 function upcomingEventChecker() {
   // Checks for upcoming events on the current day
   let message = 'No upcoming events today!';
@@ -187,10 +205,11 @@ function upcomingEventChecker() {
       </select>
     </div>
     <div class="barContainer">
-      Events on
+      <!-- Events on
       {{ selectedDate.dateTime.toLocaleString('default', { month: 'long' }) }}
       {{ selectedDate.dateTime.getDate() }}
-      {{ selectedDate.dateTime.getFullYear() }}
+      {{ selectedDate.dateTime.getFullYear() }} -->
+      <div style="font-size:14px;">You are busy for {{ totalEventTime(eventData.monthlyEvents[selectedDate.dateTime.getDate()]) }}<br>and you have {{ totalEventQuantity(eventData.monthlyEvents[selectedDate.dateTime.getDate()]) }}</div>
       <div
         class="dayVisualizer"
         v-if="eventData.monthlyEvents[selectedDate.dateTime] !== ''"
@@ -204,6 +223,7 @@ function upcomingEventChecker() {
           <div class="eventNamePopup">{{ events.title }}<br />{{ eventDuration(events) }}</div>
         </div>
       </div>
+      <div style="font-size:12px;font-style:italic;">{{ selectedDate.dateTime.toLocaleString('default', { month: 'long' }) }} {{ selectedDate.dateTime.getDate() }}</div>
     </div>
   </div>
 </template>
