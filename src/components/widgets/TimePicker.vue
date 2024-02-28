@@ -275,6 +275,7 @@ li {
 
 .field.selected > .typography {
   background: rgba(88, 131, 122, 0.3);
+  
 }
 
 .amOrPm.dropdown {
