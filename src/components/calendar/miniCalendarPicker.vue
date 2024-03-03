@@ -7,7 +7,6 @@ import LeftChevron from 'src/components/icons/LeftChevron.vue';
 import RightChevron from 'src/components/icons/RightChevron.vue';
 
 const newDate = ref(null);
-
 const currentMonth = computed(() => {
   return selectedDate.dateTime.toLocaleString('default', { month: 'long', year: 'numeric' });
 });
@@ -32,11 +31,9 @@ const isToday = (date) => {
   return date === today.toISOString().split('T')[0];
 };
 
-// TODO: Fix this so that the selectedDate is selected
-// but you have to do the toISOString thing and you can't break the time zone sooooo
+//Returns true if date is the date that has been selected. This does not have anything to do with selectedDate.
 const isSelected = (date) => {
-  console.log(date);
-  return date === selectedDate.dateTime.toISOString;
+  return date === newDate.value;
 };
 
 const selectDate = (date) => {
@@ -92,6 +89,7 @@ const calendar = computed(() => {
   }
   return days;
 });
+
 </script>
 
 <template>
@@ -130,7 +128,8 @@ const calendar = computed(() => {
     </div>
   </div>
 </template>
-
+<script>
+</script>
 <style>
 .date-picker {
   font-family: Arial, sans-serif;
@@ -168,7 +167,12 @@ const calendar = computed(() => {
   flex-direction: column;
   justify-content: right;
 }
-
+.dayMiniPicker:empty {
+  pointer-events: none;
+}
+.dayMiniPicker:hover{
+  background-color: var(--primary-hover);
+}
 .days .week {
   display: flex;
   flex-direction: row;

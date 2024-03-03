@@ -47,6 +47,7 @@ defineProps({
   height: 15px;
 }
 .w-6:hover {
-  color:#58837a;
+  color:var(--primary-hover);
 }
+
 </style>
