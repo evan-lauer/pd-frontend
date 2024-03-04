@@ -58,12 +58,6 @@ function formatTimes(startTime, endTime) {
   </div>
   <div class="contentDiv">
     <div
-      class="dayContainer"
-      v-for="day in 1"
-      :key="day"
-      :class="day === 1 ? `dayContainer first` : `dayContainer`"
-    >
-      <div
         class="eventSymbol eventsContainer"
         :style="{
           height: calculate_height(eventA.startTime, eventA.endTime),
@@ -79,6 +73,12 @@ function formatTimes(startTime, endTime) {
           <div class="eventDesc">{{ formatTimes(eventA.startTime, eventA.endTime) }}</div>
         </div>
       </div>
+    <div
+      class="dayContainer"
+      v-for="day in 1"
+      :key="day"
+      :class="day === 1 ? `dayContainer first` : `dayContainer`"
+    >
       <div
         class="hourContainer"
         v-for="hour in 24"
@@ -94,6 +94,7 @@ function formatTimes(startTime, endTime) {
           :id="halfHour - 1"
           :class="halfHour === 1 ? `halfHourContainer first` : `halfHourContainer`"
         ></div>
+
       </div>
     </div>
   </div>
@@ -146,10 +147,13 @@ function formatTimes(startTime, endTime) {
   float: center;
 }
 .eventsContainer {
+  /* width: 14%; */
   border-radius: 7px;
-  background-color: gray;
-  position: absolute;
-  z-index: 1;
+  background-color: #9098A1;
+  position: relative;
+  z-index: 2;
+  border: 1px solid aliceblue;
+  overflow-y: auto;
 }
 
 .eventDesc {
