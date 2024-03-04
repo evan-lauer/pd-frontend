@@ -119,8 +119,11 @@ function totalEventTime(selected_date) {
   }
   let res = 0;
   let str = '';
-  for (let i = 0; i < event_arr.length; i++) {
-    res += (event_arr[i].endTime.getHours() - event_arr[i].startTime.getHours());
+    console.log("event arary is " + event_arr)
+  if (event_arr) {
+    for (let i = 0; i < event_arr.length; i++) {
+      res += (event_arr[i].endTime.getHours() - event_arr[i].startTime.getHours());
+    }
   }
   str = res === 1 ? 'hour' : 'hours';
   return res + ' ' + str;
@@ -136,9 +139,12 @@ function totalEventQuantity(selected_date) {
   } else {
     event_arr = eventData.dailyEvents[selected_date];
   }
-  let str = '';
-  str = event_arr.length === 1 ? 'event' : 'events';
-  return event_arr.length + ' ' + str;
+  let str = '0 events';
+  if (event_arr) {
+    str = event_arr.length === 1 ? 'event' : 'events';
+    return event_arr.length + ' ' + str;
+  }
+  return str;
 }
 
 function viewArray(selected_date) {
