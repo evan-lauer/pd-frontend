@@ -30,7 +30,6 @@ const userStore = reactive({
       });
       fetchedEvents.sort((event1, event2) => event1.startTime - event2.startTime);
       this.events = fetchedEvents;
-      console.log('events data in the store: ', fetchedEvents);
       // console.log(res.data);
     } else {
       console.log(res);

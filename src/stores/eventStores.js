@@ -159,20 +159,31 @@ export const eventData = reactive({
   creatingWeeksEventArray: () => {
     eventData.reset();
     const day = selectedDate.dateTime.getDate();
-    console.log("The selected date at the time of weeks array call: ", day);
-    const endDate = new Date(selectedDate.dateTime.getFullYear(), selectedDate.dateTime.getMonth(), selectedDate.dateTime.getDate(), 23,59,59,999);
-    const startDate = new Date(endDate.getFullYear(), endDate.getMonth(), endDate.getDate(), 0, 0, 0,0);
+    const endDate = new Date(
+      selectedDate.dateTime.getFullYear(),
+      selectedDate.dateTime.getMonth(),
+      selectedDate.dateTime.getDate(),
+      23,
+      59,
+      59,
+      999
+    );
+    const startDate = new Date(
+      endDate.getFullYear(),
+      endDate.getMonth(),
+      endDate.getDate(),
+      0,
+      0,
+      0,
+      0
+    );
     startDate.setDate(startDate.getDate() - 6);
-
-    console.log("This is the start date: ", startDate);
-    console.log("This is the end date: ", endDate );
 
     for (const item of eventData.theEvents) {
       const date = new Date(item['startTime']);
       const eventMonth = date.getMonth();
       const eventYear = date.getFullYear();
       const eventDate = date.getDate();
-      console.log("This the events start time, to be compared: ", date);
       if (startDate <= date && date <= endDate) {
         const eventDay = date.getDay();
         if (!(eventDate in eventData.weeklyEvents)) {
@@ -181,7 +192,6 @@ export const eventData = reactive({
         eventData.weeklyEvents[eventDate].push(item);
       }
     }
-    console.log('Weeks Events Array: ', eventData.weeklyEvents);
   },
 
   creatingDaysEventArray: () => {

@@ -76,7 +76,6 @@ function isSelectedDate(date) {
 
 userStore.getEvents();
 eventData.creatingMonthsEventArray();
-console.log('month events:', eventData.monthlyEvents);
 
 watch(
   () => selectedDate.dateTime.getMonth(),

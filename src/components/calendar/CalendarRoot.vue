@@ -91,13 +91,11 @@ const getMonthViewEvents = (monthViewEvents) => {
     selectedDate.dateTime.getMonth() <= 0
       ? selectedDate.dateTime.getMonth() + 12
       : selectedDate.dateTime.getMonth(); // one indexed
-  console.log('last month: ', lastMonth);
   const thisMonth = selectedDate.dateTime.getMonth() + 1; // one indexed
   const nextMonth =
     selectedDate.dateTime.getMonth() + 2 > 12
       ? selectedDate.dateTime.getMonth() + 2 - 12
       : selectedDate.dateTime.getMonth() + 2; // one indexed
-  console.log(nextMonth);
   const daysInLastMonth = getNumDays(thisYear, lastMonth);
   const daysInThisMonth = getNumDays(thisYear, thisMonth);
   var numDaysFromLastMonth = 0;
@@ -106,7 +104,6 @@ const getMonthViewEvents = (monthViewEvents) => {
       numDaysFromLastMonth += 1;
     }
   }
-  console.log('this many days wrapped from prev month: ', numDaysFromLastMonth);
   // for every event, check if the endTime of the event comes after the start of the month,
   // and if the start time comes before the end of the month. If yes to both, then we need it in the
   // eventsArray
@@ -138,7 +135,6 @@ const getMonthViewEvents = (monthViewEvents) => {
       }
     }
   });
-  console.log('events for this month: ', eventsArray);
   monthViewEvents.value = eventsArray;
 };
 

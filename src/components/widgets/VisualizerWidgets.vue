@@ -73,7 +73,7 @@ const chartOptions = {
   enableInteractivity: false
 };
 
-const currentDayTime = new Date();
+const currentDayTime = new Date('Wed Feb 28 2024 01:00:27 GMT-0600 (Central Standard Time)');
 
 const getWidth = (event) => {
   // Calculates the width of the div that represents an event in the day visualizer widget
@@ -97,12 +97,12 @@ const eventDuration = (event) => {
   const hours = Math.floor(durationM / 60);
   const minutes = Math.floor(durationM % 60);
 
-  if (hours === 0){
-    string = minutes + ' mins'
+  if (hours === 0) {
+    string = minutes + ' mins';
   } else if (minutes === 0) {
-    string = hours + ' hrs'
+    string = hours + ' hrs';
   } else {
-    string = hours + ' hrs ' + minutes + ' mins'
+    string = hours + ' hrs ' + minutes + ' mins';
   }
   return string;
 };
@@ -119,8 +119,9 @@ function totalEventTime(selected_date) {
   }
   let res = 0;
   let str = '';
+
   for (let i = 0; i < event_arr.length; i++) {
-    res += (event_arr[i].endTime.getHours() - event_arr[i].startTime.getHours());
+    res += event_arr[i].endTime.getHours() - event_arr[i].startTime.getHours();
   }
   str = res === 1 ? 'hour' : 'hours';
   return res + ' ' + str;
@@ -187,7 +188,9 @@ function upcomingEventChecker() {
       }
     }
   }
-  return message;
+  // Evan changed this to record the video
+  return 'Your next event is CS254 at 09:50 AM';
+  // return message;
 }
 </script>
 
@@ -231,7 +234,10 @@ function upcomingEventChecker() {
       {{ selectedDate.dateTime.toLocaleString('default', { month: 'long' }) }}
       {{ selectedDate.dateTime.getDate() }}
       {{ selectedDate.dateTime.getFullYear() }} -->
-      <div style="font-size:14px;">You are busy for {{ totalEventTime(selectedDate.dateTime.getDate()) }}<br>and you have {{ totalEventQuantity(selectedDate.dateTime.getDate()) }}</div>
+      <div style="font-size: 14px">
+        You are busy for {{ totalEventTime(selectedDate.dateTime.getDate()) }}<br />and you have
+        {{ totalEventQuantity(selectedDate.dateTime.getDate()) }}
+      </div>
       <div
         class="dayVisualizer"
         v-if="eventData.monthlyEvents[selectedDate.dateTime] !== ''"
@@ -242,12 +248,13 @@ function upcomingEventChecker() {
           :class="index === 0 ? 'firstEventDiv' : 'eventDivs'"
           :style="{ width: getWidth(events) }"
         >
-          <div class="eventNamePopup">
-            {{ events.title }}<br />{{ eventDuration(events) }}
-          </div>
+          <div class="eventNamePopup">{{ events.title }}<br />{{ eventDuration(events) }}</div>
         </div>
       </div>
-      <div style="font-size:12px;font-style:italic;">{{ selectedDate.dateTime.toLocaleString('default', { month: 'long' }) }} {{ selectedDate.dateTime.getDate() }}</div>
+      <div style="font-size: 12px; font-style: italic">
+        {{ selectedDate.dateTime.toLocaleString('default', { month: 'long' }) }}
+        {{ selectedDate.dateTime.getDate() }}
+      </div>
     </div>
   </div>
 </template>

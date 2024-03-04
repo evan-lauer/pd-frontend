@@ -14,11 +14,8 @@ const allDayEventsHeight = ref(null);
 
 onMounted(() => {
   dayWidth.value = document.querySelector('.hourContainer').offsetWidth;
-  console.log('hourContainer width: ', dayWidth.value);
   hourHeight.value = document.querySelector('.hourContainer').offsetHeight;
-  console.log('hourContainer height: ', hourHeight.value);
   allDayEventsHeight.value = document.querySelector('.allDayEvents').offsetHeight;
-  console.log('allDayEvents height: ', allDayEventsHeight.value);
 });
 
 function previousMonth() {
@@ -150,7 +147,6 @@ function find_overlap(event_arr) {
 </script>
 
 <template>
-  {{ console.log('find_overlap', find_overlap(eventData.weeklyEvents[22])) }}
   <div class="weekContainer">
     <div
       v-for="day in 7"
