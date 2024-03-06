@@ -246,6 +246,10 @@ function find_overlap(event_arr) {
   height: 95.5%;
 }
 
+::-webkit-scrollbar-track {
+  width: 10px;
+}
+
 .hourContainer.first {
   border-top: var(--calendar-border-grey) 1px solid;
 }
