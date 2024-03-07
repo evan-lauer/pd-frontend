@@ -165,7 +165,7 @@ export const eventData = reactive({
   // },
   creatingWeeksEventArray: () => {
     eventData.reset();
-    const res = selectedDate.dateTime;
+    const res = new Date(selectedDate.dateTime);
     if (res.getDay() !== 6) {
       res.setDate(res.getDate() + (6 - res.getDay()))
     }
