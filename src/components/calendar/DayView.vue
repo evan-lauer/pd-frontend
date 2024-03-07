@@ -84,6 +84,7 @@ watch(
   z-index: 1;
   top: 5%;
   left: 1%;
+  font-size: small;
 }
 .halfHourContainer.first {
   height: 50%;

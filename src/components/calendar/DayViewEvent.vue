@@ -192,9 +192,9 @@ function getDays() {
     border-radius: 7px;
     background-color: #c3d7ca;
     position: absolute;
-    /* z-index: 1; */
     border: 1px solid aliceblue;
     transition: background-color 0.1s linear;
+    left: 50px;
   }
 
   .eventsContainer:hover {
