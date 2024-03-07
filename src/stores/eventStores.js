@@ -156,13 +156,23 @@ export const eventData = reactive({
       }
     }
   },
+  // setEndDate: () => {
+  //   const res = selectedDate.dateTime;
+  //   if (res.getDay() !== 6) {
+  //     res.setDate(res.getDate() + (6 - res.getDay()))
+  //   }
+  //   return res;
+  // },
   creatingWeeksEventArray: () => {
     eventData.reset();
-    const day = selectedDate.dateTime.getDate();
+    const res = selectedDate.dateTime;
+    if (res.getDay() !== 6) {
+      res.setDate(res.getDate() + (6 - res.getDay()))
+    }
     const endDate = new Date(
-      selectedDate.dateTime.getFullYear(),
-      selectedDate.dateTime.getMonth(),
-      selectedDate.dateTime.getDate(),
+      res.getFullYear(),
+      res.getMonth(),
+      res.getDate(),
       23,
       59,
       59,
