@@ -58,8 +58,39 @@ const debouncedUpdateTitle = debounce(listsData.updateListTitle, 1000);
       @focusout="makeReadOnly(tabId)"
       readonly
     />
-    <button
-      :class="selectedTab.id === tabId ? `deleteButton focus` : `deleteButton`"
+    <span
+      :class="
+        selectedTab.id === tabId
+          ? `material-symbols-outlined delete focus`
+          : `material-symbols-outlined close`
+      "
+      @click="
+        () => {
+          const tabToDelete = selectedTab.id;
+          if (listsData.tabIdArray.length > 1) {
+            const selectedTabIndex = listsData.tabIdArray.findIndex((id) => id === tabToDelete);
+            if (selectedTabIndex === listsData.tabIdArray.length - 1) {
+              // If last tab, switch to previous tab
+              selectedTab.id = listsData.tabIdArray[selectedTabIndex - 1];
+            } else {
+              // Otherwise, switch to next tab
+              selectedTab.id = listsData.tabIdArray[selectedTabIndex + 1];
+            }
+          } else {
+            selectedTab.id = undefined;
+          }
+          listsData.deleteList(tabToDelete);
+        }
+      "
+    >
+      close
+    </span>
+    <!-- <button
+      :class="
+        selectedTab.id === tabId
+          ? `material-symbols-outlined close focus`
+          : `material-symbols-outlined close`
+      "
       @click="
         () => {
           const tabToDelete = selectedTab.id;
@@ -80,20 +111,20 @@ const debouncedUpdateTitle = debounce(listsData.updateListTitle, 1000);
       "
     >
       ×
-    </button>
+    </button> -->
   </div>
 
   <div v-if="listsData.tabIdArray.length < 10">
-    <button
-      class="tabAddButton"
+    <span
+      class="material-symbols-outlined add"
       @click="
         () => {
           listsData.createList('');
         }
       "
     >
-      +
-    </button>
+      add
+    </span>
   </div>
 </template>
 
@@ -144,26 +175,41 @@ const debouncedUpdateTitle = debounce(listsData.updateListTitle, 1000);
   cursor: pointer;
 }
 
-.deleteButton {
+.material-symbols-outlined.close {
   display: none;
 }
 
-.deleteButton.focus {
-  display: flex;
+.material-symbols-outlined.delete.focus {
+  color: #344f49;
+  transition: transform 0.3s ease;
+  /* display: flex;
   align-items: right;
   border-radius: 20px;
   border: 1px solid transparent;
   font-size: small;
-  margin: 4px;
+  margin: 4px; */
 }
 
-.deleteButton.focus:hover {
-  border-radius: 20px;
-  background-color: rgb(221, 221, 221);
+.material-symbols-outlined.delete.focus:hover {
   cursor: pointer;
+  transform: scale(1.1);
+  border-radius: 50px;
+  background-color: rgba(167, 187, 183, 0.3);
 }
 
-.tabAddButton {
+.material-symbols-outlined.add {
+  color: #344f49;
+  transition: transform 0.3s ease;
+}
+
+.material-symbols-outlined.add:hover {
+  cursor: pointer;
+  transform: scale(1.1);
+  border-radius: 50px;
+  background-color: rgba(167, 187, 183, 0.3);
+}
+
+/* .tabAddButton {
   display: flex;
   vertical-align: right;
   border-radius: 20px;
@@ -171,9 +217,13 @@ const debouncedUpdateTitle = debounce(listsData.updateListTitle, 1000);
   border: 0px;
   font-size: large;
   margin: 6px;
+  color: #344f49;
+  transition: transform 0.3s ease;
 }
 .tabAddButton:hover {
   cursor: pointer;
-  background-color: rgb(221, 221, 221);
-}
+  transform: scale(1.1);
+  border-radius: 50px;
+  background-color: rgba(167, 187, 183, 0.3);
+} */
 </style>

@@ -164,7 +164,16 @@ watch(
     <DatePicker />
     <div class="rightJustifiedInputs">
       <ModePicker />
-      <CreateEventButton @click="toggleEventForm()" />
+      <span
+        class="material-symbols-outlined add"
+        @click="toggleEventForm()"
+      >
+        add
+      </span>
+      <!-- <CreateEventButton
+        class="createEventButton"
+        @click="toggleEventForm()"
+      /> -->
     </div>
   </div>
   <div class="content">
@@ -190,5 +199,29 @@ watch(
 
 .content {
   height: 85%;
+}
+
+.material-symbols-outlined.add {
+  color: #344f49;
+  transition: transform 0.3s ease;
+}
+
+.material-symbols-outlined.add:hover {
+  cursor: pointer;
+  transform: scale(1.1);
+  border-radius: 50px;
+  background-color: rgba(167, 187, 183, 0.3);
+}
+
+.createEventButton {
+  color: #344f49;
+  transition: transform 0.3s ease;
+}
+
+.createEventButton:hover {
+  cursor: pointer;
+  transform: scale(1.1);
+  border-radius: 50px;
+  background-color: rgba(167, 187, 183, 0.3);
 }
 </style>
