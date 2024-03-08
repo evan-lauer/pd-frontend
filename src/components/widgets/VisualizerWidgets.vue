@@ -192,9 +192,7 @@ function upcomingEventChecker() {
       }
     }
   }
-  // Evan changed this to record the video
-  return 'Your next event is CS254 at 09:50 AM';
-  // return message;
+  return message;
 }
 </script>
 

@@ -4,6 +4,7 @@ import { selectedDate } from 'src/stores/calendarStores';
 import userStore from 'src/stores/userStore';
 import { eventData, eventMethods } from 'src/stores/eventStores';
 import miniCalendarPicker from 'src/components/calendar/miniCalendarPicker.vue';
+import DayViewEvent from './DayViewEvent.vue'
 
 userStore.getEvents();
 eventData.creatingDaysEventArray();
@@ -15,37 +16,6 @@ watch(
     eventData.creatingDaysEventArray();
   }
 );
-
-// for event containers, functions from week view; all hard coded for now, numbers may differ
-// depending on heights of hour containers
-function calculate_height(startTime, endTime) {
-  const start_date = new Date(startTime);
-  const end_date = new Date(endTime);
-  const height = (end_date.getHours() - start_date.getHours()) * 48;
-  return height + 'px';
-}
-
-function calculate_top(startTime) {
-  const date = new Date(startTime);
-  const top_percent = 24 + date.getHours() * 51;
-  return top_percent + 'px';
-}
-
-function formatTimes(startTime, endTime) {
-  const start = new Date(startTime);
-  const end = new Date(endTime);
-  return (
-    start.getHours() +
-    ':' +
-    (start.getMinutes() < 10 ? '0' : '') +
-    start.getMinutes() +
-    '-' +
-    end.getHours() +
-    ':' +
-    (end.getMinutes() < 10 ? '0' : '') +
-    end.getMinutes()
-  );
-}
 </script>
 
 <template>
@@ -57,22 +27,7 @@ function formatTimes(startTime, endTime) {
     ></div>
   </div>
   <div class="contentDiv">
-    <div
-        class="eventSymbol eventsContainer"
-        :style="{
-          height: calculate_height(eventA.startTime, eventA.endTime),
-          top: calculate_top(eventA.startTime)
-        }"
-        @click="() => eventMethods.displayEvent(eventA)"
-        v-for="eventA of eventData.dailyEvents"
-        :key="eventA"
-      >
-        <div class="testingStuff">The Start Time is {{ eventA.startTime }}</div>
-        <div v-if="eventA.startTime !== eventA.endTime">
-          <div class="eventDesc">{{ eventA.title }}</div>
-          <div class="eventDesc">{{ formatTimes(eventA.startTime, eventA.endTime) }}</div>
-        </div>
-      </div>
+    <DayViewEvent :day="day"/>
     <div
       class="dayContainer"
       v-for="day in 1"
@@ -81,10 +36,10 @@ function formatTimes(startTime, endTime) {
     >
       <div
         class="hourContainer"
-        v-for="hour in 24"
+        v-for="(hour, index) in 24"
         :key="hour"
         :id="hour - 1"
-        :class="hour === 1 ? `hourContainer first` : `hourContainer`"
+        :class="index === 0 ? `hourContainer first hour` + index : `hourContainer hour` + index"
       >
         <div class="hourText">{{ hour - 1 }}:00</div>
         <div
@@ -94,7 +49,6 @@ function formatTimes(startTime, endTime) {
           :id="halfHour - 1"
           :class="halfHour === 1 ? `halfHourContainer first` : `halfHourContainer`"
         ></div>
-
       </div>
     </div>
   </div>
@@ -130,6 +84,7 @@ function formatTimes(startTime, endTime) {
   z-index: 1;
   top: 5%;
   left: 1%;
+  font-size: small;
 }
 .halfHourContainer.first {
   height: 50%;
@@ -141,6 +96,7 @@ function formatTimes(startTime, endTime) {
   height: 95.5%;
   width: 70%;
   float: left;
+  position: relative;
   z-index: 0;
 }
 .datePickerDiv {

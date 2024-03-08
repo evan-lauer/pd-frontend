@@ -171,10 +171,10 @@ function getDays() {
     :style="{
       height: calculate_height(eventA.startTime, eventA.endTime),
       top: calculate_top(eventA.startTime),
-      zIndex: calculate_z(eventA, eventData.weeklyEvents[getDays()[day - 1].day])
+      zIndex: calculate_z(eventA, eventData.dailyEvents)
     }"
     @click="() => eventMethods.displayEvent(eventA)"
-    v-for="eventA of eventData.weeklyEvents[getDays()[day - 1].day]"
+    v-for="eventA of eventData.dailyEvents"
     :key="eventA"
   >
     <div v-if="eventA.startTime !== eventA.endTime">
@@ -192,9 +192,9 @@ function getDays() {
     border-radius: 7px;
     background-color: #c3d7ca;
     position: absolute;
-    /* z-index: 1; */
     border: 1px solid aliceblue;
     transition: background-color 0.1s linear;
+    left: 50px;
   }
 
   .eventsContainer:hover {

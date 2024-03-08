@@ -163,6 +163,8 @@ const debouncedUpdateTitle = debounce(listsData.updateListTitle, 1000);
   padding: 2px 10px;
   overflow: auto;
   font-size: medium;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 .tabName.selected {
   font-weight: bold;
