@@ -34,6 +34,7 @@ import RightChevron from 'src/components/icons/RightChevron.vue';
   flex-direction: row;
   justify-content: center;
   align-items: center;
+  padding-left: 5px;
 }
 
 .monthDropdown > div {

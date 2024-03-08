@@ -195,6 +195,7 @@ watch(
 .rightJustifiedInputs {
   display: flex;
   gap: 10px;
+  margin-right: 5px;
 }
 
 .content {

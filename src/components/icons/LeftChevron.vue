@@ -19,6 +19,7 @@
 
 <style scoped>
 .material-symbols-outlined.arrow {
+  margin-left: 5px;
   box-sizing: border-box;
   border-radius: 6px;
   color: #344f49;

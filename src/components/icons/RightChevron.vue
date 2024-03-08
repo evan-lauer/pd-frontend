@@ -36,6 +36,7 @@
   border: 2px solid #344f49;
 } */
 .material-symbols-outlined.arrow {
+  margin-right: 5px;
   box-sizing: border-box;
   border-radius: 6px;
   color: #344f49;
