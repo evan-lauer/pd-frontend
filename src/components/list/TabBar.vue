@@ -1,6 +1,8 @@
 <script setup>
-import { listsData, selectedTab } from 'src/stores/listStores';
+import { listsData, selectedTab, listDeleteConfirm } from 'src/stores/listStores';
 import debounce from 'src/util/debounce';
+import { computed } from 'vue';
+import DeleteConfirm from '../widgets/DeleteConfirm.vue';
 
 // TODO: implement some if-statement so if there are 10 tabs, we prevent this function to be executed
 // TODO: make the unselected tabs a bit shorter
@@ -35,101 +37,115 @@ const makeReadOnly = (tabId) => {
 };
 
 const debouncedUpdateTitle = debounce(listsData.updateListTitle, 1000);
+
+const isCancelActive = computed(() => {
+  return listDeleteConfirm.isConfirmDeleteActive;
+});
+
+function sendToConfirmView() {
+  // const tabToDelete = selectedTab.id;
+  listDeleteConfirm.isConfirmDeleteActive = true;
+}
+
+// function deleteSelectedTab(tabToDelete) {
+//   if (listsData.tabIdArray.length > 1) {
+//     const selectedTabIndex = listsData.tabIdArray.findIndex((id) => id === tabToDelete);
+//     if (selectedTabIndex === listsData.tabIdArray.length - 1) {
+//       // If last tab, switch to previous tab
+//       selectedTab.id = listsData.tabIdArray[selectedTabIndex - 1];
+//     } else {
+//       // Otherwise, switch to next tab
+//       selectedTab.id = listsData.tabIdArray[selectedTabIndex + 1];
+//     }
+//   } else {
+//     selectedTab.id = undefined;
+//   }
+//   listsData.deleteList(tabToDelete);
+// }
 </script>
 
 <template>
-  <div
-    :class="selectedTab.id === tabId ? `tabContainer selected` : `tabContainer`"
-    v-for="tabId in listsData.tabIdArray"
-    :key="tabId"
-  >
-    <input
-      :id="'tabName-' + tabId"
-      :class="selectedTab.id === tabId ? `tabName selected` : `tabName`"
-      :value="listsData.tabs[tabId].listTitle"
-      @input="
-        (event) => {
-          debouncedUpdateTitle(tabId, event.target.value);
-        }
-      "
-      @keyup.enter="handleEnterTab(tabId)"
-      @click="changeSelectedTab(tabId)"
-      @dblclick="makeEditable(tabId)"
-      @focusout="makeReadOnly(tabId)"
-      readonly
-    />
-    <span
-      :class="
-        selectedTab.id === tabId
-          ? `material-symbols-outlined delete focus`
-          : `material-symbols-outlined close`
-      "
-      @click="
-        () => {
-          const tabToDelete = selectedTab.id;
-          if (listsData.tabIdArray.length > 1) {
-            const selectedTabIndex = listsData.tabIdArray.findIndex((id) => id === tabToDelete);
-            if (selectedTabIndex === listsData.tabIdArray.length - 1) {
-              // If last tab, switch to previous tab
-              selectedTab.id = listsData.tabIdArray[selectedTabIndex - 1];
-            } else {
-              // Otherwise, switch to next tab
-              selectedTab.id = listsData.tabIdArray[selectedTabIndex + 1];
-            }
-          } else {
-            selectedTab.id = undefined;
-          }
-          listsData.deleteList(tabToDelete);
-        }
-      "
+  <div class="allTabsContainer">
+    <div
+      :class="selectedTab.id === tabId ? `tabContainer selected` : `tabContainer`"
+      v-for="tabId in listsData.tabIdArray"
+      :key="tabId"
     >
-      close
-    </span>
-    <!-- <button
-      :class="
-        selectedTab.id === tabId
-          ? `material-symbols-outlined close focus`
-          : `material-symbols-outlined close`
-      "
-      @click="
-        () => {
-          const tabToDelete = selectedTab.id;
-          if (listsData.tabIdArray.length > 1) {
-            const selectedTabIndex = listsData.tabIdArray.findIndex((id) => id === tabToDelete);
-            if (selectedTabIndex === listsData.tabIdArray.length - 1) {
-              // If last tab, switch to previous tab
-              selectedTab.id = listsData.tabIdArray[selectedTabIndex - 1];
-            } else {
-              // Otherwise, switch to next tab
-              selectedTab.id = listsData.tabIdArray[selectedTabIndex + 1];
-            }
-          } else {
-            selectedTab.id = undefined;
+      <input
+        :id="'tabName-' + tabId"
+        :class="selectedTab.id === tabId ? `tabName selected` : `tabName`"
+        :value="listsData.tabs[tabId].listTitle"
+        @input="
+          (event) => {
+            debouncedUpdateTitle(tabId, event.target.value);
           }
-          listsData.deleteList(tabToDelete);
-        }
-      "
-    >
-      ×
-    </button> -->
-  </div>
+        "
+        @keyup.enter="handleEnterTab(tabId)"
+        @click="changeSelectedTab(tabId)"
+        @dblclick="makeEditable(tabId)"
+        @focusout="makeReadOnly(tabId)"
+        readonly
+      />
+      <span
+        :class="
+          selectedTab.id === tabId
+            ? `material-symbols-outlined delete focus`
+            : `material-symbols-outlined close`
+        "
+        @click="
+          sendToConfirmView()
+          // () => {
+          // const tabToDelete = selectedTab.id;
+          // deleteSelectedTab(tabToDelete);
+          // if (listsData.tabIdArray.length > 1) {
+          //   const selectedTabIndex = listsData.tabIdArray.findIndex((id) => id === tabToDelete);
+          //   if (selectedTabIndex === listsData.tabIdArray.length - 1) {
+          //     // If last tab, switch to previous tab
+          //     selectedTab.id = listsData.tabIdArray[selectedTabIndex - 1];
+          //   } else {
+          //     // Otherwise, switch to next tab
+          //     selectedTab.id = listsData.tabIdArray[selectedTabIndex + 1];
+          //   }
+          // } else {
+          //   selectedTab.id = undefined;
+          // }
+          // listsData.deleteList(tabToDelete);
+          // }
+        "
+      >
+        close
+      </span>
+    </div>
 
-  <div v-if="listsData.tabIdArray.length < 10">
-    <span
-      class="material-symbols-outlined add"
-      @click="
-        () => {
-          listsData.createList('');
-        }
-      "
-    >
-      add
-    </span>
+    <div v-if="listsData.tabIdArray.length < 10">
+      <span
+        class="material-symbols-outlined add"
+        @click="
+          () => {
+            listsData.createList('');
+          }
+        "
+      >
+        add
+      </span>
+    </div>
+    <DeleteConfirm
+      v-if="isCancelActive"
+      item="list"
+      deleteHandlerIs="list"
+      :tabIdIs="selectedTab.id"
+    />
   </div>
 </template>
 
 <style scoped>
 /* tabContainer doesn't change height... why? Wanna make it shorter  */
+.allTabsContainer {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
 .tabContainer {
   display: flex;
   border-radius: 15px 15px 0px 0px;

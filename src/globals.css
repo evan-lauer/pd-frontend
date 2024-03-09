@@ -6,6 +6,13 @@
   --primary-default: #58837a;
   --primary-hover: #466962;
 
+  --secondary-disabled: rgb(196, 115, 84, .5);
+  --secondary-active: #AC654A;
+  --secondary-default: #DD825F;
+  --secondary-hover: #C47354;
+
+
+
   color: #000;
 
   font-family: Inter;

@@ -161,5 +161,9 @@ export const listsData = reactive({
 });
 
 export const selectedTab = reactive({
-  id: undefined
+  id: undefined,
+});
+
+export const listDeleteConfirm = reactive({
+  isConfirmDeleteActive: false,
 });

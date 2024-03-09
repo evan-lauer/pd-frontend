@@ -8,3 +8,9 @@ export const eventDetails = reactive({
   endDateTime: Date,
   eventId: ''
 });
+
+export const eventDeleteConfirm = reactive ({
+  isConfirmDeleteActive: false,
+  eventId: ''
+
+});

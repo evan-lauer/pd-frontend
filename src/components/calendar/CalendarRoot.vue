@@ -170,10 +170,6 @@ watch(
       >
         add
       </span>
-      <!-- <CreateEventButton
-        class="createEventButton"
-        @click="toggleEventForm()"
-      /> -->
     </div>
   </div>
   <div class="content">
@@ -208,18 +204,6 @@ watch(
 }
 
 .material-symbols-outlined.add:hover {
-  cursor: pointer;
-  transform: scale(1.1);
-  border-radius: 50px;
-  background-color: rgba(167, 187, 183, 0.3);
-}
-
-.createEventButton {
-  color: #344f49;
-  transition: transform 0.3s ease;
-}
-
-.createEventButton:hover {
   cursor: pointer;
   transform: scale(1.1);
   border-radius: 50px;
