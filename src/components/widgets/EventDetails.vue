@@ -4,7 +4,8 @@
 import { eventDetails, eventDeleteConfirm } from 'src/stores/eventDetailsStores';
 import { eventData } from 'src/stores/eventStores';
 import DeleteConfirm from 'src/components/widgets/DeleteConfirm.vue';
-import { computed } from 'vue';
+import { computed, ref } from 'vue';
+import useClickOutside from 'src/util/useClickOutside';
 
 const timeOptions = {
   hour: 'numeric',

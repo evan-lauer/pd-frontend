@@ -3,6 +3,8 @@ import { eventDetails, eventDeleteConfirm } from 'src/stores/eventDetailsStores'
 import SimpleButton from '../icons/SimpleButton.vue';
 import { eventData } from 'src/stores/eventStores';
 import { listsData, selectedTab, listDeleteConfirm } from 'src/stores/listStores';
+import useClickOutside from 'src/util/useClickOutside';
+import { ref } from 'vue';
 
 defineProps({
   item: String,
@@ -82,11 +84,28 @@ function confirmCancelHandler(canceling) {
     returnToBaseline();
   }
 }
+
+const confirmWindow = ref();
+const confirmContainer = ref();
+
+// useClickOutside(
+//   confirmContainer,
+//   () => {
+//     eventDeleteConfirm.isConfirmDeleteActive = false;
+//   },
+//   confirmWindow
+// );
 </script>
 
 <template>
-  <div class="surroundingContainer">
-    <div class="deleteConfirmContainer">
+  <div
+    ref="confirmWindow"
+    class="surroundingContainer"
+  >
+    <div
+      ref="confirmContainer"
+      class="deleteConfirmContainer"
+    >
       <div class="confirmQuestion">Are you sure you want to delete this {{ item }}?</div>
       <div class="consequenceMessage">You cannot undo this action.</div>
       <div class="actionButtons">

@@ -1,8 +1,9 @@
 <script setup>
 import { listsData, selectedTab, listDeleteConfirm } from 'src/stores/listStores';
 import debounce from 'src/util/debounce';
-import { computed } from 'vue';
+import { computed, ref } from 'vue';
 import DeleteConfirm from '../widgets/DeleteConfirm.vue';
+import useClickOutside from 'src/util/useClickOutside';
 
 // TODO: implement some if-statement so if there are 10 tabs, we prevent this function to be executed
 // TODO: make the unselected tabs a bit shorter
@@ -43,29 +44,26 @@ const isCancelActive = computed(() => {
 });
 
 function sendToConfirmView() {
-  // const tabToDelete = selectedTab.id;
   listDeleteConfirm.isConfirmDeleteActive = true;
 }
 
-// function deleteSelectedTab(tabToDelete) {
-//   if (listsData.tabIdArray.length > 1) {
-//     const selectedTabIndex = listsData.tabIdArray.findIndex((id) => id === tabToDelete);
-//     if (selectedTabIndex === listsData.tabIdArray.length - 1) {
-//       // If last tab, switch to previous tab
-//       selectedTab.id = listsData.tabIdArray[selectedTabIndex - 1];
-//     } else {
-//       // Otherwise, switch to next tab
-//       selectedTab.id = listsData.tabIdArray[selectedTabIndex + 1];
-//     }
-//   } else {
-//     selectedTab.id = undefined;
-//   }
-//   listsData.deleteList(tabToDelete);
-// }
+const confirmWindow = ref();
+const tabs = ref();
+
+// useClickOutside(
+//   confirmWindow,
+//   () => {
+//     listDeleteConfirm.isConfirmDeleteActive = false;
+//   },
+//   tabs
+// );
 </script>
 
 <template>
-  <div class="allTabsContainer">
+  <div
+    ref="tabs"
+    class="allTabsContainer"
+  >
     <div
       :class="selectedTab.id === tabId ? `tabContainer selected` : `tabContainer`"
       v-for="tabId in listsData.tabIdArray"
@@ -130,6 +128,7 @@ function sendToConfirmView() {
       </span>
     </div>
     <DeleteConfirm
+      ref="confirmWindow"
       v-if="isCancelActive"
       item="list"
       deleteHandlerIs="list"
