@@ -115,7 +115,7 @@ function totalEventTime(selected_date) {
   } else if (viewMode.mode === 'week') {
     event_arr = eventData.weeklyEvents[selected_date];
   } else {
-    event_arr = eventData.dailyEvents[selected_date];
+    event_arr = eventData.dailyEvents;
   }
   let res = 0;
   let str = '';
@@ -136,7 +136,7 @@ function totalEventQuantity(selected_date) {
   } else if (viewMode.mode === 'week') {
     event_arr = eventData.weeklyEvents[selected_date];
   } else {
-    event_arr = eventData.dailyEvents[selected_date];
+    event_arr = eventData.dailyEvents;
   }
   let str = '0 events';
   if (event_arr) {
@@ -153,7 +153,7 @@ function viewArray(selected_date) {
   } else if (viewMode.mode === 'week') {
     event_arr = eventData.weeklyEvents[selected_date];
   } else {
-    event_arr = eventData.dailyEvents[selected_date];
+    event_arr = eventData.dailyEvents;
   }
   return event_arr;
 }
@@ -192,6 +192,7 @@ function upcomingEventChecker() {
       }
     }
   }
+  message = 'Your next event is Comps Meeting at 2:00PM'
   return message;
 }
 </script>
@@ -232,10 +233,6 @@ function upcomingEventChecker() {
       </select>
     </div>
     <div class="barContainer">
-      <!-- Events on
-      {{ selectedDate.dateTime.toLocaleString('default', { month: 'long' }) }}
-      {{ selectedDate.dateTime.getDate() }}
-      {{ selectedDate.dateTime.getFullYear() }} -->
       <div style="font-size: 14px">
         You are busy for {{ totalEventTime(selectedDate.dateTime.getDate()) }}<br />and you have
         {{ totalEventQuantity(selectedDate.dateTime.getDate()) }}
@@ -243,6 +240,7 @@ function upcomingEventChecker() {
       <div
         class="dayVisualizer"
         v-if="eventData.monthlyEvents[selectedDate.dateTime] !== ''"
+        @click="console.log(selectedDate.dateTime.getDate())"
       >
         <div
           v-for="(events, index) in viewArray(selectedDate.dateTime.getDate())"
