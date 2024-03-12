@@ -8,8 +8,8 @@ export const selectedDate = reactive({
     const date = selectedDate.dateTime.getDate();
     const newMonth = selectedDate.dateTime.getMonth() + 2;
     const daysInNewMonth = new Date(selectedDate.dateTime.getFullYear(), newMonth, 0).getDate();
-    console.log(daysInNewMonth);
-    console.log(newMonth);
+    // console.log(daysInNewMonth);
+    // console.log(newMonth);
     selectedDate.dateTime = new Date(
       selectedDate.dateTime.setMonth(
         selectedDate.dateTime.getMonth() + 1,

@@ -38,6 +38,7 @@ export const eventData = reactive({
   }),
   weeklyEvents: {},
   dailyEvents: [],
+  todaysEvents: [],
 
   reset: () => {
     eventData.monthlyEvents = Array.from(new Array(31), function () {
@@ -46,6 +47,7 @@ export const eventData = reactive({
 
     eventData.weeklyEvents = {};
     eventData.dailyEvents = [];
+    eventData.todaysEvents = [];
   },
 
   userEvents: async () => {
@@ -58,10 +60,13 @@ export const eventData = reactive({
   refreshEventArray: () => {
     if (viewMode.mode === 'month') {
       eventData.creatingMonthsEventArray();
+      eventData.creatingTodaysEvents();
     } else if (viewMode.mode === 'week') {
       eventData.creatingWeeksEventArray();
+      eventData.creatingTodaysEvents();
     } else if (viewMode.mode === 'day') {
       eventData.creatingDaysEventArray();
+      eventData.creatingTodaysEvents();
     }
   },
 
@@ -222,6 +227,28 @@ export const eventData = reactive({
           // console.log('End and start are not equal');
         }
         eventData.dailyEvents.push(item);
+      }
+    }
+  },
+
+  creatingTodaysEvents: () => {
+    eventData.reset();
+    const day = selectedDate.dateTime.getDate();
+    const month = selectedDate.dateTime.getMonth();
+    const year = selectedDate.dateTime.getFullYear();
+
+    for (const item of eventData.theEvents) {
+      const date = new Date(item['startTime']);
+      const eventDay = date.getDate();
+      const eventMonth = date.getMonth();
+      const eventYear = date.getFullYear();
+
+      if (day === eventDay && month === eventMonth && year === eventYear) {
+        // console.log('Day events array; event: ', item);
+        if (item.startTime != item.endTime) {
+          // console.log('End and start are not equal');
+        }
+        eventData.todaysEvents.push(item);
       }
     }
   }

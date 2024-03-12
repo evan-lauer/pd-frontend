@@ -55,7 +55,6 @@ function calculate_height(startTime, endTime) {
       (startTime.getHours() + startTime.getMinutes() / 60)) *
     hourContainerHeight.value;
   // const height = hourHeight.value * ((end_date.getHours() + end_date.getMinutes() / 60) - (start_date.getHours() + start_date.getMinutes() / 60));
-  console.log('height for this event: ', height);
   return height + 'px';
 }
 // top component
@@ -65,7 +64,6 @@ function calculate_top(startTime) {
   const minutes = startTime.getMinutes();
 
   const top = hourContainerOffsets.value[hourNumber] + (minutes / 60) * hourContainerHeight.value;
-  console.log('top for this event: ', top);
 
   return top + 'px';
 }
