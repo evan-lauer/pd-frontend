@@ -126,28 +126,51 @@ function getDays() {
   }
   return get_days_arr;
 }
+
+function calculate_width(arr) {
+  let res = 14 / arr.length;
+  return res + '%';
+}
+
+function calculate_left(arr, i) {
+  let res = (14 / arr.length) * i;
+  if (arr.length > 1 && i >= 1) {
+    return res + '%';
+  }
+}
 </script>
 
 <template>
   <div
-    class="eventSymbol eventsContainer"
-    :style="{
-      height: calculate_height(eventA.startTime, eventA.endTime),
-      top: calculate_top(eventA.startTime),
-    }"
-    @click="() => eventMethods.displayEvent(eventA)"
-    v-for="eventA of eventData.weeklyEvents[getDays()[day - 1].day]"
-    :key="eventA"
-  >
-    <div v-if="eventA.startTime !== eventA.endTime">
-      <!-- <EventStar /> -->
-      <div class="eventDesc boldFont">{{ eventA.title }}</div>
-      <div class="eventDesc">{{ eventA.description }}</div>
+    v-for="el of createOverlapArray()[getDays()[day - 1].day]"
+    :key="el">
+    <div class="rowDisplay">
+      <div
+        class="eventSymbol eventsContainer"
+        :style="{
+          height: calculate_height(eventA.startTime, eventA.endTime),
+          top: calculate_top(eventA.startTime),
+          width: calculate_width(el),
+          left: calculate_left(el, el.indexOf(eventA))
+        }"
+        @click="() => eventMethods.displayEvent(eventA)"
+        v-for="eventA of el"
+        :key="eventA"
+      >
+        <div v-if="eventA.startTime !== eventA.endTime">
+          <div class="eventDesc boldFont">{{ eventA.title }}</div>
+          <div class="eventDesc">{{ eventA.description }}</div>
+        </div>
+      </div>
     </div>
   </div>
 </template>
 
 <style scoped>
+.rowDisplay {
+  display: flex;
+  flex-direction: row;
+}
   .eventsContainer {
     width: 14%;
     max-width: 14%;
