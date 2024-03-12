@@ -50,7 +50,7 @@ function calculate_height(startTime, endTime) {
       endTime.getMinutes() / 60 -
       (startTime.getHours() + startTime.getMinutes() / 60)) *
     hourContainerHeight.value;
-  console.log('height for this event: ', height);
+  // console.log('height for this event: ', height);
   return height + 'px';
 }
 // top component
@@ -60,12 +60,47 @@ function calculate_top(startTime) {
   const minutes = startTime.getMinutes();
 
   const top = hourContainerOffsets.value[hourNumber] + (minutes / 60) * hourContainerHeight.value;
-  console.log('top for this event: ', top);
+  // console.log('top for this event: ', top);
 
   return top + 'px';
 }
 
-// insert overlapping event case code here
+function groupOverlappingEvents(events) {
+    const groupedEvents = [];
+
+    // sort events by start time
+    events.sort((a, b) => a.startTime - b.startTime);
+
+    for (const event of events) {
+        // check if the event overlaps with any existing groups
+        let added = false;
+        for (const group of groupedEvents) {
+            const lastEvent = group[group.length - 1];
+            if (event.startTime <= lastEvent.endTime) {
+                // event overlaps with the last event in the group
+                group.push(event);
+                added = true;
+                break;
+            }
+        }
+        if (!added) {
+            // event does not overlap with any existing group, create a new group
+            groupedEvents.push([event]);
+        }
+    }
+
+    return groupedEvents;
+}
+
+function createOverlapArray() {
+  let res = {};
+  for (let key in eventData.weeklyEvents) {
+    res[key] = groupOverlappingEvents(eventData.weeklyEvents[key]);
+  }
+  return res;
+}
+
+console.log(createOverlapArray());
 
 // getDays() helper
 function getDateIndex() {

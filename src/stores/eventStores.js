@@ -38,6 +38,7 @@ export const eventData = reactive({
   }),
   weeklyEvents: {},
   dailyEvents: [],
+  overlappingEvents: {},
 
   reset: () => {
     eventData.monthlyEvents = Array.from(new Array(31), function () {
@@ -156,13 +157,6 @@ export const eventData = reactive({
       }
     }
   },
-  // setEndDate: () => {
-  //   const res = selectedDate.dateTime;
-  //   if (res.getDay() !== 6) {
-  //     res.setDate(res.getDate() + (6 - res.getDay()))
-  //   }
-  //   return res;
-  // },
   creatingWeeksEventArray: () => {
     eventData.reset();
     const res = new Date(selectedDate.dateTime);
@@ -203,7 +197,6 @@ export const eventData = reactive({
       }
     }
   },
-
   creatingDaysEventArray: () => {
     eventData.reset();
     const day = selectedDate.dateTime.getDate();
