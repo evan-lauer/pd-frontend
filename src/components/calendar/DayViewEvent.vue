@@ -43,10 +43,6 @@ function nextMonth() {
 
 const displayDays = ref([...previousMonth(), ...currentMonth(), ...nextMonth()]);
 
-// functions below are for event containers.
-// heights in calculations are hard coded right now, but the basic functionality/reactivity is there.
-// sincerely apologize for the inconvenience.
-
 // height component
 function calculate_height(startTime, endTime) {
   const height =
@@ -54,7 +50,6 @@ function calculate_height(startTime, endTime) {
       endTime.getMinutes() / 60 -
       (startTime.getHours() + startTime.getMinutes() / 60)) *
     hourContainerHeight.value;
-  // const height = hourHeight.value * ((end_date.getHours() + end_date.getMinutes() / 60) - (start_date.getHours() + start_date.getMinutes() / 60));
   return height + 'px';
 }
 // top component
@@ -68,8 +63,45 @@ function calculate_top(startTime) {
   return top + 'px';
 }
 
-// below are for overlapping event case
+// groupOverlappingEvents and createOverlapArray groups the events in a given day into the format we want it to be in
+function groupOverlappingEvents(events) {
+    const groupedEvents = [];
 
+    // sort events by start time
+    events.sort((a, b) => a.startTime - b.startTime);
+
+    for (const event of events) {
+        // check if the event overlaps with any existing groups
+        let added = false;
+        for (const group of groupedEvents) {
+            const lastEvent = group[group.length - 1];
+            if (event.startTime <= lastEvent.endTime) {
+                // event overlaps with the last event in the group
+                group.push(event);
+                added = true;
+                break;
+            }
+        }
+        if (!added) {
+            // event does not overlap with any existing group, create a new group
+            groupedEvents.push([event]);
+        }
+    }
+
+    return groupedEvents;
+}
+
+function createOverlapArray() {
+  let res = {};
+  for (let index in eventData.dailyEvents) {
+    res[index] = groupOverlappingEvents(eventData.dailyEvents);
+  }
+  return res;
+}
+
+console.log(createOverlapArray());
+
+// below are for overlapping event case
 // helper function for find_overlap function
 function is_overlap(event1, event2) {
   const event1_start = new Date(event1.startTime).getTime();
@@ -86,8 +118,6 @@ function find_overlap(event_arr) {
     return `event array undefined`;
   }
   const res = [];
-  // console.log("Here is the event array once passed intp find_overlap: ", event_arr);
-  // console.log("The length of the event array is: ", event_arr.length);
   for (let i = 0; i < event_arr.length; i++) {
     for (let j = 1; j < event_arr.length; j++) {
       if (is_overlap(event_arr[i], event_arr[j])) {
@@ -176,7 +206,6 @@ function getDays() {
     :key="eventA"
   >
     <div v-if="eventA.startTime !== eventA.endTime">
-      <!-- <EventStar /> -->
       <div class="eventDesc boldFont">{{ eventA.title }}</div>
       <div class="eventDesc">{{ eventA.description }}</div>
     </div>

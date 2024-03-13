@@ -59,6 +59,7 @@ function calculate_top(startTime) {
   const minutes = startTime.getMinutes();
 
   const top = hourContainerOffsets.value[hourNumber] + (minutes / 60) * hourContainerHeight.value;
+
   return top + 'px';
 }
 
@@ -97,7 +98,7 @@ function createOverlapArray() {
   return res;
 }
 
-console.log(createOverlapArray());
+// console.log(createOverlapArray());
 
 // getDays() helper
 function getDateIndex() {
