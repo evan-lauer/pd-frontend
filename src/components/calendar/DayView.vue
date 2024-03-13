@@ -8,6 +8,7 @@ import DayViewEvent from './DayViewEvent.vue'
 
 userStore.getEvents();
 eventData.creatingDaysEventArray();
+
 watch(
   () => selectedDate.dateTime.getDate(),
   () => {
@@ -27,13 +28,13 @@ watch(
     ></div>
   </div>
   <div class="contentDiv">
-    <DayViewEvent :day="day"/>
     <div
       class="dayContainer"
       v-for="day in 1"
       :key="day"
       :class="day === 1 ? `dayContainer first` : `dayContainer`"
     >
+      <DayViewEvent :day="day"/>
       <div
         class="hourContainer"
         v-for="(hour, index) in 24"

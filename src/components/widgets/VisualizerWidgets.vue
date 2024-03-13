@@ -5,6 +5,8 @@ import { listsData } from 'src/stores/listStores';
 import { GChart } from 'vue-google-charts';
 import { ref, computed } from 'vue';
 
+eventData.creatingTodaysEvents();
+
 const selectedTabId = ref(null);
 
 const numCompleteTasks = computed(() => {
@@ -72,8 +74,6 @@ const chartOptions = {
   backgroundColor: 'transparent',
   enableInteractivity: false
 };
-
-const currentDayTime = new Date('Wed Feb 28 2024 01:00:27 GMT-0600 (Central Standard Time)');
 
 const getWidth = (event) => {
   // Calculates the width of the div that represents an event in the day visualizer widget
@@ -161,45 +161,61 @@ function viewArray(selected_date) {
 function upcomingEventChecker() {
   // Checks for upcoming events on the current day
   let message = 'No upcoming events today!';
+  let current_date = new Date();
+  let event_arr;
+
   const dateOptions = {
     timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone,
     hour: '2-digit',
     minute: '2-digit'
   };
+  console.log("today's events are: ", eventData.todaysEvents)
+  console.log("daily events are: ", eventData.dailyEvents)
 
-  if (eventData.monthlyEvents[currentDayTime.getDate()].length > 0) {
+  if (viewMode.mode === 'month') {
+    event_arr = eventData.monthlyEvents[current_date.getDate()];
+  } else if (viewMode.mode === 'week') {
+    event_arr = eventData.weeklyEvents[current_date.getDate()];
+  } else {
+    event_arr = eventData.dailyEvents;
+  }
+  // console.log("the event array is : ", event_arr)
+
+  if (event_arr && event_arr.length > 0) {
     let nextTask = null;
     let eventObject = null;
     let closestTimeDifference = Infinity;
 
-    for (let i = 0; i < eventData.monthlyEvents[currentDayTime.getDate()].length; i++) {
+    for (let i = 0; i < event_arr.length; i++) {
       const dateObjectOfEvent = new Date(
-        eventData.monthlyEvents[currentDayTime.getDate()][i].startTime
+        event_arr[i].startTime
       );
-      const timeDifference = dateObjectOfEvent.getTime() - currentDayTime.getTime();
 
-      if (timeDifference > 0 && timeDifference < closestTimeDifference) {
-        nextTask = dateObjectOfEvent;
-        eventObject = eventData.monthlyEvents[currentDayTime.getDate()][i];
-        closestTimeDifference = timeDifference;
-      }
-      if (eventObject && nextTask) {
-        message =
-          'Your next event is ' +
-          eventObject.title +
-          ' at ' +
-          nextTask.toLocaleTimeString(undefined, dateOptions);
+      if (dateObjectOfEvent.getTime() > current_date.getTime()) {
+        const timeDifference = dateObjectOfEvent.getTime() - current_date.getTime();
+
+        if (timeDifference > 0 && timeDifference < closestTimeDifference) {
+          nextTask = dateObjectOfEvent;
+          eventObject = event_arr[i];
+          closestTimeDifference = timeDifference;
+        }
+        if (eventObject && nextTask) {
+          message =
+            'Your next event is ' +
+            eventObject.title +
+            ' at ' +
+            nextTask.toLocaleTimeString(undefined, dateOptions);
+        }
       }
     }
   }
-  message = 'Your next event is Comps Meeting at 2:00PM'
   return message;
 }
 </script>
 
 <template>
   <div class="widgetContainer">
-    <div class="upcomingEventWidget">
+    <div class="upcomingEventWidget" @click="console.log(eventData.dailyEvents)">
       <div class="upcomingEvent">
         <span
           class="material-symbols-outlined"
@@ -240,7 +256,6 @@ function upcomingEventChecker() {
       <div
         class="dayVisualizer"
         v-if="eventData.monthlyEvents[selectedDate.dateTime] !== ''"
-        @click="console.log(selectedDate.dateTime.getDate())"
       >
         <div
           v-for="(events, index) in viewArray(selectedDate.dateTime.getDate())"
@@ -280,6 +295,8 @@ function upcomingEventChecker() {
   padding: 10px;
   flex-direction: column;
   text-align: center;
+  overflow: hidden;
+  max-width: 100%;
 }
 
 .upcomingEvent {

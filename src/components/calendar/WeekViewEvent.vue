@@ -50,7 +50,6 @@ function calculate_height(startTime, endTime) {
       endTime.getMinutes() / 60 -
       (startTime.getHours() + startTime.getMinutes() / 60)) *
     hourContainerHeight.value;
-  // console.log('height for this event: ', height);
   return height + 'px';
 }
 // top component
@@ -60,12 +59,46 @@ function calculate_top(startTime) {
   const minutes = startTime.getMinutes();
 
   const top = hourContainerOffsets.value[hourNumber] + (minutes / 60) * hourContainerHeight.value;
-  // console.log('top for this event: ', top);
 
   return top + 'px';
 }
 
-// insert overlapping event case code here
+function groupOverlappingEvents(events) {
+  const groupedEvents = [];
+
+  // sort events by start time
+  events.sort((a, b) => a.startTime - b.startTime);
+
+  for (const event of events) {
+    // check if the event overlaps with any existing groups
+    let added = false;
+    for (const group of groupedEvents) {
+      const lastEvent = group[group.length - 1];
+      if (event.startTime <= lastEvent.endTime) {
+        // event overlaps with the last event in the group
+        group.push(event);
+        added = true;
+        break;
+      }
+    }
+    if (!added) {
+      // event does not overlap with any existing group, create a new group
+      groupedEvents.push([event]);
+    }
+  }
+
+  return groupedEvents;
+}
+
+function createOverlapArray() {
+  let res = {};
+  for (let key in eventData.weeklyEvents) {
+    res[key] = groupOverlappingEvents(eventData.weeklyEvents[key]);
+  }
+  return res;
+}
+
+// console.log(createOverlapArray());
 
 // getDays() helper
 function getDateIndex() {
@@ -91,28 +124,52 @@ function getDays() {
   }
   return get_days_arr;
 }
+
+function calculate_width(arr) {
+  let res = 14 / arr.length;
+  return res + '%';
+}
+
+function calculate_left(arr, i) {
+  let res = (14 / arr.length) * i;
+  if (arr.length > 1 && i >= 1) {
+    return res + '%';
+  }
+}
 </script>
 
 <template>
   <div
-    class="eventSymbol eventsContainer"
-    :style="{
-      height: calculate_height(eventA.startTime, eventA.endTime),
-      top: calculate_top(eventA.startTime)
-    }"
-    @click="() => eventMethods.displayEvent(eventA)"
-    v-for="eventA of eventData.weeklyEvents[getDays()[day - 1].day]"
-    :key="eventA"
+    v-for="el of createOverlapArray()[getDays()[day - 1].day]"
+    :key="el"
   >
-    <div v-if="eventA.startTime !== eventA.endTime">
-      <!-- <EventStar /> -->
-      <div class="eventDesc boldFont">{{ eventA.title }}</div>
-      <div class="eventDesc">{{ eventA.description }}</div>
+    <div class="rowDisplay">
+      <div
+        class="eventSymbol eventsContainer"
+        :style="{
+          height: calculate_height(eventA.startTime, eventA.endTime),
+          top: calculate_top(eventA.startTime),
+          width: calculate_width(el),
+          left: calculate_left(el, el.indexOf(eventA))
+        }"
+        @click="() => eventMethods.displayEvent(eventA)"
+        v-for="eventA of el"
+        :key="eventA"
+      >
+        <div v-if="eventA.startTime !== eventA.endTime">
+          <div class="eventDesc boldFont">{{ eventA.title }}</div>
+          <div class="eventDesc">{{ eventA.description }}</div>
+        </div>
+      </div>
     </div>
   </div>
 </template>
 
 <style scoped>
+.rowDisplay {
+  display: flex;
+  flex-direction: row;
+}
 .eventsContainer {
   width: 14%;
   max-width: 14%;
