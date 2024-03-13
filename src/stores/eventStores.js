@@ -58,10 +58,13 @@ export const eventData = reactive({
   refreshEventArray: () => {
     if (viewMode.mode === 'month') {
       eventData.creatingMonthsEventArray();
+      console.log("From refreshingEventArray: months refreshed-- eventData = ", eventData.theEvents);
     } else if (viewMode.mode === 'week') {
       eventData.creatingWeeksEventArray();
+      console.log("From refreshingEventArray: weeks refreshed-- eventData = ", eventData.theEvents);
     } else if (viewMode.mode === 'day') {
       eventData.creatingDaysEventArray();
+      console.log("From refreshingEventArray: months refreshed-- eventData = ", eventData.theEvents);
     }
   },
 
@@ -70,14 +73,12 @@ export const eventData = reactive({
       (anEvent) => anEvent.eventId != eventToBeDeletedId
     );
     eventData.theEvents = newEventArray;
-    // console.log('Event deleted from store.');
   },
 
   deleteEventFromBoth: (eventToBeDeletedId) => {
     eventData.deleteEventFromStore(eventToBeDeletedId);
     deleteCalendarEvent(eventToBeDeletedId);
     eventDetails.isDetailsActive = false;
-    // console.log('Event deleted from backend.');
   },
 
   putEventInStore: (theEventId, startTime, endTime, description, title) => {
@@ -93,11 +94,9 @@ export const eventData = reactive({
   },
 
   putEventInBoth: (startTime, endTime, description, title) => {
-    // console.log(startTime, endTime, description, title);
     const uid = new ShortUniqueId({ length: 10 }).rnd();
     editEventForm.putEvent(uid, startTime, endTime, description, title);
     eventData.putEventInStore(uid, startTime, endTime, description, title);
-    // console.log(eventData.theEvents);
   },
 
   translateEventToEditStores: (eventToBeEditedId) => {
@@ -124,7 +123,6 @@ export const eventData = reactive({
   editEvent: (eventToBeEditedId, startTime, endTime, description, title) => {
     eventData.translateEventToEditStores(eventToBeEditedId);
     eventData.putEventInBoth(startTime, endTime, description, title);
-    // console.log(startTime, endTime, description, title);
     eventData.deleteEventFromBoth(eventToBeEditedId);
     eventData.refreshEventArray();
   },

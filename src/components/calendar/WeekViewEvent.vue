@@ -50,7 +50,7 @@ function calculate_height(startTime, endTime) {
       endTime.getMinutes() / 60 -
       (startTime.getHours() + startTime.getMinutes() / 60)) *
     hourContainerHeight.value;
-  console.log('height for this event: ', height);
+  // console.log('height for this event: ', height);
   return height + 'px';
 }
 // top component
@@ -60,7 +60,7 @@ function calculate_top(startTime) {
   const minutes = startTime.getMinutes();
 
   const top = hourContainerOffsets.value[hourNumber] + (minutes / 60) * hourContainerHeight.value;
-  console.log('top for this event: ', top);
+  // console.log('top for this event: ', top);
 
   return top + 'px';
 }
@@ -98,7 +98,7 @@ function getDays() {
     class="eventSymbol eventsContainer"
     :style="{
       height: calculate_height(eventA.startTime, eventA.endTime),
-      top: calculate_top(eventA.startTime),
+      top: calculate_top(eventA.startTime)
     }"
     @click="() => eventMethods.displayEvent(eventA)"
     v-for="eventA of eventData.weeklyEvents[getDays()[day - 1].day]"
@@ -113,33 +113,33 @@ function getDays() {
 </template>
 
 <style scoped>
-  .eventsContainer {
-    width: 14%;
-    max-width: 14%;
-    border-radius: 7px;
-    background-color: #c3d7ca;
-    position: absolute;
-    /* z-index: 1; */
-    border: 1px solid aliceblue;
-    transition: background-color 0.1s linear;
-  }
+.eventsContainer {
+  width: 14%;
+  max-width: 14%;
+  border-radius: 7px;
+  background-color: #c3d7ca;
+  position: absolute;
+  /* z-index: 1; */
+  border: 1px solid aliceblue;
+  transition: background-color 0.1s linear;
+}
 
-  .eventsContainer:hover {
-    background-color: #a4bcad;
-  }
+.eventsContainer:hover {
+  background-color: #a4bcad;
+}
 
-  .eventDesc {
-    font-size: 10px;
-    padding-bottom: 5px;
-    padding-top: 5px;
-    padding-left: 5px;
-    width: 80%;
-    overflow: hidden;
-    text-wrap: nowrap;
-    text-overflow: ellipsis;
-  }
+.eventDesc {
+  font-size: 10px;
+  padding-bottom: 5px;
+  padding-top: 5px;
+  padding-left: 5px;
+  width: 80%;
+  overflow: hidden;
+  text-wrap: nowrap;
+  text-overflow: ellipsis;
+}
 
-  .boldFont {
-    font-weight: bold;
-  }
+.boldFont {
+  font-weight: bold;
+}
 </style>
